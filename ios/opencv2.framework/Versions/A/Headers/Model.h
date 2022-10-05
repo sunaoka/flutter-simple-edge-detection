@@ -4,15 +4,17 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
 
 #import <Foundation/Foundation.h>
-#import "Net.h"
 
+
+#import "Dnn.h"
 @class Mat;
 @class Net;
 @class Scalar;
@@ -32,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Member of `Dnn`
  */
-CV_EXPORTS @interface Model : Net
+CV_EXPORTS @interface Model : NSObject
 
 
 #ifdef __cplusplus
-@property(readonly)cv::Ptr<cv::dnn::Model> nativePtrModel;
+@property(readonly)cv::Ptr<cv::dnn::Model> nativePtr;
 #endif
 
 #ifdef __cplusplus
@@ -46,16 +48,6 @@ CV_EXPORTS @interface Model : Net
 
 
 #pragma mark - Methods
-
-
-//
-//   cv::dnn::Model::Model(Net network)
-//
-/**
- * Create model from deep learning network.
- * @param network Net object.
- */
-- (instancetype)initWithNetwork:(Net*)network;
 
 
 //
@@ -78,13 +70,35 @@ CV_EXPORTS @interface Model : Net
 
 
 //
-//  Model cv::dnn::Model::setInputCrop(bool crop)
+//   cv::dnn::Model::Model(Net network)
 //
 /**
- * Set flag crop for frame.
- * @param crop Flag which indicates whether image will be cropped after resize or not.
+ * Create model from deep learning network.
+ * @param network Net object.
  */
-- (Model*)setInputCrop:(BOOL)crop NS_SWIFT_NAME(setInputCrop(crop:));
+- (instancetype)initWithNetwork:(Net*)network;
+
+
+//
+//  Model cv::dnn::Model::setInputSize(Size size)
+//
+/**
+ * Set input size for frame.
+ * @param size New input size.
+ * NOTE: If shape of the new blob less than 0, then frame size not change.
+ */
+- (Model*)setInputSize:(Size2i*)size NS_SWIFT_NAME(setInputSize(size:));
+
+
+//
+//  Model cv::dnn::Model::setInputSize(int width, int height)
+//
+/**
+ *
+ * @param width New input width.
+ * @param height New input height.
+ */
+- (Model*)setInputSize:(int)width height:(int)height NS_SWIFT_NAME(setInputSize(width:height:));
 
 
 //
@@ -108,27 +122,13 @@ CV_EXPORTS @interface Model : Net
 
 
 //
-//  Model cv::dnn::Model::setInputSize(Size size)
+//  Model cv::dnn::Model::setInputCrop(bool crop)
 //
 /**
- * Set input size for frame.
- * @param size New input size.
- * @note If shape of the new blob less than 0, then frame size not change.
+ * Set flag crop for frame.
+ * @param crop Flag which indicates whether image will be cropped after resize or not.
  */
-- (Model*)setInputSize:(Size2i*)size NS_SWIFT_NAME(setInputSize(size:));
-
-
-//
-//  Model cv::dnn::Model::setInputSize(int width, int height)
-//
-/**
- * Set input size for frame.
- * @param width New input width.
- * @param height New input height.
- * @note If shape of the new blob less than 0,
- * then frame size not change.
- */
-- (Model*)setInputSize:(int)width height:(int)height NS_SWIFT_NAME(setInputSize(width:height:));
+- (Model*)setInputCrop:(BOOL)crop NS_SWIFT_NAME(setInputCrop(crop:));
 
 
 //
@@ -139,16 +139,6 @@ CV_EXPORTS @interface Model : Net
  * @param swapRB Flag which indicates that swap first and last channels.
  */
 - (Model*)setInputSwapRB:(BOOL)swapRB NS_SWIFT_NAME(setInputSwapRB(swapRB:));
-
-
-//
-//  void cv::dnn::Model::predict(Mat frame, vector_Mat& outs)
-//
-/**
- * Given the @p input frame, create input blob, run net and return the output @p blobs.
- * @param outs Allocated output blobs, which will store results of the computation.
- */
-- (void)predict:(Mat*)frame outs:(NSMutableArray<Mat*>*)outs NS_SWIFT_NAME(predict(frame:outs:));
 
 
 //
@@ -204,6 +194,28 @@ CV_EXPORTS @interface Model : Net
  * blob(n, c, y, x) = scale * resize( frame(y, x, c) ) - mean(c) )
  */
 - (void)setInputParams NS_SWIFT_NAME(setInputParams());
+
+
+//
+//  void cv::dnn::Model::predict(Mat frame, vector_Mat& outs)
+//
+/**
+ * Given the @p input frame, create input blob, run net and return the output @p blobs.
+ * @param outs Allocated output blobs, which will store results of the computation.
+ */
+- (void)predict:(Mat*)frame outs:(NSMutableArray<Mat*>*)outs NS_SWIFT_NAME(predict(frame:outs:));
+
+
+//
+//  Model cv::dnn::Model::setPreferableBackend(dnn_Backend backendId)
+//
+- (Model*)setPreferableBackend:(Backend)backendId NS_SWIFT_NAME(setPreferableBackend(backendId:));
+
+
+//
+//  Model cv::dnn::Model::setPreferableTarget(dnn_Target targetId)
+//
+- (Model*)setPreferableTarget:(Target)targetId NS_SWIFT_NAME(setPreferableTarget(targetId:));
 
 
 

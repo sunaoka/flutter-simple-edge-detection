@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -44,6 +44,32 @@ CV_EXPORTS @interface NormalBayesClassifier : StatModel
 
 
 //
+//  float cv::ml::NormalBayesClassifier::predictProb(Mat inputs, Mat& outputs, Mat& outputProbs, int flags = 0)
+//
+/**
+ * Predicts the response for sample(s).
+ *
+ *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
+ *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one
+ *     output vector outputs. The predicted class for a single input vector is returned by the method.
+ *     The vector outputProbs contains the output probabilities corresponding to each element of
+ *     result.
+ */
+- (float)predictProb:(Mat*)inputs outputs:(Mat*)outputs outputProbs:(Mat*)outputProbs flags:(int)flags NS_SWIFT_NAME(predictProb(inputs:outputs:outputProbs:flags:));
+
+/**
+ * Predicts the response for sample(s).
+ *
+ *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
+ *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one
+ *     output vector outputs. The predicted class for a single input vector is returned by the method.
+ *     The vector outputProbs contains the output probabilities corresponding to each element of
+ *     result.
+ */
+- (float)predictProb:(Mat*)inputs outputs:(Mat*)outputs outputProbs:(Mat*)outputProbs NS_SWIFT_NAME(predictProb(inputs:outputs:outputProbs:));
+
+
+//
 // static Ptr_NormalBayesClassifier cv::ml::NormalBayesClassifier::create()
 //
 /**
@@ -78,32 +104,6 @@ CV_EXPORTS @interface NormalBayesClassifier : StatModel
  * @param filepath path to serialized NormalBayesClassifier
  */
 + (NormalBayesClassifier*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  float cv::ml::NormalBayesClassifier::predictProb(Mat inputs, Mat& outputs, Mat& outputProbs, int flags = 0)
-//
-/**
- * Predicts the response for sample(s).
- *
- *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
- *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one
- *     output vector outputs. The predicted class for a single input vector is returned by the method.
- *     The vector outputProbs contains the output probabilities corresponding to each element of
- *     result.
- */
-- (float)predictProb:(Mat*)inputs outputs:(Mat*)outputs outputProbs:(Mat*)outputProbs flags:(int)flags NS_SWIFT_NAME(predictProb(inputs:outputs:outputProbs:flags:));
-
-/**
- * Predicts the response for sample(s).
- *
- *     The method estimates the most probable classes for input vectors. Input vectors (one or more)
- *     are stored as rows of the matrix inputs. In case of multiple input vectors, there should be one
- *     output vector outputs. The predicted class for a single input vector is returned by the method.
- *     The vector outputProbs contains the output probabilities corresponding to each element of
- *     result.
- */
-- (float)predictProb:(Mat*)inputs outputs:(Mat*)outputs outputProbs:(Mat*)outputProbs NS_SWIFT_NAME(predictProb(inputs:outputs:outputProbs:));
 
 
 

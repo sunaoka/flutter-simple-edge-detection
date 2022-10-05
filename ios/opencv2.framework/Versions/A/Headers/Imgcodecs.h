@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/imgcodecs.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -17,30 +17,7 @@
 @class Mat;
 
 
-// C++: enum ImwriteFlags
-typedef NS_ENUM(int, ImwriteFlags) {
-    IMWRITE_JPEG_QUALITY = 1,
-    IMWRITE_JPEG_PROGRESSIVE = 2,
-    IMWRITE_JPEG_OPTIMIZE = 3,
-    IMWRITE_JPEG_RST_INTERVAL = 4,
-    IMWRITE_JPEG_LUMA_QUALITY = 5,
-    IMWRITE_JPEG_CHROMA_QUALITY = 6,
-    IMWRITE_PNG_COMPRESSION = 16,
-    IMWRITE_PNG_STRATEGY = 17,
-    IMWRITE_PNG_BILEVEL = 18,
-    IMWRITE_PXM_BINARY = 32,
-    IMWRITE_EXR_TYPE = (3 << 4) + 0,
-    IMWRITE_WEBP_QUALITY = 64,
-    IMWRITE_PAM_TUPLETYPE = 128,
-    IMWRITE_TIFF_RESUNIT = 256,
-    IMWRITE_TIFF_XDPI = 257,
-    IMWRITE_TIFF_YDPI = 258,
-    IMWRITE_TIFF_COMPRESSION = 259,
-    IMWRITE_JPEG2000_COMPRESSION_X1000 = 272
-};
-
-
-// C++: enum ImreadModes
+// C++: enum ImreadModes (cv.ImreadModes)
 typedef NS_ENUM(int, ImreadModes) {
     IMREAD_UNCHANGED = -1,
     IMREAD_GRAYSCALE = 0,
@@ -58,7 +35,53 @@ typedef NS_ENUM(int, ImreadModes) {
 };
 
 
-// C++: enum ImwritePAMFlags
+// C++: enum ImwriteEXRCompressionFlags (cv.ImwriteEXRCompressionFlags)
+typedef NS_ENUM(int, ImwriteEXRCompressionFlags) {
+    IMWRITE_EXR_COMPRESSION_NO = 0,
+    IMWRITE_EXR_COMPRESSION_RLE = 1,
+    IMWRITE_EXR_COMPRESSION_ZIPS = 2,
+    IMWRITE_EXR_COMPRESSION_ZIP = 3,
+    IMWRITE_EXR_COMPRESSION_PIZ = 4,
+    IMWRITE_EXR_COMPRESSION_PXR24 = 5,
+    IMWRITE_EXR_COMPRESSION_B44 = 6,
+    IMWRITE_EXR_COMPRESSION_B44A = 7,
+    IMWRITE_EXR_COMPRESSION_DWAA = 8,
+    IMWRITE_EXR_COMPRESSION_DWAB = 9
+};
+
+
+// C++: enum ImwriteEXRTypeFlags (cv.ImwriteEXRTypeFlags)
+typedef NS_ENUM(int, ImwriteEXRTypeFlags) {
+    IMWRITE_EXR_TYPE_HALF = 1,
+    IMWRITE_EXR_TYPE_FLOAT = 2
+};
+
+
+// C++: enum ImwriteFlags (cv.ImwriteFlags)
+typedef NS_ENUM(int, ImwriteFlags) {
+    IMWRITE_JPEG_QUALITY = 1,
+    IMWRITE_JPEG_PROGRESSIVE = 2,
+    IMWRITE_JPEG_OPTIMIZE = 3,
+    IMWRITE_JPEG_RST_INTERVAL = 4,
+    IMWRITE_JPEG_LUMA_QUALITY = 5,
+    IMWRITE_JPEG_CHROMA_QUALITY = 6,
+    IMWRITE_PNG_COMPRESSION = 16,
+    IMWRITE_PNG_STRATEGY = 17,
+    IMWRITE_PNG_BILEVEL = 18,
+    IMWRITE_PXM_BINARY = 32,
+    IMWRITE_EXR_TYPE = (3 << 4) + 0,
+    IMWRITE_EXR_COMPRESSION = (3 << 4) + 1,
+    IMWRITE_WEBP_QUALITY = 64,
+    IMWRITE_PAM_TUPLETYPE = 128,
+    IMWRITE_TIFF_RESUNIT = 256,
+    IMWRITE_TIFF_XDPI = 257,
+    IMWRITE_TIFF_YDPI = 258,
+    IMWRITE_TIFF_COMPRESSION = 259,
+    IMWRITE_JPEG2000_COMPRESSION_X1000 = 272
+};
+
+
+// C++: enum ImwritePAMFlags (cv.ImwritePAMFlags)
 typedef NS_ENUM(int, ImwritePAMFlags) {
     IMWRITE_PAM_FORMAT_NULL = 0,
     IMWRITE_PAM_FORMAT_BLACKANDWHITE = 1,
@@ -69,14 +92,7 @@ typedef NS_ENUM(int, ImwritePAMFlags) {
 };
 
 
-// C++: enum ImwriteEXRTypeFlags
-typedef NS_ENUM(int, ImwriteEXRTypeFlags) {
-    IMWRITE_EXR_TYPE_HALF = 1,
-    IMWRITE_EXR_TYPE_FLOAT = 2
-};
-
-
-// C++: enum ImwritePNGFlags
+// C++: enum ImwritePNGFlags (cv.ImwritePNGFlags)
 typedef NS_ENUM(int, ImwritePNGFlags) {
     IMWRITE_PNG_STRATEGY_DEFAULT = 0,
     IMWRITE_PNG_STRATEGY_FILTERED = 1,
@@ -94,29 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
  * The Imgcodecs module
  *
  * Member of `Imgcodecs`
- * Member enums: `ImreadModes`, `ImwriteFlags`, `ImwriteEXRTypeFlags`, `ImwritePNGFlags`, `ImwritePAMFlags`
+ * Member enums: `ImreadModes`, `ImwriteFlags`, `ImwriteEXRTypeFlags`, `ImwriteEXRCompressionFlags`, `ImwritePNGFlags`, `ImwritePAMFlags`
  */
 CV_EXPORTS @interface Imgcodecs : NSObject
 
 #pragma mark - Methods
-
-
-//
-//  Mat cv::imdecode(Mat buf, int flags)
-//
-/**
- * Reads an image from a buffer in memory.
- *
- * The function imdecode reads an image from the specified buffer in the memory. If the buffer is too short or
- * contains invalid data, the function returns an empty matrix ( Mat::data==NULL ).
- *
- * See cv::imread for the list of supported formats and flags description.
- *
- * @note In the case of color images, the decoded images will have the channels stored in **B G R** order.
- * @param buf Input array or vector of bytes.
- * @param flags The same flags as in cv::imread, see cv::ImreadModes.
- */
-+ (Mat*)imdecode:(Mat*)buf flags:(int)flags NS_SWIFT_NAME(imdecode(buf:flags:));
 
 
 //
@@ -146,7 +144,7 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * -   Radiance HDR - \*.hdr, \*.pic (always supported)
  * -   Raster and Vector geospatial data supported by GDAL (see the *Note* section)
  *
- * @note
+ * NOTE:
  * -   The function determines the type of an image by the content, not by the file extension.
  * -   In the case of color images, the decoded images will have the channels stored in **B G R** order.
  * -   When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.
@@ -200,7 +198,7 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * -   Radiance HDR - \*.hdr, \*.pic (always supported)
  * -   Raster and Vector geospatial data supported by GDAL (see the *Note* section)
  *
- * @note
+ * NOTE:
  * -   The function determines the type of an image by the content, not by the file extension.
  * -   In the case of color images, the decoded images will have the channels stored in **B G R** order.
  * -   When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.
@@ -231,57 +229,6 @@ CV_EXPORTS @interface Imgcodecs : NSObject
 
 
 //
-//  bool cv::haveImageReader(String filename)
-//
-/**
- * Returns true if the specified image can be decoded by OpenCV
- *
- * @param filename File name of the image
- */
-+ (BOOL)haveImageReader:(NSString*)filename NS_SWIFT_NAME(haveImageReader(filename:));
-
-
-//
-//  bool cv::haveImageWriter(String filename)
-//
-/**
- * Returns true if an image with the specified filename can be encoded by OpenCV
- *
- * @param filename File name of the image
- */
-+ (BOOL)haveImageWriter:(NSString*)filename NS_SWIFT_NAME(haveImageWriter(filename:));
-
-
-//
-//  bool cv::imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
-//
-/**
- * Encodes an image into a memory buffer.
- *
- * The function imencode compresses the image and stores it in the memory buffer that is resized to fit the
- * result. See cv::imwrite for the list of supported formats and flags description.
- *
- * @param ext File extension that defines the output format.
- * @param img Image to be written.
- * @param buf Output buffer resized to fit the compressed image.
- * @param params Format-specific parameters. See cv::imwrite and cv::ImwriteFlags.
- */
-+ (BOOL)imencode:(NSString*)ext img:(Mat*)img buf:(ByteVector*)buf params:(IntVector*)params NS_SWIFT_NAME(imencode(ext:img:buf:params:));
-
-/**
- * Encodes an image into a memory buffer.
- *
- * The function imencode compresses the image and stores it in the memory buffer that is resized to fit the
- * result. See cv::imwrite for the list of supported formats and flags description.
- *
- * @param ext File extension that defines the output format.
- * @param img Image to be written.
- * @param buf Output buffer resized to fit the compressed image.
- */
-+ (BOOL)imencode:(NSString*)ext img:(Mat*)img buf:(ByteVector*)buf NS_SWIFT_NAME(imencode(ext:img:buf:));
-
-
-//
 //  bool cv::imreadmulti(String filename, vector_Mat& mats, int flags = IMREAD_ANYCOLOR)
 //
 /**
@@ -289,8 +236,8 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  *
  * The function imreadmulti loads a multi-page image from the specified file into a vector of Mat objects.
  * @param filename Name of file to be loaded.
+ * @param mats A vector of Mat objects holding each page.
  * @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
- * @param mats A vector of Mat objects holding each page, if more than one.
  * @see `cv::imread`
  */
 + (BOOL)imreadmulti:(NSString*)filename mats:(NSMutableArray<Mat*>*)mats flags:(int)flags NS_SWIFT_NAME(imreadmulti(filename:mats:flags:));
@@ -300,10 +247,60 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  *
  * The function imreadmulti loads a multi-page image from the specified file into a vector of Mat objects.
  * @param filename Name of file to be loaded.
- * @param mats A vector of Mat objects holding each page, if more than one.
+ * @param mats A vector of Mat objects holding each page.
  * @see `cv::imread`
  */
 + (BOOL)imreadmulti:(NSString*)filename mats:(NSMutableArray<Mat*>*)mats NS_SWIFT_NAME(imreadmulti(filename:mats:));
+
+
+//
+//  bool cv::imreadmulti(String filename, vector_Mat& mats, int start, int count, int flags = IMREAD_ANYCOLOR)
+//
+/**
+ * Loads a of images of a multi-page image from a file.
+ *
+ * The function imreadmulti loads a specified range from a multi-page image from the specified file into a vector of Mat objects.
+ * @param filename Name of file to be loaded.
+ * @param mats A vector of Mat objects holding each page.
+ * @param start Start index of the image to load
+ * @param count Count number of images to load
+ * @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
+ * @see `cv::imread`
+ */
++ (BOOL)imreadmulti:(NSString*)filename mats:(NSMutableArray<Mat*>*)mats start:(int)start count:(int)count flags:(int)flags NS_SWIFT_NAME(imreadmulti(filename:mats:start:count:flags:));
+
+/**
+ * Loads a of images of a multi-page image from a file.
+ *
+ * The function imreadmulti loads a specified range from a multi-page image from the specified file into a vector of Mat objects.
+ * @param filename Name of file to be loaded.
+ * @param mats A vector of Mat objects holding each page.
+ * @param start Start index of the image to load
+ * @param count Count number of images to load
+ * @see `cv::imread`
+ */
++ (BOOL)imreadmulti:(NSString*)filename mats:(NSMutableArray<Mat*>*)mats start:(int)start count:(int)count NS_SWIFT_NAME(imreadmulti(filename:mats:start:count:));
+
+
+//
+//  size_t cv::imcount(String filename, int flags = IMREAD_ANYCOLOR)
+//
+/**
+ * Returns the number of images inside the give file
+ *
+ * The function imcount will return the number of pages in a multi-page image, or 1 for single-page images
+ * @param filename Name of file to be loaded.
+ * @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
+ */
++ (size_t)imcount:(NSString*)filename flags:(int)flags NS_SWIFT_NAME(imcount(filename:flags:));
+
+/**
+ * Returns the number of images inside the give file
+ *
+ * The function imcount will return the number of pages in a multi-page image, or 1 for single-page images
+ * @param filename Name of file to be loaded.
+ */
++ (size_t)imcount:(NSString*)filename NS_SWIFT_NAME(imcount(filename:));
 
 
 //
@@ -325,6 +322,8 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * 8-bit (or 16-bit) 4-channel image BGRA, where the alpha channel goes last. Fully transparent pixels
  * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code sample below).
  * - Multiple images (vector of Mat) can be saved in TIFF format (see the code sample below).
+ *
+ * If the image format is not supported, the image will be converted to 8-bit unsigned (CV_8U) and saved that way.
  *
  * If the format, depth or channel order is different, use
  * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
@@ -356,6 +355,8 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535 (see the code sample below).
  * - Multiple images (vector of Mat) can be saved in TIFF format (see the code sample below).
  *
+ * If the image format is not supported, the image will be converted to 8-bit unsigned (CV_8U) and saved that way.
+ *
  * If the format, depth or channel order is different, use
  * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
  * functions to save the image to XML or YAML format.
@@ -367,6 +368,83 @@ CV_EXPORTS @interface Imgcodecs : NSObject
  * @param img (Mat or vector of Mat) Image or Images to be saved.
  */
 + (BOOL)imwrite:(NSString*)filename img:(Mat*)img NS_SWIFT_NAME(imwrite(filename:img:));
+
+
+//
+//  bool cv::imwritemulti(String filename, vector_Mat img, vector_int params = std::vector<int>())
+//
++ (BOOL)imwritemulti:(NSString*)filename img:(NSArray<Mat*>*)img params:(IntVector*)params NS_SWIFT_NAME(imwritemulti(filename:img:params:));
+
++ (BOOL)imwritemulti:(NSString*)filename img:(NSArray<Mat*>*)img NS_SWIFT_NAME(imwritemulti(filename:img:));
+
+
+//
+//  Mat cv::imdecode(Mat buf, int flags)
+//
+/**
+ * Reads an image from a buffer in memory.
+ *
+ * The function imdecode reads an image from the specified buffer in the memory. If the buffer is too short or
+ * contains invalid data, the function returns an empty matrix ( Mat::data==NULL ).
+ *
+ * See cv::imread for the list of supported formats and flags description.
+ *
+ * NOTE: In the case of color images, the decoded images will have the channels stored in **B G R** order.
+ * @param buf Input array or vector of bytes.
+ * @param flags The same flags as in cv::imread, see cv::ImreadModes.
+ */
++ (Mat*)imdecode:(Mat*)buf flags:(int)flags NS_SWIFT_NAME(imdecode(buf:flags:));
+
+
+//
+//  bool cv::imencode(String ext, Mat img, vector_uchar& buf, vector_int params = std::vector<int>())
+//
+/**
+ * Encodes an image into a memory buffer.
+ *
+ * The function imencode compresses the image and stores it in the memory buffer that is resized to fit the
+ * result. See cv::imwrite for the list of supported formats and flags description.
+ *
+ * @param ext File extension that defines the output format. Must include a leading period.
+ * @param img Image to be written.
+ * @param buf Output buffer resized to fit the compressed image.
+ * @param params Format-specific parameters. See cv::imwrite and cv::ImwriteFlags.
+ */
++ (BOOL)imencode:(NSString*)ext img:(Mat*)img buf:(ByteVector*)buf params:(IntVector*)params NS_SWIFT_NAME(imencode(ext:img:buf:params:));
+
+/**
+ * Encodes an image into a memory buffer.
+ *
+ * The function imencode compresses the image and stores it in the memory buffer that is resized to fit the
+ * result. See cv::imwrite for the list of supported formats and flags description.
+ *
+ * @param ext File extension that defines the output format. Must include a leading period.
+ * @param img Image to be written.
+ * @param buf Output buffer resized to fit the compressed image.
+ */
++ (BOOL)imencode:(NSString*)ext img:(Mat*)img buf:(ByteVector*)buf NS_SWIFT_NAME(imencode(ext:img:buf:));
+
+
+//
+//  bool cv::haveImageReader(String filename)
+//
+/**
+ * Returns true if the specified image can be decoded by OpenCV
+ *
+ * @param filename File name of the image
+ */
++ (BOOL)haveImageReader:(NSString*)filename NS_SWIFT_NAME(haveImageReader(filename:));
+
+
+//
+//  bool cv::haveImageWriter(String filename)
+//
+/**
+ * Returns true if an image with the specified filename can be encoded by OpenCV
+ *
+ * @param filename File name of the image
+ */
++ (BOOL)haveImageWriter:(NSString*)filename NS_SWIFT_NAME(haveImageWriter(filename:));
 
 
 

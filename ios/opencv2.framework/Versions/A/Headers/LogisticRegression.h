@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -17,18 +17,18 @@
 @class TermCriteria;
 
 
-// C++: enum RegKinds
+// C++: enum Methods (cv.ml.LogisticRegression.Methods)
+typedef NS_ENUM(int, Methods) {
+    BATCH = 0,
+    MINI_BATCH = 1
+};
+
+
+// C++: enum RegKinds (cv.ml.LogisticRegression.RegKinds)
 typedef NS_ENUM(int, RegKinds) {
     REG_DISABLE = -1,
     REG_L1 = 0,
     REG_L2 = 1
-};
-
-
-// C++: enum Methods
-typedef NS_ENUM(int, Methods) {
-    BATCH = 0,
-    MINI_BATCH = 1
 };
 
 
@@ -57,6 +57,145 @@ CV_EXPORTS @interface LogisticRegression : StatModel
 
 
 #pragma mark - Methods
+
+
+//
+//  double cv::ml::LogisticRegression::getLearningRate()
+//
+/**
+ * @see `-setLearningRate:`
+ */
+- (double)getLearningRate NS_SWIFT_NAME(getLearningRate());
+
+
+//
+//  void cv::ml::LogisticRegression::setLearningRate(double val)
+//
+/**
+ *  getLearningRate @see `-getLearningRate:`
+ */
+- (void)setLearningRate:(double)val NS_SWIFT_NAME(setLearningRate(val:));
+
+
+//
+//  int cv::ml::LogisticRegression::getIterations()
+//
+/**
+ * @see `-setIterations:`
+ */
+- (int)getIterations NS_SWIFT_NAME(getIterations());
+
+
+//
+//  void cv::ml::LogisticRegression::setIterations(int val)
+//
+/**
+ *  getIterations @see `-getIterations:`
+ */
+- (void)setIterations:(int)val NS_SWIFT_NAME(setIterations(val:));
+
+
+//
+//  int cv::ml::LogisticRegression::getRegularization()
+//
+/**
+ * @see `-setRegularization:`
+ */
+- (int)getRegularization NS_SWIFT_NAME(getRegularization());
+
+
+//
+//  void cv::ml::LogisticRegression::setRegularization(int val)
+//
+/**
+ *  getRegularization @see `-getRegularization:`
+ */
+- (void)setRegularization:(int)val NS_SWIFT_NAME(setRegularization(val:));
+
+
+//
+//  int cv::ml::LogisticRegression::getTrainMethod()
+//
+/**
+ * @see `-setTrainMethod:`
+ */
+- (int)getTrainMethod NS_SWIFT_NAME(getTrainMethod());
+
+
+//
+//  void cv::ml::LogisticRegression::setTrainMethod(int val)
+//
+/**
+ *  getTrainMethod @see `-getTrainMethod:`
+ */
+- (void)setTrainMethod:(int)val NS_SWIFT_NAME(setTrainMethod(val:));
+
+
+//
+//  int cv::ml::LogisticRegression::getMiniBatchSize()
+//
+/**
+ * @see `-setMiniBatchSize:`
+ */
+- (int)getMiniBatchSize NS_SWIFT_NAME(getMiniBatchSize());
+
+
+//
+//  void cv::ml::LogisticRegression::setMiniBatchSize(int val)
+//
+/**
+ *  getMiniBatchSize @see `-getMiniBatchSize:`
+ */
+- (void)setMiniBatchSize:(int)val NS_SWIFT_NAME(setMiniBatchSize(val:));
+
+
+//
+//  TermCriteria cv::ml::LogisticRegression::getTermCriteria()
+//
+/**
+ * @see `-setTermCriteria:`
+ */
+- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+
+
+//
+//  void cv::ml::LogisticRegression::setTermCriteria(TermCriteria val)
+//
+/**
+ *  getTermCriteria @see `-getTermCriteria:`
+ */
+- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
+
+
+//
+//  float cv::ml::LogisticRegression::predict(Mat samples, Mat& results = Mat(), int flags = 0)
+//
+/**
+ * Predicts responses for input samples and returns a float type.
+ *
+ * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
+ *         contains variables (features) of one object being classified. Should have data type CV_32F.
+ * @param results Predicted labels as a column matrix of type CV_32S.
+ * @param flags Not used.
+ */
+- (float)predict:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(predict(samples:results:flags:));
+
+/**
+ * Predicts responses for input samples and returns a float type.
+ *
+ * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
+ *         contains variables (features) of one object being classified. Should have data type CV_32F.
+ * @param results Predicted labels as a column matrix of type CV_32S.
+ */
+- (float)predict:(Mat*)samples results:(Mat*)results NS_SWIFT_NAME(predict(samples:results:));
+
+/**
+ * Predicts responses for input samples and returns a float type.
+ *
+ * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
+ *         contains variables (features) of one object being classified. Should have data type CV_32F.
+ */
+- (float)predict:(Mat*)samples NS_SWIFT_NAME(predict(samples:));
 
 
 //
@@ -107,145 +246,6 @@ CV_EXPORTS @interface LogisticRegression : StatModel
  * @param filepath path to serialized LogisticRegression
  */
 + (LogisticRegression*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  TermCriteria cv::ml::LogisticRegression::getTermCriteria()
-//
-/**
- * @see `-setTermCriteria:`
- */
-- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
-
-
-//
-//  double cv::ml::LogisticRegression::getLearningRate()
-//
-/**
- * @see `-setLearningRate:`
- */
-- (double)getLearningRate NS_SWIFT_NAME(getLearningRate());
-
-
-//
-//  float cv::ml::LogisticRegression::predict(Mat samples, Mat& results = Mat(), int flags = 0)
-//
-/**
- * Predicts responses for input samples and returns a float type.
- *
- * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
- *         contains variables (features) of one object being classified. Should have data type CV_32F.
- * @param results Predicted labels as a column matrix of type CV_32S.
- * @param flags Not used.
- */
-- (float)predict:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(predict(samples:results:flags:));
-
-/**
- * Predicts responses for input samples and returns a float type.
- *
- * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
- *         contains variables (features) of one object being classified. Should have data type CV_32F.
- * @param results Predicted labels as a column matrix of type CV_32S.
- */
-- (float)predict:(Mat*)samples results:(Mat*)results NS_SWIFT_NAME(predict(samples:results:));
-
-/**
- * Predicts responses for input samples and returns a float type.
- *
- * @param samples The input data for the prediction algorithm. Matrix [m x n], where each row
- *         contains variables (features) of one object being classified. Should have data type CV_32F.
- */
-- (float)predict:(Mat*)samples NS_SWIFT_NAME(predict(samples:));
-
-
-//
-//  int cv::ml::LogisticRegression::getIterations()
-//
-/**
- * @see `-setIterations:`
- */
-- (int)getIterations NS_SWIFT_NAME(getIterations());
-
-
-//
-//  int cv::ml::LogisticRegression::getMiniBatchSize()
-//
-/**
- * @see `-setMiniBatchSize:`
- */
-- (int)getMiniBatchSize NS_SWIFT_NAME(getMiniBatchSize());
-
-
-//
-//  int cv::ml::LogisticRegression::getRegularization()
-//
-/**
- * @see `-setRegularization:`
- */
-- (int)getRegularization NS_SWIFT_NAME(getRegularization());
-
-
-//
-//  int cv::ml::LogisticRegression::getTrainMethod()
-//
-/**
- * @see `-setTrainMethod:`
- */
-- (int)getTrainMethod NS_SWIFT_NAME(getTrainMethod());
-
-
-//
-//  void cv::ml::LogisticRegression::setIterations(int val)
-//
-/**
- *  getIterations @see `-getIterations:`
- */
-- (void)setIterations:(int)val NS_SWIFT_NAME(setIterations(val:));
-
-
-//
-//  void cv::ml::LogisticRegression::setLearningRate(double val)
-//
-/**
- *  getLearningRate @see `-getLearningRate:`
- */
-- (void)setLearningRate:(double)val NS_SWIFT_NAME(setLearningRate(val:));
-
-
-//
-//  void cv::ml::LogisticRegression::setMiniBatchSize(int val)
-//
-/**
- *  getMiniBatchSize @see `-getMiniBatchSize:`
- */
-- (void)setMiniBatchSize:(int)val NS_SWIFT_NAME(setMiniBatchSize(val:));
-
-
-//
-//  void cv::ml::LogisticRegression::setRegularization(int val)
-//
-/**
- *  getRegularization @see `-getRegularization:`
- */
-- (void)setRegularization:(int)val NS_SWIFT_NAME(setRegularization(val:));
-
-
-//
-//  void cv::ml::LogisticRegression::setTermCriteria(TermCriteria val)
-//
-/**
- *  getTermCriteria @see `-getTermCriteria:`
- */
-- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
-
-
-//
-//  void cv::ml::LogisticRegression::setTrainMethod(int val)
-//
-/**
- *  getTrainMethod @see `-getTrainMethod:`
- */
-- (void)setTrainMethod:(int)val NS_SWIFT_NAME(setTrainMethod(val:));
 
 
 

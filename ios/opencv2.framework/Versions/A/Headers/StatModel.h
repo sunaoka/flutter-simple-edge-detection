@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -17,7 +17,7 @@
 @class TrainData;
 
 
-// C++: enum StatModelFlags
+// C++: enum StatModelFlags (cv.ml.StatModel.Flags)
 typedef NS_ENUM(int, StatModelFlags) {
     UPDATE_MODEL = 1,
     RAW_OUTPUT = 1,
@@ -52,18 +52,18 @@ CV_EXPORTS @interface StatModel : Algorithm
 
 
 //
+//  int cv::ml::StatModel::getVarCount()
+//
+/**
+ * Returns the number of variables in training samples
+ */
+- (int)getVarCount NS_SWIFT_NAME(getVarCount());
+
+
+//
 //  bool cv::ml::StatModel::empty()
 //
 - (BOOL)empty NS_SWIFT_NAME(empty());
-
-
-//
-//  bool cv::ml::StatModel::isClassifier()
-//
-/**
- * Returns true if the model is classifier
- */
-- (BOOL)isClassifier NS_SWIFT_NAME(isClassifier());
 
 
 //
@@ -76,16 +76,12 @@ CV_EXPORTS @interface StatModel : Algorithm
 
 
 //
-//  bool cv::ml::StatModel::train(Mat samples, int layout, Mat responses)
+//  bool cv::ml::StatModel::isClassifier()
 //
 /**
- * Trains the statistical model
- *
- * @param samples training samples
- * @param layout See ml::SampleTypes.
- * @param responses vector of responses associated with the training samples.
+ * Returns true if the model is classifier
  */
-- (BOOL)train:(Mat*)samples layout:(int)layout responses:(Mat*)responses NS_SWIFT_NAME(train(samples:layout:responses:));
+- (BOOL)isClassifier NS_SWIFT_NAME(isClassifier());
 
 
 //
@@ -109,6 +105,19 @@ CV_EXPORTS @interface StatModel : Algorithm
  *         new training samples, not completely overwritten (such as NormalBayesClassifier or ANN_MLP).
  */
 - (BOOL)train:(TrainData*)trainData NS_SWIFT_NAME(train(trainData:));
+
+
+//
+//  bool cv::ml::StatModel::train(Mat samples, int layout, Mat responses)
+//
+/**
+ * Trains the statistical model
+ *
+ * @param samples training samples
+ * @param layout See ml::SampleTypes.
+ * @param responses vector of responses associated with the training samples.
+ */
+- (BOOL)train:(Mat*)samples layout:(int)layout responses:(Mat*)responses NS_SWIFT_NAME(train(samples:layout:responses:));
 
 
 //
@@ -157,15 +166,6 @@ CV_EXPORTS @interface StatModel : Algorithm
  * @param samples The input samples, floating-point matrix
  */
 - (float)predict:(Mat*)samples NS_SWIFT_NAME(predict(samples:));
-
-
-//
-//  int cv::ml::StatModel::getVarCount()
-//
-/**
- * Returns the number of variables in training samples
- */
-- (int)getVarCount NS_SWIFT_NAME(getVarCount());
 
 
 

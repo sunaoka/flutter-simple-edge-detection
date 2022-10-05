@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 #import "KAZE.h"
 
 
-// C++: enum DescriptorType
+// C++: enum DescriptorType (cv.AKAZE.DescriptorType)
 typedef NS_ENUM(int, DescriptorType) {
     DESCRIPTOR_KAZE_UPRIGHT = 2,
     DESCRIPTOR_KAZE = 3,
@@ -34,14 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * AKAZE descriptors can only be used with KAZE or AKAZE keypoints. This class is thread-safe.
  *
- * @note When you need descriptors use Feature2D::detectAndCompute, which
+ * NOTE: When you need descriptors use Feature2D::detectAndCompute, which
  * provides better performance. When using Feature2D::detect followed by
  * Feature2D::compute scale space pyramid is computed twice.
  *
- * @note AKAZE implements T-API. When image is passed as UMat some parts of the algorithm
+ * NOTE: AKAZE implements T-API. When image is passed as UMat some parts of the algorithm
  * will use OpenCL.
  *
- * @note [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear
+ * NOTE: [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear
  * Scale Spaces. Pablo F. Alcantarilla, Jesús Nuevo and Adrien Bartoli. In
  * British Machine Vision Conference (BMVC), Bristol, UK, September 2013.
  *
@@ -61,18 +61,6 @@ CV_EXPORTS @interface AKAZE : Feature2D
 
 
 #pragma mark - Methods
-
-
-//
-//  AKAZE_DescriptorType cv::AKAZE::getDescriptorType()
-//
-- (DescriptorType)getDescriptorType NS_SWIFT_NAME(getDescriptorType());
-
-
-//
-//  KAZE_DiffusivityType cv::AKAZE::getDiffusivity()
-//
-- (DiffusivityType)getDiffusivity NS_SWIFT_NAME(getDiffusivity());
 
 
 //
@@ -172,45 +160,15 @@ CV_EXPORTS @interface AKAZE : Feature2D
 
 
 //
-//  String cv::AKAZE::getDefaultName()
+//  void cv::AKAZE::setDescriptorType(AKAZE_DescriptorType dtype)
 //
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
+- (void)setDescriptorType:(DescriptorType)dtype NS_SWIFT_NAME(setDescriptorType(dtype:));
 
 
 //
-//  double cv::AKAZE::getThreshold()
+//  AKAZE_DescriptorType cv::AKAZE::getDescriptorType()
 //
-- (double)getThreshold NS_SWIFT_NAME(getThreshold());
-
-
-//
-//  int cv::AKAZE::getDescriptorChannels()
-//
-- (int)getDescriptorChannels NS_SWIFT_NAME(getDescriptorChannels());
-
-
-//
-//  int cv::AKAZE::getDescriptorSize()
-//
-- (int)getDescriptorSize NS_SWIFT_NAME(getDescriptorSize());
-
-
-//
-//  int cv::AKAZE::getNOctaveLayers()
-//
-- (int)getNOctaveLayers NS_SWIFT_NAME(getNOctaveLayers());
-
-
-//
-//  int cv::AKAZE::getNOctaves()
-//
-- (int)getNOctaves NS_SWIFT_NAME(getNOctaves());
-
-
-//
-//  void cv::AKAZE::setDescriptorChannels(int dch)
-//
-- (void)setDescriptorChannels:(int)dch NS_SWIFT_NAME(setDescriptorChannels(dch:));
+- (DescriptorType)getDescriptorType NS_SWIFT_NAME(getDescriptorType());
 
 
 //
@@ -220,21 +178,33 @@ CV_EXPORTS @interface AKAZE : Feature2D
 
 
 //
-//  void cv::AKAZE::setDescriptorType(AKAZE_DescriptorType dtype)
+//  int cv::AKAZE::getDescriptorSize()
 //
-- (void)setDescriptorType:(DescriptorType)dtype NS_SWIFT_NAME(setDescriptorType(dtype:));
+- (int)getDescriptorSize NS_SWIFT_NAME(getDescriptorSize());
 
 
 //
-//  void cv::AKAZE::setDiffusivity(KAZE_DiffusivityType diff)
+//  void cv::AKAZE::setDescriptorChannels(int dch)
 //
-- (void)setDiffusivity:(DiffusivityType)diff NS_SWIFT_NAME(setDiffusivity(diff:));
+- (void)setDescriptorChannels:(int)dch NS_SWIFT_NAME(setDescriptorChannels(dch:));
 
 
 //
-//  void cv::AKAZE::setNOctaveLayers(int octaveLayers)
+//  int cv::AKAZE::getDescriptorChannels()
 //
-- (void)setNOctaveLayers:(int)octaveLayers NS_SWIFT_NAME(setNOctaveLayers(octaveLayers:));
+- (int)getDescriptorChannels NS_SWIFT_NAME(getDescriptorChannels());
+
+
+//
+//  void cv::AKAZE::setThreshold(double threshold)
+//
+- (void)setThreshold:(double)threshold NS_SWIFT_NAME(setThreshold(threshold:));
+
+
+//
+//  double cv::AKAZE::getThreshold()
+//
+- (double)getThreshold NS_SWIFT_NAME(getThreshold());
 
 
 //
@@ -244,9 +214,39 @@ CV_EXPORTS @interface AKAZE : Feature2D
 
 
 //
-//  void cv::AKAZE::setThreshold(double threshold)
+//  int cv::AKAZE::getNOctaves()
 //
-- (void)setThreshold:(double)threshold NS_SWIFT_NAME(setThreshold(threshold:));
+- (int)getNOctaves NS_SWIFT_NAME(getNOctaves());
+
+
+//
+//  void cv::AKAZE::setNOctaveLayers(int octaveLayers)
+//
+- (void)setNOctaveLayers:(int)octaveLayers NS_SWIFT_NAME(setNOctaveLayers(octaveLayers:));
+
+
+//
+//  int cv::AKAZE::getNOctaveLayers()
+//
+- (int)getNOctaveLayers NS_SWIFT_NAME(getNOctaveLayers());
+
+
+//
+//  void cv::AKAZE::setDiffusivity(KAZE_DiffusivityType diff)
+//
+- (void)setDiffusivity:(DiffusivityType)diff NS_SWIFT_NAME(setDiffusivity(diff:));
+
+
+//
+//  KAZE_DiffusivityType cv::AKAZE::getDiffusivity()
+//
+- (DiffusivityType)getDiffusivity NS_SWIFT_NAME(getDiffusivity());
+
+
+//
+//  String cv::AKAZE::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

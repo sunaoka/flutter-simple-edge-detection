@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -47,16 +48,6 @@ CV_EXPORTS @interface ClassificationModel : Model
 
 
 //
-//   cv::dnn::ClassificationModel::ClassificationModel(Net network)
-//
-/**
- * Create model from deep learning network.
- * @param network Net object.
- */
-- (instancetype)initWithNetwork:(Net*)network;
-
-
-//
 //   cv::dnn::ClassificationModel::ClassificationModel(String model, String config = "")
 //
 /**
@@ -73,6 +64,42 @@ CV_EXPORTS @interface ClassificationModel : Model
  * @param model Binary file contains trained weights.
  */
 - (instancetype)initWithModel:(NSString*)model;
+
+
+//
+//   cv::dnn::ClassificationModel::ClassificationModel(Net network)
+//
+/**
+ * Create model from deep learning network.
+ * @param network Net object.
+ */
+- (instancetype)initWithNetwork:(Net*)network;
+
+
+//
+//  ClassificationModel cv::dnn::ClassificationModel::setEnableSoftmaxPostProcessing(bool enable)
+//
+/**
+ * Set enable/disable softmax post processing option.
+ *
+ * If this option is true, softmax is applied after forward inference within the classify() function
+ * to convert the confidences range to [0.0-1.0].
+ * This function allows you to toggle this behavior.
+ * Please turn true when not contain softmax layer in model.
+ * @param enable Set enable softmax post processing within the classify() function.
+ */
+- (ClassificationModel*)setEnableSoftmaxPostProcessing:(BOOL)enable NS_SWIFT_NAME(setEnableSoftmaxPostProcessing(enable:));
+
+
+//
+//  bool cv::dnn::ClassificationModel::getEnableSoftmaxPostProcessing()
+//
+/**
+ * Get enable/disable softmax post processing option.
+ *
+ * This option defaults to false, softmax post processing is not applied within the classify() function.
+ */
+- (BOOL)getEnableSoftmaxPostProcessing NS_SWIFT_NAME(getEnableSoftmaxPostProcessing());
 
 
 //

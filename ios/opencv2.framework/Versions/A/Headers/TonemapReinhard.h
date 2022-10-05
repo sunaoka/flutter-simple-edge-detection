@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -47,27 +47,9 @@ CV_EXPORTS @interface TonemapReinhard : Tonemap
 
 
 //
-//  float cv::TonemapReinhard::getColorAdaptation()
-//
-- (float)getColorAdaptation NS_SWIFT_NAME(getColorAdaptation());
-
-
-//
 //  float cv::TonemapReinhard::getIntensity()
 //
 - (float)getIntensity NS_SWIFT_NAME(getIntensity());
-
-
-//
-//  float cv::TonemapReinhard::getLightAdaptation()
-//
-- (float)getLightAdaptation NS_SWIFT_NAME(getLightAdaptation());
-
-
-//
-//  void cv::TonemapReinhard::setColorAdaptation(float color_adapt)
-//
-- (void)setColorAdaptation:(float)color_adapt NS_SWIFT_NAME(setColorAdaptation(color_adapt:));
 
 
 //
@@ -77,9 +59,27 @@ CV_EXPORTS @interface TonemapReinhard : Tonemap
 
 
 //
+//  float cv::TonemapReinhard::getLightAdaptation()
+//
+- (float)getLightAdaptation NS_SWIFT_NAME(getLightAdaptation());
+
+
+//
 //  void cv::TonemapReinhard::setLightAdaptation(float light_adapt)
 //
 - (void)setLightAdaptation:(float)light_adapt NS_SWIFT_NAME(setLightAdaptation(light_adapt:));
+
+
+//
+//  float cv::TonemapReinhard::getColorAdaptation()
+//
+- (float)getColorAdaptation NS_SWIFT_NAME(getColorAdaptation());
+
+
+//
+//  void cv::TonemapReinhard::setColorAdaptation(float color_adapt)
+//
+- (void)setColorAdaptation:(float)color_adapt NS_SWIFT_NAME(setColorAdaptation(color_adapt:));
 
 
 

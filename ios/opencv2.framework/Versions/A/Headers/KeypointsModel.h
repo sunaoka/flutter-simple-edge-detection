@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -48,16 +49,6 @@ CV_EXPORTS @interface KeypointsModel : Model
 
 
 //
-//   cv::dnn::KeypointsModel::KeypointsModel(Net network)
-//
-/**
- * Create model from deep learning network.
- * @param network Net object.
- */
-- (instancetype)initWithNetwork:(Net*)network;
-
-
-//
 //   cv::dnn::KeypointsModel::KeypointsModel(String model, String config = "")
 //
 /**
@@ -74,6 +65,16 @@ CV_EXPORTS @interface KeypointsModel : Model
  * @param model Binary file contains trained weights.
  */
 - (instancetype)initWithModel:(NSString*)model;
+
+
+//
+//   cv::dnn::KeypointsModel::KeypointsModel(Net network)
+//
+/**
+ * Create model from deep learning network.
+ * @param network Net object.
+ */
+- (instancetype)initWithNetwork:(Net*)network;
 
 
 //

@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -51,16 +52,6 @@ CV_EXPORTS @interface DetectionModel : Model
 
 
 //
-//   cv::dnn::DetectionModel::DetectionModel(Net network)
-//
-/**
- * Create model from deep learning network.
- * @param network Net object.
- */
-- (instancetype)initWithNetwork:(Net*)network;
-
-
-//
 //   cv::dnn::DetectionModel::DetectionModel(String model, String config = "")
 //
 /**
@@ -77,6 +68,38 @@ CV_EXPORTS @interface DetectionModel : Model
  * @param model Binary file contains trained weights.
  */
 - (instancetype)initWithModel:(NSString*)model;
+
+
+//
+//   cv::dnn::DetectionModel::DetectionModel(Net network)
+//
+/**
+ * Create model from deep learning network.
+ * @param network Net object.
+ */
+- (instancetype)initWithNetwork:(Net*)network;
+
+
+//
+//  DetectionModel cv::dnn::DetectionModel::setNmsAcrossClasses(bool value)
+//
+/**
+ * nmsAcrossClasses defaults to false,
+ * such that when non max suppression is used during the detect() function, it will do so per-class.
+ * This function allows you to toggle this behaviour.
+ * @param value The new value for nmsAcrossClasses
+ */
+- (DetectionModel*)setNmsAcrossClasses:(BOOL)value NS_SWIFT_NAME(setNmsAcrossClasses(value:));
+
+
+//
+//  bool cv::dnn::DetectionModel::getNmsAcrossClasses()
+//
+/**
+ * Getter for nmsAcrossClasses. This variable defaults to false,
+ * such that when non max suppression is used during the detect() function, it will do so only per-class
+ */
+- (BOOL)getNmsAcrossClasses NS_SWIFT_NAME(getNmsAcrossClasses());
 
 
 //

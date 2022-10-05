@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -46,21 +46,9 @@ CV_EXPORTS @interface CalibrateDebevec : CalibrateCRF
 
 
 //
-//  bool cv::CalibrateDebevec::getRandom()
-//
-- (BOOL)getRandom NS_SWIFT_NAME(getRandom());
-
-
-//
 //  float cv::CalibrateDebevec::getLambda()
 //
 - (float)getLambda NS_SWIFT_NAME(getLambda());
-
-
-//
-//  int cv::CalibrateDebevec::getSamples()
-//
-- (int)getSamples NS_SWIFT_NAME(getSamples());
 
 
 //
@@ -70,15 +58,27 @@ CV_EXPORTS @interface CalibrateDebevec : CalibrateCRF
 
 
 //
-//  void cv::CalibrateDebevec::setRandom(bool random)
+//  int cv::CalibrateDebevec::getSamples()
 //
-- (void)setRandom:(BOOL)random NS_SWIFT_NAME(setRandom(random:));
+- (int)getSamples NS_SWIFT_NAME(getSamples());
 
 
 //
 //  void cv::CalibrateDebevec::setSamples(int samples)
 //
 - (void)setSamples:(int)samples NS_SWIFT_NAME(setSamples(samples:));
+
+
+//
+//  bool cv::CalibrateDebevec::getRandom()
+//
+- (BOOL)getRandom NS_SWIFT_NAME(getRandom());
+
+
+//
+//  void cv::CalibrateDebevec::setRandom(bool random)
+//
+- (void)setRandom:(BOOL)random NS_SWIFT_NAME(setRandom(random:));
 
 
 

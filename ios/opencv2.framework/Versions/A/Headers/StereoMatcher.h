@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/calib3d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -48,42 +48,6 @@ CV_EXPORTS @interface StereoMatcher : Algorithm
 
 
 //
-//  int cv::StereoMatcher::getBlockSize()
-//
-- (int)getBlockSize NS_SWIFT_NAME(getBlockSize());
-
-
-//
-//  int cv::StereoMatcher::getDisp12MaxDiff()
-//
-- (int)getDisp12MaxDiff NS_SWIFT_NAME(getDisp12MaxDiff());
-
-
-//
-//  int cv::StereoMatcher::getMinDisparity()
-//
-- (int)getMinDisparity NS_SWIFT_NAME(getMinDisparity());
-
-
-//
-//  int cv::StereoMatcher::getNumDisparities()
-//
-- (int)getNumDisparities NS_SWIFT_NAME(getNumDisparities());
-
-
-//
-//  int cv::StereoMatcher::getSpeckleRange()
-//
-- (int)getSpeckleRange NS_SWIFT_NAME(getSpeckleRange());
-
-
-//
-//  int cv::StereoMatcher::getSpeckleWindowSize()
-//
-- (int)getSpeckleWindowSize NS_SWIFT_NAME(getSpeckleWindowSize());
-
-
-//
 //  void cv::StereoMatcher::compute(Mat left, Mat right, Mat& disparity)
 //
 /**
@@ -99,15 +63,9 @@ CV_EXPORTS @interface StereoMatcher : Algorithm
 
 
 //
-//  void cv::StereoMatcher::setBlockSize(int blockSize)
+//  int cv::StereoMatcher::getMinDisparity()
 //
-- (void)setBlockSize:(int)blockSize NS_SWIFT_NAME(setBlockSize(blockSize:));
-
-
-//
-//  void cv::StereoMatcher::setDisp12MaxDiff(int disp12MaxDiff)
-//
-- (void)setDisp12MaxDiff:(int)disp12MaxDiff NS_SWIFT_NAME(setDisp12MaxDiff(disp12MaxDiff:));
+- (int)getMinDisparity NS_SWIFT_NAME(getMinDisparity());
 
 
 //
@@ -117,9 +75,45 @@ CV_EXPORTS @interface StereoMatcher : Algorithm
 
 
 //
+//  int cv::StereoMatcher::getNumDisparities()
+//
+- (int)getNumDisparities NS_SWIFT_NAME(getNumDisparities());
+
+
+//
 //  void cv::StereoMatcher::setNumDisparities(int numDisparities)
 //
 - (void)setNumDisparities:(int)numDisparities NS_SWIFT_NAME(setNumDisparities(numDisparities:));
+
+
+//
+//  int cv::StereoMatcher::getBlockSize()
+//
+- (int)getBlockSize NS_SWIFT_NAME(getBlockSize());
+
+
+//
+//  void cv::StereoMatcher::setBlockSize(int blockSize)
+//
+- (void)setBlockSize:(int)blockSize NS_SWIFT_NAME(setBlockSize(blockSize:));
+
+
+//
+//  int cv::StereoMatcher::getSpeckleWindowSize()
+//
+- (int)getSpeckleWindowSize NS_SWIFT_NAME(getSpeckleWindowSize());
+
+
+//
+//  void cv::StereoMatcher::setSpeckleWindowSize(int speckleWindowSize)
+//
+- (void)setSpeckleWindowSize:(int)speckleWindowSize NS_SWIFT_NAME(setSpeckleWindowSize(speckleWindowSize:));
+
+
+//
+//  int cv::StereoMatcher::getSpeckleRange()
+//
+- (int)getSpeckleRange NS_SWIFT_NAME(getSpeckleRange());
 
 
 //
@@ -129,9 +123,15 @@ CV_EXPORTS @interface StereoMatcher : Algorithm
 
 
 //
-//  void cv::StereoMatcher::setSpeckleWindowSize(int speckleWindowSize)
+//  int cv::StereoMatcher::getDisp12MaxDiff()
 //
-- (void)setSpeckleWindowSize:(int)speckleWindowSize NS_SWIFT_NAME(setSpeckleWindowSize(speckleWindowSize:));
+- (int)getDisp12MaxDiff NS_SWIFT_NAME(getDisp12MaxDiff());
+
+
+//
+//  void cv::StereoMatcher::setDisp12MaxDiff(int disp12MaxDiff)
+//
+- (void)setDisp12MaxDiff:(int)disp12MaxDiff NS_SWIFT_NAME(setDisp12MaxDiff(disp12MaxDiff:));
 
 
 

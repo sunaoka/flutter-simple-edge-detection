@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -18,7 +18,7 @@
 @class TermCriteria;
 
 
-// C++: enum KernelTypes
+// C++: enum KernelTypes (cv.ml.SVM.KernelTypes)
 typedef NS_ENUM(int, KernelTypes) {
     CUSTOM = -1,
     LINEAR = 0,
@@ -30,17 +30,7 @@ typedef NS_ENUM(int, KernelTypes) {
 };
 
 
-// C++: enum SVMTypes
-typedef NS_ENUM(int, SVMTypes) {
-    C_SVC = 100,
-    NU_SVC = 101,
-    ONE_CLASS = 102,
-    EPS_SVR = 103,
-    NU_SVR = 104
-};
-
-
-// C++: enum ParamTypes
+// C++: enum ParamTypes (cv.ml.SVM.ParamTypes)
 typedef NS_ENUM(int, ParamTypes) {
     C = 0,
     GAMMA = 1,
@@ -48,6 +38,16 @@ typedef NS_ENUM(int, ParamTypes) {
     NU = 3,
     COEF = 4,
     DEGREE = 5
+};
+
+
+// C++: enum SVMTypes (cv.ml.SVM.Types)
+typedef NS_ENUM(int, SVMTypes) {
+    C_SVC = 100,
+    NU_SVC = 101,
+    ONE_CLASS = 102,
+    EPS_SVR = 103,
+    NU_SVR = 104
 };
 
 
@@ -79,6 +79,132 @@ CV_EXPORTS @interface SVM : StatModel
 
 
 //
+//  int cv::ml::SVM::getType()
+//
+/**
+ * @see `-setType:`
+ */
+- (int)getType NS_SWIFT_NAME(getType());
+
+
+//
+//  void cv::ml::SVM::setType(int val)
+//
+/**
+ *  getType @see `-getType:`
+ */
+- (void)setType:(int)val NS_SWIFT_NAME(setType(val:));
+
+
+//
+//  double cv::ml::SVM::getGamma()
+//
+/**
+ * @see `-setGamma:`
+ */
+- (double)getGamma NS_SWIFT_NAME(getGamma());
+
+
+//
+//  void cv::ml::SVM::setGamma(double val)
+//
+/**
+ *  getGamma @see `-getGamma:`
+ */
+- (void)setGamma:(double)val NS_SWIFT_NAME(setGamma(val:));
+
+
+//
+//  double cv::ml::SVM::getCoef0()
+//
+/**
+ * @see `-setCoef0:`
+ */
+- (double)getCoef0 NS_SWIFT_NAME(getCoef0());
+
+
+//
+//  void cv::ml::SVM::setCoef0(double val)
+//
+/**
+ *  getCoef0 @see `-getCoef0:`
+ */
+- (void)setCoef0:(double)val NS_SWIFT_NAME(setCoef0(val:));
+
+
+//
+//  double cv::ml::SVM::getDegree()
+//
+/**
+ * @see `-setDegree:`
+ */
+- (double)getDegree NS_SWIFT_NAME(getDegree());
+
+
+//
+//  void cv::ml::SVM::setDegree(double val)
+//
+/**
+ *  getDegree @see `-getDegree:`
+ */
+- (void)setDegree:(double)val NS_SWIFT_NAME(setDegree(val:));
+
+
+//
+//  double cv::ml::SVM::getC()
+//
+/**
+ * @see `-setC:`
+ */
+- (double)getC NS_SWIFT_NAME(getC());
+
+
+//
+//  void cv::ml::SVM::setC(double val)
+//
+/**
+ *  getC @see `-getC:`
+ */
+- (void)setC:(double)val NS_SWIFT_NAME(setC(val:));
+
+
+//
+//  double cv::ml::SVM::getNu()
+//
+/**
+ * @see `-setNu:`
+ */
+- (double)getNu NS_SWIFT_NAME(getNu());
+
+
+//
+//  void cv::ml::SVM::setNu(double val)
+//
+/**
+ *  getNu @see `-getNu:`
+ */
+- (void)setNu:(double)val NS_SWIFT_NAME(setNu(val:));
+
+
+//
+//  double cv::ml::SVM::getP()
+//
+/**
+ * @see `-setP:`
+ */
+- (double)getP NS_SWIFT_NAME(getP());
+
+
+//
+//  void cv::ml::SVM::setP(double val)
+//
+/**
+ *  getP @see `-getP:`
+ */
+- (void)setP:(double)val NS_SWIFT_NAME(setP(val:));
+
+
+//
 //  Mat cv::ml::SVM::getClassWeights()
 //
 /**
@@ -88,68 +214,12 @@ CV_EXPORTS @interface SVM : StatModel
 
 
 //
-//  Mat cv::ml::SVM::getSupportVectors()
+//  void cv::ml::SVM::setClassWeights(Mat val)
 //
 /**
- * Retrieves all the support vectors
- *
- *     The method returns all the support vectors as a floating-point matrix, where support vectors are
- *     stored as matrix rows.
+ *  getClassWeights @see `-getClassWeights:`
  */
-- (Mat*)getSupportVectors NS_SWIFT_NAME(getSupportVectors());
-
-
-//
-//  Mat cv::ml::SVM::getUncompressedSupportVectors()
-//
-/**
- * Retrieves all the uncompressed support vectors of a linear %SVM
- *
- *     The method returns all the uncompressed support vectors of a linear %SVM that the compressed
- *     support vector, used for prediction, was derived from. They are returned in a floating-point
- *     matrix, where the support vectors are stored as matrix rows.
- */
-- (Mat*)getUncompressedSupportVectors NS_SWIFT_NAME(getUncompressedSupportVectors());
-
-
-//
-// static Ptr_ParamGrid cv::ml::SVM::getDefaultGridPtr(int param_id)
-//
-/**
- * Generates a grid for %SVM parameters.
- *
- * @param param_id %SVM parameters IDs that must be one of the SVM::ParamTypes. The grid is
- *     generated for the parameter with this ID.
- *
- *     The function generates a grid pointer for the specified parameter of the %SVM algorithm.
- *     The grid may be passed to the function SVM::trainAuto.
- */
-+ (ParamGrid*)getDefaultGridPtr:(int)param_id NS_SWIFT_NAME(getDefaultGridPtr(param_id:));
-
-
-//
-// static Ptr_SVM cv::ml::SVM::create()
-//
-/**
- * Creates empty model.
- *     Use StatModel::train to train the model. Since %SVM has several parameters, you may want to
- * find the best parameters for your problem, it can be done with SVM::trainAuto.
- */
-+ (SVM*)create NS_SWIFT_NAME(create());
-
-
-//
-// static Ptr_SVM cv::ml::SVM::load(String filepath)
-//
-/**
- * Loads and creates a serialized svm from a file
- *
- * Use SVM::save to serialize and store an SVM to disk.
- * Load the SVM from this file again, by calling this function with the path to the file.
- *
- * @param filepath path to serialized svm
- */
-+ (SVM*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
+- (void)setClassWeights:(Mat*)val NS_SWIFT_NAME(setClassWeights(val:));
 
 
 //
@@ -159,6 +229,35 @@ CV_EXPORTS @interface SVM : StatModel
  * @see `-setTermCriteria:`
  */
 - (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+
+
+//
+//  void cv::ml::SVM::setTermCriteria(TermCriteria val)
+//
+/**
+ *  getTermCriteria @see `-getTermCriteria:`
+ */
+- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
+
+
+//
+//  int cv::ml::SVM::getKernelType()
+//
+/**
+ * Type of a %SVM kernel.
+ * See SVM::KernelTypes. Default value is SVM::RBF.
+ */
+- (int)getKernelType NS_SWIFT_NAME(getKernelType());
+
+
+//
+//  void cv::ml::SVM::setKernel(int kernelType)
+//
+/**
+ * Initialize with one of predefined kernels.
+ * See SVM::KernelTypes.
+ */
+- (void)setKernel:(int)kernelType NS_SWIFT_NAME(setKernel(kernelType:));
 
 
 //
@@ -409,21 +508,28 @@ CV_EXPORTS @interface SVM : StatModel
 
 
 //
-//  double cv::ml::SVM::getC()
+//  Mat cv::ml::SVM::getSupportVectors()
 //
 /**
- * @see `-setC:`
+ * Retrieves all the support vectors
+ *
+ *     The method returns all the support vectors as a floating-point matrix, where support vectors are
+ *     stored as matrix rows.
  */
-- (double)getC NS_SWIFT_NAME(getC());
+- (Mat*)getSupportVectors NS_SWIFT_NAME(getSupportVectors());
 
 
 //
-//  double cv::ml::SVM::getCoef0()
+//  Mat cv::ml::SVM::getUncompressedSupportVectors()
 //
 /**
- * @see `-setCoef0:`
+ * Retrieves all the uncompressed support vectors of a linear %SVM
+ *
+ *     The method returns all the uncompressed support vectors of a linear %SVM that the compressed
+ *     support vector, used for prediction, was derived from. They are returned in a floating-point
+ *     matrix, where the support vectors are stored as matrix rows.
  */
-- (double)getCoef0 NS_SWIFT_NAME(getCoef0());
+- (Mat*)getUncompressedSupportVectors NS_SWIFT_NAME(getUncompressedSupportVectors());
 
 
 //
@@ -449,149 +555,43 @@ CV_EXPORTS @interface SVM : StatModel
 
 
 //
-//  double cv::ml::SVM::getDegree()
+// static Ptr_ParamGrid cv::ml::SVM::getDefaultGridPtr(int param_id)
 //
 /**
- * @see `-setDegree:`
+ * Generates a grid for %SVM parameters.
+ *
+ * @param param_id %SVM parameters IDs that must be one of the SVM::ParamTypes. The grid is
+ *     generated for the parameter with this ID.
+ *
+ *     The function generates a grid pointer for the specified parameter of the %SVM algorithm.
+ *     The grid may be passed to the function SVM::trainAuto.
  */
-- (double)getDegree NS_SWIFT_NAME(getDegree());
++ (ParamGrid*)getDefaultGridPtr:(int)param_id NS_SWIFT_NAME(getDefaultGridPtr(param_id:));
 
 
 //
-//  double cv::ml::SVM::getGamma()
+// static Ptr_SVM cv::ml::SVM::create()
 //
 /**
- * @see `-setGamma:`
+ * Creates empty model.
+ *     Use StatModel::train to train the model. Since %SVM has several parameters, you may want to
+ * find the best parameters for your problem, it can be done with SVM::trainAuto.
  */
-- (double)getGamma NS_SWIFT_NAME(getGamma());
++ (SVM*)create NS_SWIFT_NAME(create());
 
 
 //
-//  double cv::ml::SVM::getNu()
+// static Ptr_SVM cv::ml::SVM::load(String filepath)
 //
 /**
- * @see `-setNu:`
+ * Loads and creates a serialized svm from a file
+ *
+ * Use SVM::save to serialize and store an SVM to disk.
+ * Load the SVM from this file again, by calling this function with the path to the file.
+ *
+ * @param filepath path to serialized svm
  */
-- (double)getNu NS_SWIFT_NAME(getNu());
-
-
-//
-//  double cv::ml::SVM::getP()
-//
-/**
- * @see `-setP:`
- */
-- (double)getP NS_SWIFT_NAME(getP());
-
-
-//
-//  int cv::ml::SVM::getKernelType()
-//
-/**
- * Type of a %SVM kernel.
- * See SVM::KernelTypes. Default value is SVM::RBF.
- */
-- (int)getKernelType NS_SWIFT_NAME(getKernelType());
-
-
-//
-//  int cv::ml::SVM::getType()
-//
-/**
- * @see `-setType:`
- */
-- (int)getType NS_SWIFT_NAME(getType());
-
-
-//
-//  void cv::ml::SVM::setC(double val)
-//
-/**
- *  getC @see `-getC:`
- */
-- (void)setC:(double)val NS_SWIFT_NAME(setC(val:));
-
-
-//
-//  void cv::ml::SVM::setClassWeights(Mat val)
-//
-/**
- *  getClassWeights @see `-getClassWeights:`
- */
-- (void)setClassWeights:(Mat*)val NS_SWIFT_NAME(setClassWeights(val:));
-
-
-//
-//  void cv::ml::SVM::setCoef0(double val)
-//
-/**
- *  getCoef0 @see `-getCoef0:`
- */
-- (void)setCoef0:(double)val NS_SWIFT_NAME(setCoef0(val:));
-
-
-//
-//  void cv::ml::SVM::setDegree(double val)
-//
-/**
- *  getDegree @see `-getDegree:`
- */
-- (void)setDegree:(double)val NS_SWIFT_NAME(setDegree(val:));
-
-
-//
-//  void cv::ml::SVM::setGamma(double val)
-//
-/**
- *  getGamma @see `-getGamma:`
- */
-- (void)setGamma:(double)val NS_SWIFT_NAME(setGamma(val:));
-
-
-//
-//  void cv::ml::SVM::setKernel(int kernelType)
-//
-/**
- * Initialize with one of predefined kernels.
- * See SVM::KernelTypes.
- */
-- (void)setKernel:(int)kernelType NS_SWIFT_NAME(setKernel(kernelType:));
-
-
-//
-//  void cv::ml::SVM::setNu(double val)
-//
-/**
- *  getNu @see `-getNu:`
- */
-- (void)setNu:(double)val NS_SWIFT_NAME(setNu(val:));
-
-
-//
-//  void cv::ml::SVM::setP(double val)
-//
-/**
- *  getP @see `-getP:`
- */
-- (void)setP:(double)val NS_SWIFT_NAME(setP(val:));
-
-
-//
-//  void cv::ml::SVM::setTermCriteria(TermCriteria val)
-//
-/**
- *  getTermCriteria @see `-getTermCriteria:`
- */
-- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
-
-
-//
-//  void cv::ml::SVM::setType(int val)
-//
-/**
- *  getType @see `-getType:`
- */
-- (void)setType:(int)val NS_SWIFT_NAME(setType(val:));
++ (SVM*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
 
 
 

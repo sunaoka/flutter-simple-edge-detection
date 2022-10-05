@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/background_segm.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,15 +46,41 @@ CV_EXPORTS @interface BackgroundSubtractorKNN : BackgroundSubtractor
 
 
 //
-//  bool cv::BackgroundSubtractorKNN::getDetectShadows()
+//  int cv::BackgroundSubtractorKNN::getHistory()
 //
 /**
- * Returns the shadow detection flag
- *
- *     If true, the algorithm detects shadows and marks them. See createBackgroundSubtractorKNN for
- *     details.
+ * Returns the number of last frames that affect the background model
  */
-- (BOOL)getDetectShadows NS_SWIFT_NAME(getDetectShadows());
+- (int)getHistory NS_SWIFT_NAME(getHistory());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setHistory(int history)
+//
+/**
+ * Sets the number of last frames that affect the background model
+ */
+- (void)setHistory:(int)history NS_SWIFT_NAME(setHistory(history:));
+
+
+//
+//  int cv::BackgroundSubtractorKNN::getNSamples()
+//
+/**
+ * Returns the number of data samples in the background model
+ */
+- (int)getNSamples NS_SWIFT_NAME(getNSamples());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setNSamples(int _nN)
+//
+/**
+ * Sets the number of data samples in the background model.
+ *
+ *     The model needs to be reinitalized to reserve memory.
+ */
+- (void)setNSamples:(int)_nN NS_SWIFT_NAME(setNSamples(_nN:));
 
 
 //
@@ -66,6 +93,78 @@ CV_EXPORTS @interface BackgroundSubtractorKNN : BackgroundSubtractor
  *     close to a data sample.
  */
 - (double)getDist2Threshold NS_SWIFT_NAME(getDist2Threshold());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setDist2Threshold(double _dist2Threshold)
+//
+/**
+ * Sets the threshold on the squared distance
+ */
+- (void)setDist2Threshold:(double)_dist2Threshold NS_SWIFT_NAME(setDist2Threshold(_dist2Threshold:));
+
+
+//
+//  int cv::BackgroundSubtractorKNN::getkNNSamples()
+//
+/**
+ * Returns the number of neighbours, the k in the kNN.
+ *
+ *     K is the number of samples that need to be within dist2Threshold in order to decide that that
+ *     pixel is matching the kNN background model.
+ */
+- (int)getkNNSamples NS_SWIFT_NAME(getkNNSamples());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setkNNSamples(int _nkNN)
+//
+/**
+ * Sets the k in the kNN. How many nearest neighbours need to match.
+ */
+- (void)setkNNSamples:(int)_nkNN NS_SWIFT_NAME(setkNNSamples(_nkNN:));
+
+
+//
+//  bool cv::BackgroundSubtractorKNN::getDetectShadows()
+//
+/**
+ * Returns the shadow detection flag
+ *
+ *     If true, the algorithm detects shadows and marks them. See createBackgroundSubtractorKNN for
+ *     details.
+ */
+- (BOOL)getDetectShadows NS_SWIFT_NAME(getDetectShadows());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setDetectShadows(bool detectShadows)
+//
+/**
+ * Enables or disables shadow detection
+ */
+- (void)setDetectShadows:(BOOL)detectShadows NS_SWIFT_NAME(setDetectShadows(detectShadows:));
+
+
+//
+//  int cv::BackgroundSubtractorKNN::getShadowValue()
+//
+/**
+ * Returns the shadow value
+ *
+ *     Shadow value is the value used to mark shadows in the foreground mask. Default value is 127. Value 0
+ *     in the mask always means background, 255 means foreground.
+ */
+- (int)getShadowValue NS_SWIFT_NAME(getShadowValue());
+
+
+//
+//  void cv::BackgroundSubtractorKNN::setShadowValue(int value)
+//
+/**
+ * Sets the shadow value
+ */
+- (void)setShadowValue:(int)value NS_SWIFT_NAME(setShadowValue(value:));
 
 
 //
@@ -83,110 +182,12 @@ CV_EXPORTS @interface BackgroundSubtractorKNN : BackgroundSubtractor
 
 
 //
-//  int cv::BackgroundSubtractorKNN::getHistory()
-//
-/**
- * Returns the number of last frames that affect the background model
- */
-- (int)getHistory NS_SWIFT_NAME(getHistory());
-
-
-//
-//  int cv::BackgroundSubtractorKNN::getNSamples()
-//
-/**
- * Returns the number of data samples in the background model
- */
-- (int)getNSamples NS_SWIFT_NAME(getNSamples());
-
-
-//
-//  int cv::BackgroundSubtractorKNN::getShadowValue()
-//
-/**
- * Returns the shadow value
- *
- *     Shadow value is the value used to mark shadows in the foreground mask. Default value is 127. Value 0
- *     in the mask always means background, 255 means foreground.
- */
-- (int)getShadowValue NS_SWIFT_NAME(getShadowValue());
-
-
-//
-//  int cv::BackgroundSubtractorKNN::getkNNSamples()
-//
-/**
- * Returns the number of neighbours, the k in the kNN.
- *
- *     K is the number of samples that need to be within dist2Threshold in order to decide that that
- *     pixel is matching the kNN background model.
- */
-- (int)getkNNSamples NS_SWIFT_NAME(getkNNSamples());
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setDetectShadows(bool detectShadows)
-//
-/**
- * Enables or disables shadow detection
- */
-- (void)setDetectShadows:(BOOL)detectShadows NS_SWIFT_NAME(setDetectShadows(detectShadows:));
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setDist2Threshold(double _dist2Threshold)
-//
-/**
- * Sets the threshold on the squared distance
- */
-- (void)setDist2Threshold:(double)_dist2Threshold NS_SWIFT_NAME(setDist2Threshold(_dist2Threshold:));
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setHistory(int history)
-//
-/**
- * Sets the number of last frames that affect the background model
- */
-- (void)setHistory:(int)history NS_SWIFT_NAME(setHistory(history:));
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setNSamples(int _nN)
-//
-/**
- * Sets the number of data samples in the background model.
- *
- *     The model needs to be reinitalized to reserve memory.
- */
-- (void)setNSamples:(int)_nN NS_SWIFT_NAME(setNSamples(_nN:));
-
-
-//
 //  void cv::BackgroundSubtractorKNN::setShadowThreshold(double threshold)
 //
 /**
  * Sets the shadow threshold
  */
 - (void)setShadowThreshold:(double)threshold NS_SWIFT_NAME(setShadowThreshold(threshold:));
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setShadowValue(int value)
-//
-/**
- * Sets the shadow value
- */
-- (void)setShadowValue:(int)value NS_SWIFT_NAME(setShadowValue(value:));
-
-
-//
-//  void cv::BackgroundSubtractorKNN::setkNNSamples(int _nkNN)
-//
-/**
- * Sets the k in the kNN. How many nearest neighbours need to match.
- */
-- (void)setkNNSamples:(int)_nkNN NS_SWIFT_NAME(setkNNSamples(_nkNN:));
 
 
 

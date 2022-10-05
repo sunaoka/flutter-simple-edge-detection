@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/objdetect.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 @class Rect2i;
 
 
-// C++: enum ObjectStatus
+// C++: enum ObjectStatus (cv.DetectionBasedTracker.ObjectStatus)
 typedef NS_ENUM(int, ObjectStatus) {
     DetectionBasedTracker_DETECTED_NOT_SHOWN_YET = 0,
     DetectionBasedTracker_DETECTED = 1,
@@ -32,9 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The Objdetect module
  *
- * Member classes: `BaseCascadeClassifier`, `CascadeClassifier`, `HOGDescriptor`, `QRCodeDetector`
+ * Member classes: `BaseCascadeClassifier`, `CascadeClassifier`, `HOGDescriptor`, `QRCodeEncoder`, `QRCodeEncoderParams`, `QRCodeDetector`, `FaceDetectorYN`, `FaceRecognizerSF`
  *
- * Member enums: `HistogramNormType`, `DescriptorStorageFormat`, `ObjectStatus`
+ * Member enums: `HistogramNormType`, `DescriptorStorageFormat`, `EncodeMode`, `CorrectionLevel`, `ECIEncodings`, `ObjectStatus`, `DisType`
  */
 CV_EXPORTS @interface Objdetect : NSObject
 

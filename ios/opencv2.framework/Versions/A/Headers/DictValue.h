@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dict.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -43,9 +44,9 @@ CV_EXPORTS @interface DictValue : NSObject
 
 
 //
-//   cv::dnn::DictValue::DictValue(String s)
+//   cv::dnn::DictValue::DictValue(int i)
 //
-- (instancetype)initWithS:(NSString*)s;
+- (instancetype)initWithI:(int)i;
 
 
 //
@@ -55,17 +56,9 @@ CV_EXPORTS @interface DictValue : NSObject
 
 
 //
-//   cv::dnn::DictValue::DictValue(int i)
+//   cv::dnn::DictValue::DictValue(String s)
 //
-- (instancetype)initWithI:(int)i;
-
-
-//
-//  String cv::dnn::DictValue::getStringValue(int idx = -1)
-//
-- (NSString*)getStringValue:(int)idx NS_SWIFT_NAME(getStringValue(idx:));
-
-- (NSString*)getStringValue NS_SWIFT_NAME(getStringValue());
+- (instancetype)initWithS:(NSString*)s;
 
 
 //
@@ -75,15 +68,23 @@ CV_EXPORTS @interface DictValue : NSObject
 
 
 //
+//  bool cv::dnn::DictValue::isString()
+//
+- (BOOL)isString NS_SWIFT_NAME(isString());
+
+
+//
 //  bool cv::dnn::DictValue::isReal()
 //
 - (BOOL)isReal NS_SWIFT_NAME(isReal());
 
 
 //
-//  bool cv::dnn::DictValue::isString()
+//  int cv::dnn::DictValue::getIntValue(int idx = -1)
 //
-- (BOOL)isString NS_SWIFT_NAME(isString());
+- (int)getIntValue:(int)idx NS_SWIFT_NAME(getIntValue(idx:));
+
+- (int)getIntValue NS_SWIFT_NAME(getIntValue());
 
 
 //
@@ -95,11 +96,11 @@ CV_EXPORTS @interface DictValue : NSObject
 
 
 //
-//  int cv::dnn::DictValue::getIntValue(int idx = -1)
+//  String cv::dnn::DictValue::getStringValue(int idx = -1)
 //
-- (int)getIntValue:(int)idx NS_SWIFT_NAME(getIntValue(idx:));
+- (NSString*)getStringValue:(int)idx NS_SWIFT_NAME(getStringValue(idx:));
 
-- (int)getIntValue NS_SWIFT_NAME(getIntValue());
+- (NSString*)getStringValue NS_SWIFT_NAME(getStringValue());
 
 
 

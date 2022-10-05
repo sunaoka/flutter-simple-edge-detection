@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/core.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -51,25 +51,6 @@ CV_EXPORTS @interface Algorithm : NSObject
 
 
 //
-//  String cv::Algorithm::getDefaultName()
-//
-/**
- * Returns the algorithm string identifier.
- * This string is used as top level xml/yml node tag when the object is saved to a file or string.
- */
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
-
-
-//
-//  bool cv::Algorithm::empty()
-//
-/**
- * Returns true if the Algorithm is empty (e.g. in the very beginning or after unsuccessful read
- */
-- (BOOL)empty NS_SWIFT_NAME(empty());
-
-
-//
 //  void cv::Algorithm::clear()
 //
 /**
@@ -79,9 +60,24 @@ CV_EXPORTS @interface Algorithm : NSObject
 
 
 //
+//  void cv::Algorithm::write(Ptr_FileStorage fs, String name = String())
+//
+// Unknown type 'Ptr_FileStorage' (I), skipping the function
+
+
+//
 //  void cv::Algorithm::read(FileNode fn)
 //
 // Unknown type 'FileNode' (I), skipping the function
+
+
+//
+//  bool cv::Algorithm::empty()
+//
+/**
+ * Returns true if the Algorithm is empty (e.g. in the very beginning or after unsuccessful read
+ */
+- (BOOL)empty NS_SWIFT_NAME(empty());
 
 
 //
@@ -95,9 +91,13 @@ CV_EXPORTS @interface Algorithm : NSObject
 
 
 //
-//  void cv::Algorithm::write(Ptr_FileStorage fs, String name = String())
+//  String cv::Algorithm::getDefaultName()
 //
-// Unknown type 'Ptr_FileStorage' (I), skipping the function
+/**
+ * Returns the algorithm string identifier.
+ * This string is used as top level xml/yml node tag when the object is saved to a file or string.
+ */
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

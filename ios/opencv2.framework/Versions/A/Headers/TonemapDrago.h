@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -50,27 +50,27 @@ CV_EXPORTS @interface TonemapDrago : Tonemap
 
 
 //
-//  float cv::TonemapDrago::getBias()
-//
-- (float)getBias NS_SWIFT_NAME(getBias());
-
-
-//
 //  float cv::TonemapDrago::getSaturation()
 //
 - (float)getSaturation NS_SWIFT_NAME(getSaturation());
 
 
 //
-//  void cv::TonemapDrago::setBias(float bias)
-//
-- (void)setBias:(float)bias NS_SWIFT_NAME(setBias(bias:));
-
-
-//
 //  void cv::TonemapDrago::setSaturation(float saturation)
 //
 - (void)setSaturation:(float)saturation NS_SWIFT_NAME(setSaturation(saturation:));
+
+
+//
+//  float cv::TonemapDrago::getBias()
+//
+- (float)getBias NS_SWIFT_NAME(getBias());
+
+
+//
+//  void cv::TonemapDrago::setBias(float bias)
+//
+- (void)setBias:(float)bias NS_SWIFT_NAME(setBias(bias:));
 
 
 

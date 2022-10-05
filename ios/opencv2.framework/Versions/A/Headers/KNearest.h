@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 @class Mat;
 
 
-// C++: enum KNearestTypes
+// C++: enum KNearestTypes (cv.ml.KNearest.Types)
 typedef NS_ENUM(int, KNearestTypes) {
     BRUTE_FORCE = 1,
     KDTREE = 2
@@ -51,28 +51,21 @@ CV_EXPORTS @interface KNearest : StatModel
 
 
 //
-// static Ptr_KNearest cv::ml::KNearest::create()
+//  int cv::ml::KNearest::getDefaultK()
 //
 /**
- * Creates the empty model
- *
- *     The static method creates empty %KNearest classifier. It should be then trained using StatModel::train method.
+ * @see `-setDefaultK:`
  */
-+ (KNearest*)create NS_SWIFT_NAME(create());
+- (int)getDefaultK NS_SWIFT_NAME(getDefaultK());
 
 
 //
-// static Ptr_KNearest cv::ml::KNearest::load(String filepath)
+//  void cv::ml::KNearest::setDefaultK(int val)
 //
 /**
- * Loads and creates a serialized knearest from a file
- *
- * Use KNearest::save to serialize and store an KNearest to disk.
- * Load the KNearest from this file again, by calling this function with the path to the file.
- *
- * @param filepath path to serialized KNearest
+ *  getDefaultK @see `-getDefaultK:`
  */
-+ (KNearest*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
+- (void)setDefaultK:(int)val NS_SWIFT_NAME(setDefaultK(val:));
 
 
 //
@@ -82,6 +75,51 @@ CV_EXPORTS @interface KNearest : StatModel
  * @see `-setIsClassifier:`
  */
 - (BOOL)getIsClassifier NS_SWIFT_NAME(getIsClassifier());
+
+
+//
+//  void cv::ml::KNearest::setIsClassifier(bool val)
+//
+/**
+ *  getIsClassifier @see `-getIsClassifier:`
+ */
+- (void)setIsClassifier:(BOOL)val NS_SWIFT_NAME(setIsClassifier(val:));
+
+
+//
+//  int cv::ml::KNearest::getEmax()
+//
+/**
+ * @see `-setEmax:`
+ */
+- (int)getEmax NS_SWIFT_NAME(getEmax());
+
+
+//
+//  void cv::ml::KNearest::setEmax(int val)
+//
+/**
+ *  getEmax @see `-getEmax:`
+ */
+- (void)setEmax:(int)val NS_SWIFT_NAME(setEmax(val:));
+
+
+//
+//  int cv::ml::KNearest::getAlgorithmType()
+//
+/**
+ * @see `-setAlgorithmType:`
+ */
+- (int)getAlgorithmType NS_SWIFT_NAME(getAlgorithmType());
+
+
+//
+//  void cv::ml::KNearest::setAlgorithmType(int val)
+//
+/**
+ *  getAlgorithmType @see `-getAlgorithmType:`
+ */
+- (void)setAlgorithmType:(int)val NS_SWIFT_NAME(setAlgorithmType(val:));
 
 
 //
@@ -173,66 +211,28 @@ CV_EXPORTS @interface KNearest : StatModel
 
 
 //
-//  int cv::ml::KNearest::getAlgorithmType()
+// static Ptr_KNearest cv::ml::KNearest::create()
 //
 /**
- * @see `-setAlgorithmType:`
+ * Creates the empty model
+ *
+ *     The static method creates empty %KNearest classifier. It should be then trained using StatModel::train method.
  */
-- (int)getAlgorithmType NS_SWIFT_NAME(getAlgorithmType());
++ (KNearest*)create NS_SWIFT_NAME(create());
 
 
 //
-//  int cv::ml::KNearest::getDefaultK()
+// static Ptr_KNearest cv::ml::KNearest::load(String filepath)
 //
 /**
- * @see `-setDefaultK:`
+ * Loads and creates a serialized knearest from a file
+ *
+ * Use KNearest::save to serialize and store an KNearest to disk.
+ * Load the KNearest from this file again, by calling this function with the path to the file.
+ *
+ * @param filepath path to serialized KNearest
  */
-- (int)getDefaultK NS_SWIFT_NAME(getDefaultK());
-
-
-//
-//  int cv::ml::KNearest::getEmax()
-//
-/**
- * @see `-setEmax:`
- */
-- (int)getEmax NS_SWIFT_NAME(getEmax());
-
-
-//
-//  void cv::ml::KNearest::setAlgorithmType(int val)
-//
-/**
- *  getAlgorithmType @see `-getAlgorithmType:`
- */
-- (void)setAlgorithmType:(int)val NS_SWIFT_NAME(setAlgorithmType(val:));
-
-
-//
-//  void cv::ml::KNearest::setDefaultK(int val)
-//
-/**
- *  getDefaultK @see `-getDefaultK:`
- */
-- (void)setDefaultK:(int)val NS_SWIFT_NAME(setDefaultK(val:));
-
-
-//
-//  void cv::ml::KNearest::setEmax(int val)
-//
-/**
- *  getEmax @see `-getEmax:`
- */
-- (void)setEmax:(int)val NS_SWIFT_NAME(setEmax(val:));
-
-
-//
-//  void cv::ml::KNearest::setIsClassifier(bool val)
-//
-/**
- *  getIsClassifier @see `-getIsClassifier:`
- */
-- (void)setIsClassifier:(BOOL)val NS_SWIFT_NAME(setIsClassifier(val:));
++ (KNearest*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
 
 
 

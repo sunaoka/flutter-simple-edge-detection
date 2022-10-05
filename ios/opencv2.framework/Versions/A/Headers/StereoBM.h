@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/calib3d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -46,6 +46,102 @@ CV_EXPORTS @interface StereoBM : StereoMatcher
 @property (class, readonly) int PREFILTER_XSOBEL NS_SWIFT_NAME(PREFILTER_XSOBEL);
 
 #pragma mark - Methods
+
+
+//
+//  int cv::StereoBM::getPreFilterType()
+//
+- (int)getPreFilterType NS_SWIFT_NAME(getPreFilterType());
+
+
+//
+//  void cv::StereoBM::setPreFilterType(int preFilterType)
+//
+- (void)setPreFilterType:(int)preFilterType NS_SWIFT_NAME(setPreFilterType(preFilterType:));
+
+
+//
+//  int cv::StereoBM::getPreFilterSize()
+//
+- (int)getPreFilterSize NS_SWIFT_NAME(getPreFilterSize());
+
+
+//
+//  void cv::StereoBM::setPreFilterSize(int preFilterSize)
+//
+- (void)setPreFilterSize:(int)preFilterSize NS_SWIFT_NAME(setPreFilterSize(preFilterSize:));
+
+
+//
+//  int cv::StereoBM::getPreFilterCap()
+//
+- (int)getPreFilterCap NS_SWIFT_NAME(getPreFilterCap());
+
+
+//
+//  void cv::StereoBM::setPreFilterCap(int preFilterCap)
+//
+- (void)setPreFilterCap:(int)preFilterCap NS_SWIFT_NAME(setPreFilterCap(preFilterCap:));
+
+
+//
+//  int cv::StereoBM::getTextureThreshold()
+//
+- (int)getTextureThreshold NS_SWIFT_NAME(getTextureThreshold());
+
+
+//
+//  void cv::StereoBM::setTextureThreshold(int textureThreshold)
+//
+- (void)setTextureThreshold:(int)textureThreshold NS_SWIFT_NAME(setTextureThreshold(textureThreshold:));
+
+
+//
+//  int cv::StereoBM::getUniquenessRatio()
+//
+- (int)getUniquenessRatio NS_SWIFT_NAME(getUniquenessRatio());
+
+
+//
+//  void cv::StereoBM::setUniquenessRatio(int uniquenessRatio)
+//
+- (void)setUniquenessRatio:(int)uniquenessRatio NS_SWIFT_NAME(setUniquenessRatio(uniquenessRatio:));
+
+
+//
+//  int cv::StereoBM::getSmallerBlockSize()
+//
+- (int)getSmallerBlockSize NS_SWIFT_NAME(getSmallerBlockSize());
+
+
+//
+//  void cv::StereoBM::setSmallerBlockSize(int blockSize)
+//
+- (void)setSmallerBlockSize:(int)blockSize NS_SWIFT_NAME(setSmallerBlockSize(blockSize:));
+
+
+//
+//  Rect cv::StereoBM::getROI1()
+//
+- (Rect2i*)getROI1 NS_SWIFT_NAME(getROI1());
+
+
+//
+//  void cv::StereoBM::setROI1(Rect roi1)
+//
+- (void)setROI1:(Rect2i*)roi1 NS_SWIFT_NAME(setROI1(roi1:));
+
+
+//
+//  Rect cv::StereoBM::getROI2()
+//
+- (Rect2i*)getROI2 NS_SWIFT_NAME(getROI2());
+
+
+//
+//  void cv::StereoBM::setROI2(Rect roi2)
+//
+- (void)setROI2:(Rect2i*)roi2 NS_SWIFT_NAME(setROI2(roi2:));
 
 
 //
@@ -95,102 +191,6 @@ CV_EXPORTS @interface StereoBM : StereoMatcher
  *     a specific stereo pair.
  */
 + (StereoBM*)create NS_SWIFT_NAME(create());
-
-
-//
-//  Rect cv::StereoBM::getROI1()
-//
-- (Rect2i*)getROI1 NS_SWIFT_NAME(getROI1());
-
-
-//
-//  Rect cv::StereoBM::getROI2()
-//
-- (Rect2i*)getROI2 NS_SWIFT_NAME(getROI2());
-
-
-//
-//  int cv::StereoBM::getPreFilterCap()
-//
-- (int)getPreFilterCap NS_SWIFT_NAME(getPreFilterCap());
-
-
-//
-//  int cv::StereoBM::getPreFilterSize()
-//
-- (int)getPreFilterSize NS_SWIFT_NAME(getPreFilterSize());
-
-
-//
-//  int cv::StereoBM::getPreFilterType()
-//
-- (int)getPreFilterType NS_SWIFT_NAME(getPreFilterType());
-
-
-//
-//  int cv::StereoBM::getSmallerBlockSize()
-//
-- (int)getSmallerBlockSize NS_SWIFT_NAME(getSmallerBlockSize());
-
-
-//
-//  int cv::StereoBM::getTextureThreshold()
-//
-- (int)getTextureThreshold NS_SWIFT_NAME(getTextureThreshold());
-
-
-//
-//  int cv::StereoBM::getUniquenessRatio()
-//
-- (int)getUniquenessRatio NS_SWIFT_NAME(getUniquenessRatio());
-
-
-//
-//  void cv::StereoBM::setPreFilterCap(int preFilterCap)
-//
-- (void)setPreFilterCap:(int)preFilterCap NS_SWIFT_NAME(setPreFilterCap(preFilterCap:));
-
-
-//
-//  void cv::StereoBM::setPreFilterSize(int preFilterSize)
-//
-- (void)setPreFilterSize:(int)preFilterSize NS_SWIFT_NAME(setPreFilterSize(preFilterSize:));
-
-
-//
-//  void cv::StereoBM::setPreFilterType(int preFilterType)
-//
-- (void)setPreFilterType:(int)preFilterType NS_SWIFT_NAME(setPreFilterType(preFilterType:));
-
-
-//
-//  void cv::StereoBM::setROI1(Rect roi1)
-//
-- (void)setROI1:(Rect2i*)roi1 NS_SWIFT_NAME(setROI1(roi1:));
-
-
-//
-//  void cv::StereoBM::setROI2(Rect roi2)
-//
-- (void)setROI2:(Rect2i*)roi2 NS_SWIFT_NAME(setROI2(roi2:));
-
-
-//
-//  void cv::StereoBM::setSmallerBlockSize(int blockSize)
-//
-- (void)setSmallerBlockSize:(int)blockSize NS_SWIFT_NAME(setSmallerBlockSize(blockSize:));
-
-
-//
-//  void cv::StereoBM::setTextureThreshold(int textureThreshold)
-//
-- (void)setTextureThreshold:(int)textureThreshold NS_SWIFT_NAME(setTextureThreshold(textureThreshold:));
-
-
-//
-//  void cv::StereoBM::setUniquenessRatio(int uniquenessRatio)
-//
-- (void)setUniquenessRatio:(int)uniquenessRatio NS_SWIFT_NAME(setUniquenessRatio(uniquenessRatio:));
 
 
 

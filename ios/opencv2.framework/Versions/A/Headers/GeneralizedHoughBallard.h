@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/imgproc.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -44,27 +44,27 @@ CV_EXPORTS @interface GeneralizedHoughBallard : GeneralizedHough
 
 
 //
-//  int cv::GeneralizedHoughBallard::getLevels()
-//
-- (int)getLevels NS_SWIFT_NAME(getLevels());
-
-
-//
-//  int cv::GeneralizedHoughBallard::getVotesThreshold()
-//
-- (int)getVotesThreshold NS_SWIFT_NAME(getVotesThreshold());
-
-
-//
 //  void cv::GeneralizedHoughBallard::setLevels(int levels)
 //
 - (void)setLevels:(int)levels NS_SWIFT_NAME(setLevels(levels:));
 
 
 //
+//  int cv::GeneralizedHoughBallard::getLevels()
+//
+- (int)getLevels NS_SWIFT_NAME(getLevels());
+
+
+//
 //  void cv::GeneralizedHoughBallard::setVotesThreshold(int votesThreshold)
 //
 - (void)setVotesThreshold:(int)votesThreshold NS_SWIFT_NAME(setVotesThreshold(votesThreshold:));
+
+
+//
+//  int cv::GeneralizedHoughBallard::getVotesThreshold()
+//
+- (int)getVotesThreshold NS_SWIFT_NAME(getVotesThreshold());
 
 
 

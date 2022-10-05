@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,18 +45,6 @@ CV_EXPORTS @interface CalibrateRobertson : CalibrateCRF
 
 
 //
-//  Mat cv::CalibrateRobertson::getRadiance()
-//
-- (Mat*)getRadiance NS_SWIFT_NAME(getRadiance());
-
-
-//
-//  float cv::CalibrateRobertson::getThreshold()
-//
-- (float)getThreshold NS_SWIFT_NAME(getThreshold());
-
-
-//
 //  int cv::CalibrateRobertson::getMaxIter()
 //
 - (int)getMaxIter NS_SWIFT_NAME(getMaxIter());
@@ -69,9 +57,21 @@ CV_EXPORTS @interface CalibrateRobertson : CalibrateCRF
 
 
 //
+//  float cv::CalibrateRobertson::getThreshold()
+//
+- (float)getThreshold NS_SWIFT_NAME(getThreshold());
+
+
+//
 //  void cv::CalibrateRobertson::setThreshold(float threshold)
 //
 - (void)setThreshold:(float)threshold NS_SWIFT_NAME(setThreshold(threshold:));
+
+
+//
+//  Mat cv::CalibrateRobertson::getRadiance()
+//
+- (Mat*)getRadiance NS_SWIFT_NAME(getRadiance());
 
 
 

@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -49,56 +49,45 @@ CV_EXPORTS @interface TrainData : NSObject
 
 
 //
-//  Mat cv::ml::TrainData::getCatMap()
+//  int cv::ml::TrainData::getLayout()
 //
-- (Mat*)getCatMap NS_SWIFT_NAME(getCatMap());
+- (int)getLayout NS_SWIFT_NAME(getLayout());
 
 
 //
-//  Mat cv::ml::TrainData::getCatOfs()
+//  int cv::ml::TrainData::getNTrainSamples()
 //
-- (Mat*)getCatOfs NS_SWIFT_NAME(getCatOfs());
+- (int)getNTrainSamples NS_SWIFT_NAME(getNTrainSamples());
 
 
 //
-//  Mat cv::ml::TrainData::getClassLabels()
+//  int cv::ml::TrainData::getNTestSamples()
 //
-/**
- * Returns the vector of class labels
- *
- *     The function returns vector of unique labels occurred in the responses.
- */
-- (Mat*)getClassLabels NS_SWIFT_NAME(getClassLabels());
+- (int)getNTestSamples NS_SWIFT_NAME(getNTestSamples());
 
 
 //
-//  Mat cv::ml::TrainData::getDefaultSubstValues()
+//  int cv::ml::TrainData::getNSamples()
 //
-- (Mat*)getDefaultSubstValues NS_SWIFT_NAME(getDefaultSubstValues());
+- (int)getNSamples NS_SWIFT_NAME(getNSamples());
 
 
 //
-//  Mat cv::ml::TrainData::getMissing()
+//  int cv::ml::TrainData::getNVars()
 //
-- (Mat*)getMissing NS_SWIFT_NAME(getMissing());
+- (int)getNVars NS_SWIFT_NAME(getNVars());
 
 
 //
-//  Mat cv::ml::TrainData::getNormCatResponses()
+//  int cv::ml::TrainData::getNAllVars()
 //
-- (Mat*)getNormCatResponses NS_SWIFT_NAME(getNormCatResponses());
+- (int)getNAllVars NS_SWIFT_NAME(getNAllVars());
 
 
 //
-//  Mat cv::ml::TrainData::getResponses()
+//  void cv::ml::TrainData::getSample(Mat varIdx, int sidx, float* buf)
 //
-- (Mat*)getResponses NS_SWIFT_NAME(getResponses());
-
-
-//
-//  Mat cv::ml::TrainData::getSampleWeights()
-//
-- (Mat*)getSampleWeights NS_SWIFT_NAME(getSampleWeights());
+- (void)getSample:(Mat*)varIdx sidx:(int)sidx buf:(float)buf NS_SWIFT_NAME(getSample(varIdx:sidx:buf:));
 
 
 //
@@ -108,96 +97,9 @@ CV_EXPORTS @interface TrainData : NSObject
 
 
 //
-// static Mat cv::ml::TrainData::getSubMatrix(Mat matrix, Mat idx, int layout)
+//  Mat cv::ml::TrainData::getMissing()
 //
-/**
- * Extract from matrix rows/cols specified by passed indexes.
- * @param matrix input matrix (supported types: CV_32S, CV_32F, CV_64F)
- * @param idx 1D index vector
- * @param layout specifies to extract rows (cv::ml::ROW_SAMPLES) or to extract columns (cv::ml::COL_SAMPLES)
- */
-+ (Mat*)getSubMatrix:(Mat*)matrix idx:(Mat*)idx layout:(int)layout NS_SWIFT_NAME(getSubMatrix(matrix:idx:layout:));
-
-
-//
-// static Mat cv::ml::TrainData::getSubVector(Mat vec, Mat idx)
-//
-/**
- * Extract from 1D vector elements specified by passed indexes.
- * @param vec input vector (supported types: CV_32S, CV_32F, CV_64F)
- * @param idx 1D index vector
- */
-+ (Mat*)getSubVector:(Mat*)vec idx:(Mat*)idx NS_SWIFT_NAME(getSubVector(vec:idx:));
-
-
-//
-//  Mat cv::ml::TrainData::getTestNormCatResponses()
-//
-- (Mat*)getTestNormCatResponses NS_SWIFT_NAME(getTestNormCatResponses());
-
-
-//
-//  Mat cv::ml::TrainData::getTestResponses()
-//
-- (Mat*)getTestResponses NS_SWIFT_NAME(getTestResponses());
-
-
-//
-//  Mat cv::ml::TrainData::getTestSampleIdx()
-//
-- (Mat*)getTestSampleIdx NS_SWIFT_NAME(getTestSampleIdx());
-
-
-//
-//  Mat cv::ml::TrainData::getTestSampleWeights()
-//
-- (Mat*)getTestSampleWeights NS_SWIFT_NAME(getTestSampleWeights());
-
-
-//
-//  Mat cv::ml::TrainData::getTestSamples()
-//
-/**
- * Returns matrix of test samples
- */
-- (Mat*)getTestSamples NS_SWIFT_NAME(getTestSamples());
-
-
-//
-//  Mat cv::ml::TrainData::getTrainNormCatResponses()
-//
-/**
- * Returns the vector of normalized categorical responses
- *
- *     The function returns vector of responses. Each response is integer from `0` to `<number of
- *     classes>-1`. The actual label value can be retrieved then from the class label vector, see
- *     TrainData::getClassLabels.
- */
-- (Mat*)getTrainNormCatResponses NS_SWIFT_NAME(getTrainNormCatResponses());
-
-
-//
-//  Mat cv::ml::TrainData::getTrainResponses()
-//
-/**
- * Returns the vector of responses
- *
- *     The function returns ordered or the original categorical responses. Usually it's used in
- *     regression algorithms.
- */
-- (Mat*)getTrainResponses NS_SWIFT_NAME(getTrainResponses());
-
-
-//
-//  Mat cv::ml::TrainData::getTrainSampleIdx()
-//
-- (Mat*)getTrainSampleIdx NS_SWIFT_NAME(getTrainSampleIdx());
-
-
-//
-//  Mat cv::ml::TrainData::getTrainSampleWeights()
-//
-- (Mat*)getTrainSampleWeights NS_SWIFT_NAME(getTrainSampleWeights());
+- (Mat*)getMissing NS_SWIFT_NAME(getMissing());
 
 
 //
@@ -259,9 +161,82 @@ CV_EXPORTS @interface TrainData : NSObject
 
 
 //
+//  Mat cv::ml::TrainData::getTrainResponses()
+//
+/**
+ * Returns the vector of responses
+ *
+ *     The function returns ordered or the original categorical responses. Usually it's used in
+ *     regression algorithms.
+ */
+- (Mat*)getTrainResponses NS_SWIFT_NAME(getTrainResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getTrainNormCatResponses()
+//
+/**
+ * Returns the vector of normalized categorical responses
+ *
+ *     The function returns vector of responses. Each response is integer from `0` to `<number of
+ *     classes>-1`. The actual label value can be retrieved then from the class label vector, see
+ *     TrainData::getClassLabels.
+ */
+- (Mat*)getTrainNormCatResponses NS_SWIFT_NAME(getTrainNormCatResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getTestResponses()
+//
+- (Mat*)getTestResponses NS_SWIFT_NAME(getTestResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getTestNormCatResponses()
+//
+- (Mat*)getTestNormCatResponses NS_SWIFT_NAME(getTestNormCatResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getResponses()
+//
+- (Mat*)getResponses NS_SWIFT_NAME(getResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getNormCatResponses()
+//
+- (Mat*)getNormCatResponses NS_SWIFT_NAME(getNormCatResponses());
+
+
+//
+//  Mat cv::ml::TrainData::getSampleWeights()
+//
+- (Mat*)getSampleWeights NS_SWIFT_NAME(getSampleWeights());
+
+
+//
+//  Mat cv::ml::TrainData::getTrainSampleWeights()
+//
+- (Mat*)getTrainSampleWeights NS_SWIFT_NAME(getTrainSampleWeights());
+
+
+//
+//  Mat cv::ml::TrainData::getTestSampleWeights()
+//
+- (Mat*)getTestSampleWeights NS_SWIFT_NAME(getTestSampleWeights());
+
+
+//
 //  Mat cv::ml::TrainData::getVarIdx()
 //
 - (Mat*)getVarIdx NS_SWIFT_NAME(getVarIdx());
+
+
+//
+//  Mat cv::ml::TrainData::getVarType()
+//
+- (Mat*)getVarType NS_SWIFT_NAME(getVarType());
 
 
 //
@@ -271,9 +246,151 @@ CV_EXPORTS @interface TrainData : NSObject
 
 
 //
-//  Mat cv::ml::TrainData::getVarType()
+//  int cv::ml::TrainData::getResponseType()
 //
-- (Mat*)getVarType NS_SWIFT_NAME(getVarType());
+- (int)getResponseType NS_SWIFT_NAME(getResponseType());
+
+
+//
+//  Mat cv::ml::TrainData::getTrainSampleIdx()
+//
+- (Mat*)getTrainSampleIdx NS_SWIFT_NAME(getTrainSampleIdx());
+
+
+//
+//  Mat cv::ml::TrainData::getTestSampleIdx()
+//
+- (Mat*)getTestSampleIdx NS_SWIFT_NAME(getTestSampleIdx());
+
+
+//
+//  void cv::ml::TrainData::getValues(int vi, Mat sidx, float* values)
+//
+- (void)getValues:(int)vi sidx:(Mat*)sidx values:(float)values NS_SWIFT_NAME(getValues(vi:sidx:values:));
+
+
+//
+//  Mat cv::ml::TrainData::getDefaultSubstValues()
+//
+- (Mat*)getDefaultSubstValues NS_SWIFT_NAME(getDefaultSubstValues());
+
+
+//
+//  int cv::ml::TrainData::getCatCount(int vi)
+//
+- (int)getCatCount:(int)vi NS_SWIFT_NAME(getCatCount(vi:));
+
+
+//
+//  Mat cv::ml::TrainData::getClassLabels()
+//
+/**
+ * Returns the vector of class labels
+ *
+ *     The function returns vector of unique labels occurred in the responses.
+ */
+- (Mat*)getClassLabels NS_SWIFT_NAME(getClassLabels());
+
+
+//
+//  Mat cv::ml::TrainData::getCatOfs()
+//
+- (Mat*)getCatOfs NS_SWIFT_NAME(getCatOfs());
+
+
+//
+//  Mat cv::ml::TrainData::getCatMap()
+//
+- (Mat*)getCatMap NS_SWIFT_NAME(getCatMap());
+
+
+//
+//  void cv::ml::TrainData::setTrainTestSplit(int count, bool shuffle = true)
+//
+/**
+ * Splits the training data into the training and test parts
+ *     @see `-setTrainTestSplitRatio:shuffle:`
+ */
+- (void)setTrainTestSplit:(int)count shuffle:(BOOL)shuffle NS_SWIFT_NAME(setTrainTestSplit(count:shuffle:));
+
+/**
+ * Splits the training data into the training and test parts
+ *     @see `-setTrainTestSplitRatio:shuffle:`
+ */
+- (void)setTrainTestSplit:(int)count NS_SWIFT_NAME(setTrainTestSplit(count:));
+
+
+//
+//  void cv::ml::TrainData::setTrainTestSplitRatio(double ratio, bool shuffle = true)
+//
+/**
+ * Splits the training data into the training and test parts
+ *
+ *     The function selects a subset of specified relative size and then returns it as the training
+ *     set. If the function is not called, all the data is used for training. Please, note that for
+ *     each of TrainData::getTrain\* there is corresponding TrainData::getTest\*, so that the test
+ *     subset can be retrieved and processed as well.
+ *     @see `-setTrainTestSplit:shuffle:`
+ */
+- (void)setTrainTestSplitRatio:(double)ratio shuffle:(BOOL)shuffle NS_SWIFT_NAME(setTrainTestSplitRatio(ratio:shuffle:));
+
+/**
+ * Splits the training data into the training and test parts
+ *
+ *     The function selects a subset of specified relative size and then returns it as the training
+ *     set. If the function is not called, all the data is used for training. Please, note that for
+ *     each of TrainData::getTrain\* there is corresponding TrainData::getTest\*, so that the test
+ *     subset can be retrieved and processed as well.
+ *     @see `-setTrainTestSplit:shuffle:`
+ */
+- (void)setTrainTestSplitRatio:(double)ratio NS_SWIFT_NAME(setTrainTestSplitRatio(ratio:));
+
+
+//
+//  void cv::ml::TrainData::shuffleTrainTest()
+//
+- (void)shuffleTrainTest NS_SWIFT_NAME(shuffleTrainTest());
+
+
+//
+//  Mat cv::ml::TrainData::getTestSamples()
+//
+/**
+ * Returns matrix of test samples
+ */
+- (Mat*)getTestSamples NS_SWIFT_NAME(getTestSamples());
+
+
+//
+//  void cv::ml::TrainData::getNames(vector_String names)
+//
+/**
+ * Returns vector of symbolic names captured in loadFromCSV()
+ */
+- (void)getNames:(NSArray<NSString*>*)names NS_SWIFT_NAME(getNames(names:));
+
+
+//
+// static Mat cv::ml::TrainData::getSubVector(Mat vec, Mat idx)
+//
+/**
+ * Extract from 1D vector elements specified by passed indexes.
+ * @param vec input vector (supported types: CV_32S, CV_32F, CV_64F)
+ * @param idx 1D index vector
+ */
++ (Mat*)getSubVector:(Mat*)vec idx:(Mat*)idx NS_SWIFT_NAME(getSubVector(vec:idx:));
+
+
+//
+// static Mat cv::ml::TrainData::getSubMatrix(Mat matrix, Mat idx, int layout)
+//
+/**
+ * Extract from matrix rows/cols specified by passed indexes.
+ * @param matrix input matrix (supported types: CV_32S, CV_32F, CV_64F)
+ * @param idx 1D index vector
+ * @param layout specifies to extract rows (cv::ml::ROW_SAMPLES) or to extract columns (cv::ml::COL_SAMPLES)
+ */
++ (Mat*)getSubMatrix:(Mat*)matrix idx:(Mat*)idx layout:(int)layout NS_SWIFT_NAME(getSubMatrix(matrix:idx:layout:));
 
 
 //
@@ -378,123 +495,6 @@ CV_EXPORTS @interface TrainData : NSObject
  *         ml::VariableTypes.
  */
 + (TrainData*)create:(Mat*)samples layout:(int)layout responses:(Mat*)responses NS_SWIFT_NAME(create(samples:layout:responses:));
-
-
-//
-//  int cv::ml::TrainData::getCatCount(int vi)
-//
-- (int)getCatCount:(int)vi NS_SWIFT_NAME(getCatCount(vi:));
-
-
-//
-//  int cv::ml::TrainData::getLayout()
-//
-- (int)getLayout NS_SWIFT_NAME(getLayout());
-
-
-//
-//  int cv::ml::TrainData::getNAllVars()
-//
-- (int)getNAllVars NS_SWIFT_NAME(getNAllVars());
-
-
-//
-//  int cv::ml::TrainData::getNSamples()
-//
-- (int)getNSamples NS_SWIFT_NAME(getNSamples());
-
-
-//
-//  int cv::ml::TrainData::getNTestSamples()
-//
-- (int)getNTestSamples NS_SWIFT_NAME(getNTestSamples());
-
-
-//
-//  int cv::ml::TrainData::getNTrainSamples()
-//
-- (int)getNTrainSamples NS_SWIFT_NAME(getNTrainSamples());
-
-
-//
-//  int cv::ml::TrainData::getNVars()
-//
-- (int)getNVars NS_SWIFT_NAME(getNVars());
-
-
-//
-//  int cv::ml::TrainData::getResponseType()
-//
-- (int)getResponseType NS_SWIFT_NAME(getResponseType());
-
-
-//
-//  void cv::ml::TrainData::getNames(vector_String names)
-//
-/**
- * Returns vector of symbolic names captured in loadFromCSV()
- */
-- (void)getNames:(NSArray<NSString*>*)names NS_SWIFT_NAME(getNames(names:));
-
-
-//
-//  void cv::ml::TrainData::getSample(Mat varIdx, int sidx, float* buf)
-//
-- (void)getSample:(Mat*)varIdx sidx:(int)sidx buf:(float)buf NS_SWIFT_NAME(getSample(varIdx:sidx:buf:));
-
-
-//
-//  void cv::ml::TrainData::getValues(int vi, Mat sidx, float* values)
-//
-- (void)getValues:(int)vi sidx:(Mat*)sidx values:(float)values NS_SWIFT_NAME(getValues(vi:sidx:values:));
-
-
-//
-//  void cv::ml::TrainData::setTrainTestSplit(int count, bool shuffle = true)
-//
-/**
- * Splits the training data into the training and test parts
- *     @see `-setTrainTestSplitRatio:shuffle:`
- */
-- (void)setTrainTestSplit:(int)count shuffle:(BOOL)shuffle NS_SWIFT_NAME(setTrainTestSplit(count:shuffle:));
-
-/**
- * Splits the training data into the training and test parts
- *     @see `-setTrainTestSplitRatio:shuffle:`
- */
-- (void)setTrainTestSplit:(int)count NS_SWIFT_NAME(setTrainTestSplit(count:));
-
-
-//
-//  void cv::ml::TrainData::setTrainTestSplitRatio(double ratio, bool shuffle = true)
-//
-/**
- * Splits the training data into the training and test parts
- *
- *     The function selects a subset of specified relative size and then returns it as the training
- *     set. If the function is not called, all the data is used for training. Please, note that for
- *     each of TrainData::getTrain\* there is corresponding TrainData::getTest\*, so that the test
- *     subset can be retrieved and processed as well.
- *     @see `-setTrainTestSplit:shuffle:`
- */
-- (void)setTrainTestSplitRatio:(double)ratio shuffle:(BOOL)shuffle NS_SWIFT_NAME(setTrainTestSplitRatio(ratio:shuffle:));
-
-/**
- * Splits the training data into the training and test parts
- *
- *     The function selects a subset of specified relative size and then returns it as the training
- *     set. If the function is not called, all the data is used for training. Please, note that for
- *     each of TrainData::getTrain\* there is corresponding TrainData::getTest\*, so that the test
- *     subset can be retrieved and processed as well.
- *     @see `-setTrainTestSplit:shuffle:`
- */
-- (void)setTrainTestSplitRatio:(double)ratio NS_SWIFT_NAME(setTrainTestSplitRatio(ratio:));
-
-
-//
-//  void cv::ml::TrainData::shuffleTrainTest()
-//
-- (void)shuffleTrainTest NS_SWIFT_NAME(shuffleTrainTest());
 
 
 

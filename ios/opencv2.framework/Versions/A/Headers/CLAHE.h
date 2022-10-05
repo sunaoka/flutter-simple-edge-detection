@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/imgproc.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -43,18 +43,6 @@ CV_EXPORTS @interface CLAHE : Algorithm
 
 
 //
-//  Size cv::CLAHE::getTilesGridSize()
-//
-- (Size2i*)getTilesGridSize NS_SWIFT_NAME(getTilesGridSize());
-
-
-//
-//  double cv::CLAHE::getClipLimit()
-//
-- (double)getClipLimit NS_SWIFT_NAME(getClipLimit());
-
-
-//
 //  void cv::CLAHE::apply(Mat src, Mat& dst)
 //
 /**
@@ -64,12 +52,6 @@ CV_EXPORTS @interface CLAHE : Algorithm
  * @param dst Destination image.
  */
 - (void)apply:(Mat*)src dst:(Mat*)dst NS_SWIFT_NAME(apply(src:dst:));
-
-
-//
-//  void cv::CLAHE::collectGarbage()
-//
-- (void)collectGarbage NS_SWIFT_NAME(collectGarbage());
 
 
 //
@@ -84,6 +66,12 @@ CV_EXPORTS @interface CLAHE : Algorithm
 
 
 //
+//  double cv::CLAHE::getClipLimit()
+//
+- (double)getClipLimit NS_SWIFT_NAME(getClipLimit());
+
+
+//
 //  void cv::CLAHE::setTilesGridSize(Size tileGridSize)
 //
 /**
@@ -93,6 +81,18 @@ CV_EXPORTS @interface CLAHE : Algorithm
  * @param tileGridSize defines the number of tiles in row and column.
  */
 - (void)setTilesGridSize:(Size2i*)tileGridSize NS_SWIFT_NAME(setTilesGridSize(tileGridSize:));
+
+
+//
+//  Size cv::CLAHE::getTilesGridSize()
+//
+- (Size2i*)getTilesGridSize NS_SWIFT_NAME(getTilesGridSize());
+
+
+//
+//  void cv::CLAHE::collectGarbage()
+//
+- (void)collectGarbage NS_SWIFT_NAME(collectGarbage());
 
 
 

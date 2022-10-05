@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -42,12 +42,6 @@ CV_EXPORTS @interface Tonemap : Algorithm
 
 
 //
-//  float cv::Tonemap::getGamma()
-//
-- (float)getGamma NS_SWIFT_NAME(getGamma());
-
-
-//
 //  void cv::Tonemap::process(Mat src, Mat& dst)
 //
 /**
@@ -57,6 +51,12 @@ CV_EXPORTS @interface Tonemap : Algorithm
  * @param dst destination image - CV_32FC3 Mat with values in [0, 1] range
  */
 - (void)process:(Mat*)src dst:(Mat*)dst NS_SWIFT_NAME(process(src:dst:));
+
+
+//
+//  float cv::Tonemap::getGamma()
+//
+- (float)getGamma NS_SWIFT_NAME(getGamma());
 
 
 //

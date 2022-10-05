@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -57,12 +57,36 @@ CV_EXPORTS @interface BOWImgDescriptorExtractor : NSObject
 
 
 //
+//  void cv::BOWImgDescriptorExtractor::setVocabulary(Mat vocabulary)
+//
+/**
+ * Sets a visual vocabulary.
+ *
+ * @param vocabulary Vocabulary (can be trained using the inheritor of BOWTrainer ). Each row of the
+ *     vocabulary is a visual word (cluster center).
+ */
+- (void)setVocabulary:(Mat*)vocabulary NS_SWIFT_NAME(setVocabulary(vocabulary:));
+
+
+//
 //  Mat cv::BOWImgDescriptorExtractor::getVocabulary()
 //
 /**
  * Returns the set vocabulary.
  */
 - (Mat*)getVocabulary NS_SWIFT_NAME(getVocabulary());
+
+
+//
+//  void cv::BOWImgDescriptorExtractor::compute2(Mat image, vector_KeyPoint keypoints, Mat& imgDescriptor)
+//
+/**
+ *
+ * @param imgDescriptor Computed output image descriptor.
+ *     pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster (word of vocabulary)
+ *     returned if it is non-zero.
+ */
+- (void)compute:(Mat*)image keypoints:(NSArray<KeyPoint*>*)keypoints imgDescriptor:(Mat*)imgDescriptor NS_SWIFT_NAME(compute2(image:keypoints:imgDescriptor:));
 
 
 //
@@ -81,30 +105,6 @@ CV_EXPORTS @interface BOWImgDescriptorExtractor : NSObject
  * Returns an image descriptor type.
  */
 - (int)descriptorType NS_SWIFT_NAME(descriptorType());
-
-
-//
-//  void cv::BOWImgDescriptorExtractor::compute2(Mat image, vector_KeyPoint keypoints, Mat& imgDescriptor)
-//
-/**
- *
- * @param imgDescriptor Computed output image descriptor.
- *     pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster (word of vocabulary)
- *     returned if it is non-zero.
- */
-- (void)compute:(Mat*)image keypoints:(NSArray<KeyPoint*>*)keypoints imgDescriptor:(Mat*)imgDescriptor NS_SWIFT_NAME(compute2(image:keypoints:imgDescriptor:));
-
-
-//
-//  void cv::BOWImgDescriptorExtractor::setVocabulary(Mat vocabulary)
-//
-/**
- * Sets a visual vocabulary.
- *
- * @param vocabulary Vocabulary (can be trained using the inheritor of BOWTrainer ). Each row of the
- *     vocabulary is a visual word (cluster center).
- */
-- (void)setVocabulary:(Mat*)vocabulary NS_SWIFT_NAME(setVocabulary(vocabulary:));
 
 
 

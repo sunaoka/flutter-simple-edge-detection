@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/tracking.hpp"
 #else
 #define CV_EXPORTS
 #endif

@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/core.hpp"
+#import "opencv2/core/utility.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -57,21 +58,21 @@ CV_EXPORTS @interface TickMeter : NSObject
 
 
 //
-//  double cv::TickMeter::getAvgTimeMilli()
+//  void cv::TickMeter::start()
 //
-- (double)getAvgTimeMilli NS_SWIFT_NAME(getAvgTimeMilli());
+- (void)start NS_SWIFT_NAME(start());
 
 
 //
-//  double cv::TickMeter::getAvgTimeSec()
+//  void cv::TickMeter::stop()
 //
-- (double)getAvgTimeSec NS_SWIFT_NAME(getAvgTimeSec());
+- (void)stop NS_SWIFT_NAME(stop());
 
 
 //
-//  double cv::TickMeter::getFPS()
+//  int64 cv::TickMeter::getTimeTicks()
 //
-- (double)getFPS NS_SWIFT_NAME(getFPS());
+- (long)getTimeTicks NS_SWIFT_NAME(getTimeTicks());
 
 
 //
@@ -99,27 +100,27 @@ CV_EXPORTS @interface TickMeter : NSObject
 
 
 //
-//  int64 cv::TickMeter::getTimeTicks()
+//  double cv::TickMeter::getFPS()
 //
-- (long)getTimeTicks NS_SWIFT_NAME(getTimeTicks());
+- (double)getFPS NS_SWIFT_NAME(getFPS());
+
+
+//
+//  double cv::TickMeter::getAvgTimeSec()
+//
+- (double)getAvgTimeSec NS_SWIFT_NAME(getAvgTimeSec());
+
+
+//
+//  double cv::TickMeter::getAvgTimeMilli()
+//
+- (double)getAvgTimeMilli NS_SWIFT_NAME(getAvgTimeMilli());
 
 
 //
 //  void cv::TickMeter::reset()
 //
 - (void)reset NS_SWIFT_NAME(reset());
-
-
-//
-//  void cv::TickMeter::start()
-//
-- (void)start NS_SWIFT_NAME(start());
-
-
-//
-//  void cv::TickMeter::stop()
-//
-- (void)stop NS_SWIFT_NAME(stop());
 
 
 

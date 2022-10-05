@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/videoio.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -13,6 +13,7 @@
 #import <Foundation/Foundation.h>
 
 
+@class IntVector;
 @class Mat;
 
 
@@ -28,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Here is how the class can be used:
  * INCLUDE: samples/cpp/videocapture_basic.cpp
  *
- * @note In REF: videoio_c "C API" the black-box structure `CvCapture` is used instead of %VideoCapture.
- * @note
+ * NOTE: In REF: videoio_c "C API" the black-box structure `CvCapture` is used instead of %VideoCapture.
+ * NOTE:
  * -   (C++) A basic sample on using the %VideoCapture interface can be found at
  *     `OPENCV_SOURCE_CODE/samples/cpp/videocapture_starter.cpp`
  * -   (Python) A basic sample on using the %VideoCapture interface can be found at
@@ -55,6 +56,18 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 #pragma mark - Methods
+
+
+//
+//   cv::VideoCapture::VideoCapture()
+//
+/**
+ * Default constructor
+ *     NOTE: In REF: videoio_c "C API", when you finished working with video, release CvCapture structure with
+ *     cvReleaseCapture(), or use Ptr\<CvCapture\> that calls cvReleaseCapture() automatically in the
+ *     destructor.
+ */
+- (instancetype)init;
 
 
 //
@@ -97,6 +110,19 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 //
+//   cv::VideoCapture::VideoCapture(String filename, int apiPreference, vector_int params)
+//
+/**
+ *
+ *     Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
+ *
+ *     The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+ *     See cv::VideoCaptureProperties
+ */
+- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference params:(IntVector*)params;
+
+
+//
 //   cv::VideoCapture::VideoCapture(int index, int apiPreference = CAP_ANY)
 //
 /**
@@ -126,70 +152,16 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 //
-//   cv::VideoCapture::VideoCapture()
+//   cv::VideoCapture::VideoCapture(int index, int apiPreference, vector_int params)
 //
 /**
- * Default constructor
- *     @note In REF: videoio_c "C API", when you finished working with video, release CvCapture structure with
- *     cvReleaseCapture(), or use Ptr\<CvCapture\> that calls cvReleaseCapture() automatically in the
- *     destructor.
+ *
+ *     Opens a camera for video capturing with API Preference and parameters
+ *
+ *     The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+ *     See cv::VideoCaptureProperties
  */
-- (instancetype)init;
-
-
-//
-//  String cv::VideoCapture::getBackendName()
-//
-/**
- * Returns used backend API name
- *
- *      @note Stream should be opened.
- */
-- (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
-
-
-//
-//  bool cv::VideoCapture::getExceptionMode()
-//
-- (BOOL)getExceptionMode NS_SWIFT_NAME(getExceptionMode());
-
-
-//
-//  bool cv::VideoCapture::grab()
-//
-/**
- * Grabs the next frame from video file or capturing device.
- *
- *     @return `true` (non-zero) in the case of success.
- *
- *     The method/function grabs the next frame from video file or camera and returns true (non-zero) in
- *     the case of success.
- *
- *     The primary use of the function is in multi-camera environments, especially when the cameras do not
- *     have hardware synchronization. That is, you call VideoCapture::grab() for each camera and after that
- *     call the slower method VideoCapture::retrieve() to decode and get frame from each camera. This way
- *     the overhead on demosaicing or motion jpeg decompression etc. is eliminated and the retrieved frames
- *     from different cameras will be closer in time.
- *
- *     Also, when a connected camera is multi-head (for example, a stereo camera or a Kinect device), the
- *     correct way of retrieving data from it is to call VideoCapture::grab() first and then call
- *     VideoCapture::retrieve() one or more times with different values of the channel parameter.
- *
- *     REF: tutorial_kinect_openni
- */
-- (BOOL)grab NS_SWIFT_NAME(grab());
-
-
-//
-//  bool cv::VideoCapture::isOpened()
-//
-/**
- * Returns true if video capturing has been initialized already.
- *
- *     If the previous call to VideoCapture constructor or VideoCapture::open() succeeded, the method returns
- *     true.
- */
-- (BOOL)isOpened NS_SWIFT_NAME(isOpened());
+- (instancetype)initWithIndex:(int)index apiPreference:(int)apiPreference params:(IntVector*)params;
 
 
 //
@@ -221,6 +193,24 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 //
+//  bool cv::VideoCapture::open(String filename, int apiPreference, vector_int params)
+//
+/**
+ *  Opens a video file or a capturing device or an IP video stream for video capturing with API Preference and parameters
+ *
+ *     
+ *
+ *     The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+ *     See cv::VideoCaptureProperties
+ *
+ *     @return `true` if the file has been successfully opened
+ *
+ *     The method first calls VideoCapture::release to close the already opened file or camera.
+ */
+- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference params:(IntVector*)params NS_SWIFT_NAME(open(filename:apiPreference:params:));
+
+
+//
 //  bool cv::VideoCapture::open(int index, int apiPreference = CAP_ANY)
 //
 /**
@@ -249,23 +239,59 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 //
-//  bool cv::VideoCapture::read(Mat& image)
+//  bool cv::VideoCapture::open(int index, int apiPreference, vector_int params)
 //
 /**
- * Grabs, decodes and returns the next video frame.
+ *  Opens a camera for video capturing with API Preference and parameters
  *
- *     @return `false` if no frames has been grabbed
+ *     
  *
- *     The method/function combines VideoCapture::grab() and VideoCapture::retrieve() in one call. This is the
- *     most convenient method for reading video files or capturing data from decode and returns the just
- *     grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
- *     frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
+ *     The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`.
+ *     See cv::VideoCaptureProperties
  *
- *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
- *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
- *     cvCloneImage and then do whatever you want with the copy.
+ *     @return `true` if the camera has been successfully opened.
+ *
+ *     The method first calls VideoCapture::release to close the already opened file or camera.
  */
-- (BOOL)read:(Mat*)image NS_SWIFT_NAME(read(image:));
+- (BOOL)openWithIndexAndParameters:(int)index apiPreference:(int)apiPreference params:(IntVector*)params NS_SWIFT_NAME(open(index:apiPreference:params:));
+
+
+//
+//  bool cv::VideoCapture::isOpened()
+//
+/**
+ * Returns true if video capturing has been initialized already.
+ *
+ *     If the previous call to VideoCapture constructor or VideoCapture::open() succeeded, the method returns
+ *     true.
+ */
+- (BOOL)isOpened NS_SWIFT_NAME(isOpened());
+
+
+//
+//  bool cv::VideoCapture::grab()
+//
+/**
+ * Grabs the next frame from video file or capturing device.
+ *
+ *     @return `true` (non-zero) in the case of success.
+ *
+ *     The method/function grabs the next frame from video file or camera and returns true (non-zero) in
+ *     the case of success.
+ *
+ *     The primary use of the function is in multi-camera environments, especially when the cameras do not
+ *     have hardware synchronization. That is, you call VideoCapture::grab() for each camera and after that
+ *     call the slower method VideoCapture::retrieve() to decode and get frame from each camera. This way
+ *     the overhead on demosaicing or motion jpeg decompression etc. is eliminated and the retrieved frames
+ *     from different cameras will be closer in time.
+ *
+ *     Also, when a connected camera is multi-head (for example, a stereo camera or a Kinect device), the
+ *     correct way of retrieving data from it is to call VideoCapture::grab() first and then call
+ *     VideoCapture::retrieve() one or more times with different values of the channel parameter.
+ *
+ *     REF: tutorial_kinect_openni
+ */
+- (BOOL)grab NS_SWIFT_NAME(grab());
 
 
 //
@@ -283,7 +309,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *
  *     @see `read()`
  *
- *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
  *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
  *     cvCloneImage and then do whatever you want with the copy.
  */
@@ -300,11 +326,31 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *
  *     @see `read()`
  *
- *     @note In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
  *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
  *     cvCloneImage and then do whatever you want with the copy.
  */
 - (BOOL)retrieve:(Mat*)image NS_SWIFT_NAME(retrieve(image:));
+
+
+//
+//  bool cv::VideoCapture::read(Mat& image)
+//
+/**
+ * Grabs, decodes and returns the next video frame.
+ *
+ *     @return `false` if no frames has been grabbed
+ *
+ *     The method/function combines VideoCapture::grab() and VideoCapture::retrieve() in one call. This is the
+ *     most convenient method for reading video files or capturing data from decode and returns the just
+ *     grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
+ *     frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
+ *
+ *     NOTE: In REF: videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
+ *     capturing structure. It is not allowed to modify or release the image! You can copy the frame using
+ *     cvCloneImage and then do whatever you want with the copy.
+ */
+- (BOOL)read:(Mat*)image NS_SWIFT_NAME(read(image:));
 
 
 //
@@ -317,7 +363,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *     or one from REF: videoio_flags_others
  * @param value Value of the property.
  *     @return `true` if the property is supported by backend used by the VideoCapture instance.
- *     @note Even if it returns `true` this doesn't ensure that the property
+ *     NOTE: Even if it returns `true` this doesn't ensure that the property
  *     value has been accepted by the capture device. See note in VideoCapture::get()
  */
 - (BOOL)set:(int)propId value:(double)value NS_SWIFT_NAME(set(propId:value:));
@@ -334,7 +380,7 @@ CV_EXPORTS @interface VideoCapture : NSObject
  *     @return Value for the specified property. Value 0 is returned when querying a property that is
  *     not supported by the backend used by the VideoCapture instance.
  *
- *     @note Reading / writing properties involves many layers. Some unexpected result might happens
+ *     NOTE: Reading / writing properties involves many layers. Some unexpected result might happens
  *     along this chain.
  *     
  *     VideoCapture -> API Backend -> Operating System -> Device Driver -> Device Hardware
@@ -347,6 +393,17 @@ CV_EXPORTS @interface VideoCapture : NSObject
 
 
 //
+//  String cv::VideoCapture::getBackendName()
+//
+/**
+ * Returns used backend API name
+ *
+ *      NOTE: Stream should be opened.
+ */
+- (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
+
+
+//
 //  void cv::VideoCapture::setExceptionMode(bool enable)
 //
 /**
@@ -355,6 +412,12 @@ CV_EXPORTS @interface VideoCapture : NSObject
  * methods raise exceptions if not successful instead of returning an error code
  */
 - (void)setExceptionMode:(BOOL)enable NS_SWIFT_NAME(setExceptionMode(enable:));
+
+
+//
+//  bool cv::VideoCapture::getExceptionMode()
+//
+- (BOOL)getExceptionMode NS_SWIFT_NAME(getExceptionMode());
 
 
 

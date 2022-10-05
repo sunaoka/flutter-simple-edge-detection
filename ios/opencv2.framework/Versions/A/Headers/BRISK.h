@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -40,72 +40,6 @@ CV_EXPORTS @interface BRISK : Feature2D
 
 
 #pragma mark - Methods
-
-
-//
-// static Ptr_BRISK cv::BRISK::create(int thresh, int octaves, vector_float radiusList, vector_int numberList, float dMax = 5.85f, float dMin = 8.2f, vector_int indexChange = std::vector<int>())
-//
-/**
- * The BRISK constructor for a custom pattern, detection threshold and octaves
- *
- * @param thresh AGAST detection threshold score.
- * @param octaves detection octaves. Use 0 to do single scale.
- * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
- *     keypoint scale 1).
- * @param numberList defines the number of sampling points on the sampling circle. Must be the same
- *     size as radiusList..
- * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
- *     scale 1).
- * @param dMin threshold for the long pairings used for orientation determination (in pixels for
- *     keypoint scale 1).
- * @param indexChange index remapping of the bits.
- */
-+ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax dMin:(float)dMin indexChange:(IntVector*)indexChange NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:dMin:indexChange:));
-
-/**
- * The BRISK constructor for a custom pattern, detection threshold and octaves
- *
- * @param thresh AGAST detection threshold score.
- * @param octaves detection octaves. Use 0 to do single scale.
- * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
- *     keypoint scale 1).
- * @param numberList defines the number of sampling points on the sampling circle. Must be the same
- *     size as radiusList..
- * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
- *     scale 1).
- * @param dMin threshold for the long pairings used for orientation determination (in pixels for
- *     keypoint scale 1).
- */
-+ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax dMin:(float)dMin NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:dMin:));
-
-/**
- * The BRISK constructor for a custom pattern, detection threshold and octaves
- *
- * @param thresh AGAST detection threshold score.
- * @param octaves detection octaves. Use 0 to do single scale.
- * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
- *     keypoint scale 1).
- * @param numberList defines the number of sampling points on the sampling circle. Must be the same
- *     size as radiusList..
- * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
- *     scale 1).
- *     keypoint scale 1).
- */
-+ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:));
-
-/**
- * The BRISK constructor for a custom pattern, detection threshold and octaves
- *
- * @param thresh AGAST detection threshold score.
- * @param octaves detection octaves. Use 0 to do single scale.
- * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
- *     keypoint scale 1).
- * @param numberList defines the number of sampling points on the sampling circle. Must be the same
- *     size as radiusList..
- *     scale 1).
- *     keypoint scale 1).
- */
-+ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:));
 
 
 //
@@ -205,15 +139,85 @@ CV_EXPORTS @interface BRISK : Feature2D
 
 
 //
+// static Ptr_BRISK cv::BRISK::create(int thresh, int octaves, vector_float radiusList, vector_int numberList, float dMax = 5.85f, float dMin = 8.2f, vector_int indexChange = std::vector<int>())
+//
+/**
+ * The BRISK constructor for a custom pattern, detection threshold and octaves
+ *
+ * @param thresh AGAST detection threshold score.
+ * @param octaves detection octaves. Use 0 to do single scale.
+ * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
+ *     keypoint scale 1).
+ * @param numberList defines the number of sampling points on the sampling circle. Must be the same
+ *     size as radiusList..
+ * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
+ *     scale 1).
+ * @param dMin threshold for the long pairings used for orientation determination (in pixels for
+ *     keypoint scale 1).
+ * @param indexChange index remapping of the bits.
+ */
++ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax dMin:(float)dMin indexChange:(IntVector*)indexChange NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:dMin:indexChange:));
+
+/**
+ * The BRISK constructor for a custom pattern, detection threshold and octaves
+ *
+ * @param thresh AGAST detection threshold score.
+ * @param octaves detection octaves. Use 0 to do single scale.
+ * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
+ *     keypoint scale 1).
+ * @param numberList defines the number of sampling points on the sampling circle. Must be the same
+ *     size as radiusList..
+ * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
+ *     scale 1).
+ * @param dMin threshold for the long pairings used for orientation determination (in pixels for
+ *     keypoint scale 1).
+ */
++ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax dMin:(float)dMin NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:dMin:));
+
+/**
+ * The BRISK constructor for a custom pattern, detection threshold and octaves
+ *
+ * @param thresh AGAST detection threshold score.
+ * @param octaves detection octaves. Use 0 to do single scale.
+ * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
+ *     keypoint scale 1).
+ * @param numberList defines the number of sampling points on the sampling circle. Must be the same
+ *     size as radiusList..
+ * @param dMax threshold for the short pairings used for descriptor formation (in pixels for keypoint
+ *     scale 1).
+ *     keypoint scale 1).
+ */
++ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList dMax:(float)dMax NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:dMax:));
+
+/**
+ * The BRISK constructor for a custom pattern, detection threshold and octaves
+ *
+ * @param thresh AGAST detection threshold score.
+ * @param octaves detection octaves. Use 0 to do single scale.
+ * @param radiusList defines the radii (in pixels) where the samples around a keypoint are taken (for
+ *     keypoint scale 1).
+ * @param numberList defines the number of sampling points on the sampling circle. Must be the same
+ *     size as radiusList..
+ *     scale 1).
+ *     keypoint scale 1).
+ */
++ (BRISK*)create:(int)thresh octaves:(int)octaves radiusList:(FloatVector*)radiusList numberList:(IntVector*)numberList NS_SWIFT_NAME(create(thresh:octaves:radiusList:numberList:));
+
+
+//
 //  String cv::BRISK::getDefaultName()
 //
 - (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 //
-//  int cv::BRISK::getOctaves()
+//  void cv::BRISK::setThreshold(int threshold)
 //
-- (int)getOctaves NS_SWIFT_NAME(getOctaves());
+/**
+ * Set detection threshold.
+ * @param threshold AGAST detection threshold score.
+ */
+- (void)setThreshold:(int)threshold NS_SWIFT_NAME(setThreshold(threshold:));
 
 
 //
@@ -233,13 +237,9 @@ CV_EXPORTS @interface BRISK : Feature2D
 
 
 //
-//  void cv::BRISK::setThreshold(int threshold)
+//  int cv::BRISK::getOctaves()
 //
-/**
- * Set detection threshold.
- * @param threshold AGAST detection threshold score.
- */
-- (void)setThreshold:(int)threshold NS_SWIFT_NAME(setThreshold(threshold:));
+- (int)getOctaves NS_SWIFT_NAME(getOctaves());
 
 
 

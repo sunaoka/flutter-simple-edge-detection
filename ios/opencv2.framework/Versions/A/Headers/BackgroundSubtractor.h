@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/background_segm.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -79,7 +80,7 @@ CV_EXPORTS @interface BackgroundSubtractor : Algorithm
  *
  * @param backgroundImage The output background image.
  *
- *     @note Sometimes the background image can be very blurry, as it contain the average background
+ *     NOTE: Sometimes the background image can be very blurry, as it contain the average background
  *     statistics.
  */
 - (void)getBackgroundImage:(Mat*)backgroundImage NS_SWIFT_NAME(getBackgroundImage(backgroundImage:));

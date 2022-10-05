@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/calib3d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 @class Size2f;
 
 
-// C++: enum GridType
+// C++: enum GridType (cv.CirclesGridFinderParameters.GridType)
 typedef NS_ENUM(int, GridType) {
     SYMMETRIC_GRID = 0,
     ASYMMETRIC_GRID = 1

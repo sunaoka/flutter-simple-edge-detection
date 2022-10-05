@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,46 +45,6 @@ CV_EXPORTS @interface BOWTrainer : NSObject
 
 
 //
-//  Mat cv::BOWTrainer::cluster(Mat descriptors)
-//
-/**
- * Clusters train descriptors.
- *
- * @param descriptors Descriptors to cluster. Each row of the descriptors matrix is a descriptor.
- *     Descriptors are not added to the inner train descriptor set.
- *
- *     The vocabulary consists of cluster centers. So, this method returns the vocabulary. In the first
- *     variant of the method, train descriptors stored in the object are clustered. In the second variant,
- *     input descriptors are clustered.
- */
-- (Mat*)cluster:(Mat*)descriptors NS_SWIFT_NAME(cluster(descriptors:));
-
-
-//
-//  Mat cv::BOWTrainer::cluster()
-//
-- (Mat*)cluster NS_SWIFT_NAME(cluster());
-
-
-//
-//  int cv::BOWTrainer::descriptorsCount()
-//
-/**
- * Returns the count of all descriptors stored in the training set.
- */
-- (int)descriptorsCount NS_SWIFT_NAME(descriptorsCount());
-
-
-//
-//  vector_Mat cv::BOWTrainer::getDescriptors()
-//
-/**
- * Returns a training set of descriptors.
- */
-- (NSArray<Mat*>*)getDescriptors NS_SWIFT_NAME(getDescriptors());
-
-
-//
 //  void cv::BOWTrainer::add(Mat descriptors)
 //
 /**
@@ -99,9 +59,49 @@ CV_EXPORTS @interface BOWTrainer : NSObject
 
 
 //
+//  vector_Mat cv::BOWTrainer::getDescriptors()
+//
+/**
+ * Returns a training set of descriptors.
+ */
+- (NSArray<Mat*>*)getDescriptors NS_SWIFT_NAME(getDescriptors());
+
+
+//
+//  int cv::BOWTrainer::descriptorsCount()
+//
+/**
+ * Returns the count of all descriptors stored in the training set.
+ */
+- (int)descriptorsCount NS_SWIFT_NAME(descriptorsCount());
+
+
+//
 //  void cv::BOWTrainer::clear()
 //
 - (void)clear NS_SWIFT_NAME(clear());
+
+
+//
+//  Mat cv::BOWTrainer::cluster()
+//
+- (Mat*)cluster NS_SWIFT_NAME(cluster());
+
+
+//
+//  Mat cv::BOWTrainer::cluster(Mat descriptors)
+//
+/**
+ * Clusters train descriptors.
+ *
+ * @param descriptors Descriptors to cluster. Each row of the descriptors matrix is a descriptor.
+ *     Descriptors are not added to the inner train descriptor set.
+ *
+ *     The vocabulary consists of cluster centers. So, this method returns the vocabulary. In the first
+ *     variant of the method, train descriptors stored in the object are clustered. In the second variant,
+ *     input descriptors are clustered.
+ */
+- (Mat*)cluster:(Mat*)descriptors NS_SWIFT_NAME(cluster(descriptors:));
 
 
 

@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 
 
 
-// C++: enum ScoreType
+// C++: enum ScoreType (cv.ORB.ScoreType)
 typedef NS_ENUM(int, ScoreType) {
     HARRIS_SCORE = 0,
     FAST_SCORE = 1
@@ -51,12 +51,6 @@ CV_EXPORTS @interface ORB : Feature2D
 
 
 #pragma mark - Methods
-
-
-//
-//  ORB_ScoreType cv::ORB::getScoreType()
-//
-- (ScoreType)getScoreType NS_SWIFT_NAME(getScoreType());
 
 
 //
@@ -359,33 +353,9 @@ CV_EXPORTS @interface ORB : Feature2D
 
 
 //
-//  String cv::ORB::getDefaultName()
+//  void cv::ORB::setMaxFeatures(int maxFeatures)
 //
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
-
-
-//
-//  double cv::ORB::getScaleFactor()
-//
-- (double)getScaleFactor NS_SWIFT_NAME(getScaleFactor());
-
-
-//
-//  int cv::ORB::getEdgeThreshold()
-//
-- (int)getEdgeThreshold NS_SWIFT_NAME(getEdgeThreshold());
-
-
-//
-//  int cv::ORB::getFastThreshold()
-//
-- (int)getFastThreshold NS_SWIFT_NAME(getFastThreshold());
-
-
-//
-//  int cv::ORB::getFirstLevel()
-//
-- (int)getFirstLevel NS_SWIFT_NAME(getFirstLevel());
+- (void)setMaxFeatures:(int)maxFeatures NS_SWIFT_NAME(setMaxFeatures(maxFeatures:));
 
 
 //
@@ -395,45 +365,15 @@ CV_EXPORTS @interface ORB : Feature2D
 
 
 //
-//  int cv::ORB::getNLevels()
+//  void cv::ORB::setScaleFactor(double scaleFactor)
 //
-- (int)getNLevels NS_SWIFT_NAME(getNLevels());
+- (void)setScaleFactor:(double)scaleFactor NS_SWIFT_NAME(setScaleFactor(scaleFactor:));
 
 
 //
-//  int cv::ORB::getPatchSize()
+//  double cv::ORB::getScaleFactor()
 //
-- (int)getPatchSize NS_SWIFT_NAME(getPatchSize());
-
-
-//
-//  int cv::ORB::getWTA_K()
-//
-- (int)getWTA_K NS_SWIFT_NAME(getWTA_K());
-
-
-//
-//  void cv::ORB::setEdgeThreshold(int edgeThreshold)
-//
-- (void)setEdgeThreshold:(int)edgeThreshold NS_SWIFT_NAME(setEdgeThreshold(edgeThreshold:));
-
-
-//
-//  void cv::ORB::setFastThreshold(int fastThreshold)
-//
-- (void)setFastThreshold:(int)fastThreshold NS_SWIFT_NAME(setFastThreshold(fastThreshold:));
-
-
-//
-//  void cv::ORB::setFirstLevel(int firstLevel)
-//
-- (void)setFirstLevel:(int)firstLevel NS_SWIFT_NAME(setFirstLevel(firstLevel:));
-
-
-//
-//  void cv::ORB::setMaxFeatures(int maxFeatures)
-//
-- (void)setMaxFeatures:(int)maxFeatures NS_SWIFT_NAME(setMaxFeatures(maxFeatures:));
+- (double)getScaleFactor NS_SWIFT_NAME(getScaleFactor());
 
 
 //
@@ -443,15 +383,45 @@ CV_EXPORTS @interface ORB : Feature2D
 
 
 //
-//  void cv::ORB::setPatchSize(int patchSize)
+//  int cv::ORB::getNLevels()
 //
-- (void)setPatchSize:(int)patchSize NS_SWIFT_NAME(setPatchSize(patchSize:));
+- (int)getNLevels NS_SWIFT_NAME(getNLevels());
 
 
 //
-//  void cv::ORB::setScaleFactor(double scaleFactor)
+//  void cv::ORB::setEdgeThreshold(int edgeThreshold)
 //
-- (void)setScaleFactor:(double)scaleFactor NS_SWIFT_NAME(setScaleFactor(scaleFactor:));
+- (void)setEdgeThreshold:(int)edgeThreshold NS_SWIFT_NAME(setEdgeThreshold(edgeThreshold:));
+
+
+//
+//  int cv::ORB::getEdgeThreshold()
+//
+- (int)getEdgeThreshold NS_SWIFT_NAME(getEdgeThreshold());
+
+
+//
+//  void cv::ORB::setFirstLevel(int firstLevel)
+//
+- (void)setFirstLevel:(int)firstLevel NS_SWIFT_NAME(setFirstLevel(firstLevel:));
+
+
+//
+//  int cv::ORB::getFirstLevel()
+//
+- (int)getFirstLevel NS_SWIFT_NAME(getFirstLevel());
+
+
+//
+//  void cv::ORB::setWTA_K(int wta_k)
+//
+- (void)setWTA_K:(int)wta_k NS_SWIFT_NAME(setWTA_K(wta_k:));
+
+
+//
+//  int cv::ORB::getWTA_K()
+//
+- (int)getWTA_K NS_SWIFT_NAME(getWTA_K());
 
 
 //
@@ -461,9 +431,39 @@ CV_EXPORTS @interface ORB : Feature2D
 
 
 //
-//  void cv::ORB::setWTA_K(int wta_k)
+//  ORB_ScoreType cv::ORB::getScoreType()
 //
-- (void)setWTA_K:(int)wta_k NS_SWIFT_NAME(setWTA_K(wta_k:));
+- (ScoreType)getScoreType NS_SWIFT_NAME(getScoreType());
+
+
+//
+//  void cv::ORB::setPatchSize(int patchSize)
+//
+- (void)setPatchSize:(int)patchSize NS_SWIFT_NAME(setPatchSize(patchSize:));
+
+
+//
+//  int cv::ORB::getPatchSize()
+//
+- (int)getPatchSize NS_SWIFT_NAME(getPatchSize());
+
+
+//
+//  void cv::ORB::setFastThreshold(int fastThreshold)
+//
+- (void)setFastThreshold:(int)fastThreshold NS_SWIFT_NAME(setFastThreshold(fastThreshold:));
+
+
+//
+//  int cv::ORB::getFastThreshold()
+//
+- (int)getFastThreshold NS_SWIFT_NAME(getFastThreshold());
+
+
+//
+//  String cv::ORB::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

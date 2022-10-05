@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 
 
 
-// C++: enum DiffusivityType
+// C++: enum DiffusivityType (cv.KAZE.DiffusivityType)
 typedef NS_ENUM(int, DiffusivityType) {
     DIFF_PM_G1 = 0,
     DIFF_PM_G2 = 1,
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Class implementing the KAZE keypoint detector and descriptor extractor, described in CITE: ABD12 .
  *
- * @note AKAZE descriptor can only be used with KAZE or AKAZE keypoints .. [ABD12] KAZE Features. Pablo
+ * NOTE: AKAZE descriptor can only be used with KAZE or AKAZE keypoints .. [ABD12] KAZE Features. Pablo
  * F. Alcantarilla, Adrien Bartoli and Andrew J. Davison. In European Conference on Computer Vision
  * (ECCV), Fiorenze, Italy, October 2012.
  *
@@ -52,12 +52,6 @@ CV_EXPORTS @interface KAZE : Feature2D
 
 
 #pragma mark - Methods
-
-
-//
-//  KAZE_DiffusivityType cv::KAZE::getDiffusivity()
-//
-- (DiffusivityType)getDiffusivity NS_SWIFT_NAME(getDiffusivity());
 
 
 //
@@ -135,9 +129,9 @@ CV_EXPORTS @interface KAZE : Feature2D
 
 
 //
-//  String cv::KAZE::getDefaultName()
+//  void cv::KAZE::setExtended(bool extended)
 //
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
+- (void)setExtended:(BOOL)extended NS_SWIFT_NAME(setExtended(extended:));
 
 
 //
@@ -147,51 +141,15 @@ CV_EXPORTS @interface KAZE : Feature2D
 
 
 //
+//  void cv::KAZE::setUpright(bool upright)
+//
+- (void)setUpright:(BOOL)upright NS_SWIFT_NAME(setUpright(upright:));
+
+
+//
 //  bool cv::KAZE::getUpright()
 //
 - (BOOL)getUpright NS_SWIFT_NAME(getUpright());
-
-
-//
-//  double cv::KAZE::getThreshold()
-//
-- (double)getThreshold NS_SWIFT_NAME(getThreshold());
-
-
-//
-//  int cv::KAZE::getNOctaveLayers()
-//
-- (int)getNOctaveLayers NS_SWIFT_NAME(getNOctaveLayers());
-
-
-//
-//  int cv::KAZE::getNOctaves()
-//
-- (int)getNOctaves NS_SWIFT_NAME(getNOctaves());
-
-
-//
-//  void cv::KAZE::setDiffusivity(KAZE_DiffusivityType diff)
-//
-- (void)setDiffusivity:(DiffusivityType)diff NS_SWIFT_NAME(setDiffusivity(diff:));
-
-
-//
-//  void cv::KAZE::setExtended(bool extended)
-//
-- (void)setExtended:(BOOL)extended NS_SWIFT_NAME(setExtended(extended:));
-
-
-//
-//  void cv::KAZE::setNOctaveLayers(int octaveLayers)
-//
-- (void)setNOctaveLayers:(int)octaveLayers NS_SWIFT_NAME(setNOctaveLayers(octaveLayers:));
-
-
-//
-//  void cv::KAZE::setNOctaves(int octaves)
-//
-- (void)setNOctaves:(int)octaves NS_SWIFT_NAME(setNOctaves(octaves:));
 
 
 //
@@ -201,9 +159,51 @@ CV_EXPORTS @interface KAZE : Feature2D
 
 
 //
-//  void cv::KAZE::setUpright(bool upright)
+//  double cv::KAZE::getThreshold()
 //
-- (void)setUpright:(BOOL)upright NS_SWIFT_NAME(setUpright(upright:));
+- (double)getThreshold NS_SWIFT_NAME(getThreshold());
+
+
+//
+//  void cv::KAZE::setNOctaves(int octaves)
+//
+- (void)setNOctaves:(int)octaves NS_SWIFT_NAME(setNOctaves(octaves:));
+
+
+//
+//  int cv::KAZE::getNOctaves()
+//
+- (int)getNOctaves NS_SWIFT_NAME(getNOctaves());
+
+
+//
+//  void cv::KAZE::setNOctaveLayers(int octaveLayers)
+//
+- (void)setNOctaveLayers:(int)octaveLayers NS_SWIFT_NAME(setNOctaveLayers(octaveLayers:));
+
+
+//
+//  int cv::KAZE::getNOctaveLayers()
+//
+- (int)getNOctaveLayers NS_SWIFT_NAME(getNOctaveLayers());
+
+
+//
+//  void cv::KAZE::setDiffusivity(KAZE_DiffusivityType diff)
+//
+- (void)setDiffusivity:(DiffusivityType)diff NS_SWIFT_NAME(setDiffusivity(diff:));
+
+
+//
+//  KAZE_DiffusivityType cv::KAZE::getDiffusivity()
+//
+- (DiffusivityType)getDiffusivity NS_SWIFT_NAME(getDiffusivity());
+
+
+//
+//  String cv::KAZE::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 
 
 
-// C++: enum AgastDetectorType
+// C++: enum AgastDetectorType (cv.AgastFeatureDetector.DetectorType)
 typedef NS_ENUM(int, AgastDetectorType) {
     AGAST_5_8 = 0,
     AGAST_7_12d = 1,
@@ -57,12 +57,6 @@ CV_EXPORTS @interface AgastFeatureDetector : Feature2D
 
 
 //
-//  AgastFeatureDetector_DetectorType cv::AgastFeatureDetector::getType()
-//
-- (AgastDetectorType)getType NS_SWIFT_NAME(getType());
-
-
-//
 // static Ptr_AgastFeatureDetector cv::AgastFeatureDetector::create(int threshold = 10, bool nonmaxSuppression = true, AgastFeatureDetector_DetectorType type = AgastFeatureDetector::OAST_9_16)
 //
 + (AgastFeatureDetector*)create:(int)threshold nonmaxSuppression:(BOOL)nonmaxSuppression type:(AgastDetectorType)type NS_SWIFT_NAME(create(threshold:nonmaxSuppression:type:));
@@ -75,15 +69,9 @@ CV_EXPORTS @interface AgastFeatureDetector : Feature2D
 
 
 //
-//  String cv::AgastFeatureDetector::getDefaultName()
+//  void cv::AgastFeatureDetector::setThreshold(int threshold)
 //
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
-
-
-//
-//  bool cv::AgastFeatureDetector::getNonmaxSuppression()
-//
-- (BOOL)getNonmaxSuppression NS_SWIFT_NAME(getNonmaxSuppression());
+- (void)setThreshold:(int)threshold NS_SWIFT_NAME(setThreshold(threshold:));
 
 
 //
@@ -99,15 +87,27 @@ CV_EXPORTS @interface AgastFeatureDetector : Feature2D
 
 
 //
-//  void cv::AgastFeatureDetector::setThreshold(int threshold)
+//  bool cv::AgastFeatureDetector::getNonmaxSuppression()
 //
-- (void)setThreshold:(int)threshold NS_SWIFT_NAME(setThreshold(threshold:));
+- (BOOL)getNonmaxSuppression NS_SWIFT_NAME(getNonmaxSuppression());
 
 
 //
 //  void cv::AgastFeatureDetector::setType(AgastFeatureDetector_DetectorType type)
 //
 - (void)setType:(AgastDetectorType)type NS_SWIFT_NAME(setType(type:));
+
+
+//
+//  AgastFeatureDetector_DetectorType cv::AgastFeatureDetector::getType()
+//
+- (AgastDetectorType)getType NS_SWIFT_NAME(getType());
+
+
+//
+//  String cv::AgastFeatureDetector::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

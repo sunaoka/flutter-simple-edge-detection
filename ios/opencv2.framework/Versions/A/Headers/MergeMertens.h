@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -51,24 +51,6 @@ CV_EXPORTS @interface MergeMertens : MergeExposures
 
 
 //
-//  float cv::MergeMertens::getContrastWeight()
-//
-- (float)getContrastWeight NS_SWIFT_NAME(getContrastWeight());
-
-
-//
-//  float cv::MergeMertens::getExposureWeight()
-//
-- (float)getExposureWeight NS_SWIFT_NAME(getExposureWeight());
-
-
-//
-//  float cv::MergeMertens::getSaturationWeight()
-//
-- (float)getSaturationWeight NS_SWIFT_NAME(getSaturationWeight());
-
-
-//
 //  void cv::MergeMertens::process(vector_Mat src, Mat& dst, Mat times, Mat response)
 //
 - (void)process:(NSArray<Mat*>*)src dst:(Mat*)dst times:(Mat*)times response:(Mat*)response NS_SWIFT_NAME(process(src:dst:times:response:));
@@ -87,21 +69,39 @@ CV_EXPORTS @interface MergeMertens : MergeExposures
 
 
 //
+//  float cv::MergeMertens::getContrastWeight()
+//
+- (float)getContrastWeight NS_SWIFT_NAME(getContrastWeight());
+
+
+//
 //  void cv::MergeMertens::setContrastWeight(float contrast_weiht)
 //
 - (void)setContrastWeight:(float)contrast_weiht NS_SWIFT_NAME(setContrastWeight(contrast_weiht:));
 
 
 //
-//  void cv::MergeMertens::setExposureWeight(float exposure_weight)
+//  float cv::MergeMertens::getSaturationWeight()
 //
-- (void)setExposureWeight:(float)exposure_weight NS_SWIFT_NAME(setExposureWeight(exposure_weight:));
+- (float)getSaturationWeight NS_SWIFT_NAME(getSaturationWeight());
 
 
 //
 //  void cv::MergeMertens::setSaturationWeight(float saturation_weight)
 //
 - (void)setSaturationWeight:(float)saturation_weight NS_SWIFT_NAME(setSaturationWeight(saturation_weight:));
+
+
+//
+//  float cv::MergeMertens::getExposureWeight()
+//
+- (float)getExposureWeight NS_SWIFT_NAME(getExposureWeight());
+
+
+//
+//  void cv::MergeMertens::setExposureWeight(float exposure_weight)
+//
+- (void)setExposureWeight:(float)exposure_weight NS_SWIFT_NAME(setExposureWeight(exposure_weight:));
 
 
 

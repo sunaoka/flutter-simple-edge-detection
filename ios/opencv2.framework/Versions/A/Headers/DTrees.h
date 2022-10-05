@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 @class Mat;
 
 
-// C++: enum DTreeFlags
+// C++: enum DTreeFlags (cv.ml.DTrees.Flags)
 typedef NS_ENUM(int, DTreeFlags) {
     PREDICT_AUTO = 0,
     PREDICT_SUM = (1<<8),
@@ -58,12 +58,165 @@ CV_EXPORTS @interface DTrees : StatModel
 
 
 //
+//  int cv::ml::DTrees::getMaxCategories()
+//
+/**
+ * @see `-setMaxCategories:`
+ */
+- (int)getMaxCategories NS_SWIFT_NAME(getMaxCategories());
+
+
+//
+//  void cv::ml::DTrees::setMaxCategories(int val)
+//
+/**
+ *  getMaxCategories @see `-getMaxCategories:`
+ */
+- (void)setMaxCategories:(int)val NS_SWIFT_NAME(setMaxCategories(val:));
+
+
+//
+//  int cv::ml::DTrees::getMaxDepth()
+//
+/**
+ * @see `-setMaxDepth:`
+ */
+- (int)getMaxDepth NS_SWIFT_NAME(getMaxDepth());
+
+
+//
+//  void cv::ml::DTrees::setMaxDepth(int val)
+//
+/**
+ *  getMaxDepth @see `-getMaxDepth:`
+ */
+- (void)setMaxDepth:(int)val NS_SWIFT_NAME(setMaxDepth(val:));
+
+
+//
+//  int cv::ml::DTrees::getMinSampleCount()
+//
+/**
+ * @see `-setMinSampleCount:`
+ */
+- (int)getMinSampleCount NS_SWIFT_NAME(getMinSampleCount());
+
+
+//
+//  void cv::ml::DTrees::setMinSampleCount(int val)
+//
+/**
+ *  getMinSampleCount @see `-getMinSampleCount:`
+ */
+- (void)setMinSampleCount:(int)val NS_SWIFT_NAME(setMinSampleCount(val:));
+
+
+//
+//  int cv::ml::DTrees::getCVFolds()
+//
+/**
+ * @see `-setCVFolds:`
+ */
+- (int)getCVFolds NS_SWIFT_NAME(getCVFolds());
+
+
+//
+//  void cv::ml::DTrees::setCVFolds(int val)
+//
+/**
+ *  getCVFolds @see `-getCVFolds:`
+ */
+- (void)setCVFolds:(int)val NS_SWIFT_NAME(setCVFolds(val:));
+
+
+//
+//  bool cv::ml::DTrees::getUseSurrogates()
+//
+/**
+ * @see `-setUseSurrogates:`
+ */
+- (BOOL)getUseSurrogates NS_SWIFT_NAME(getUseSurrogates());
+
+
+//
+//  void cv::ml::DTrees::setUseSurrogates(bool val)
+//
+/**
+ *  getUseSurrogates @see `-getUseSurrogates:`
+ */
+- (void)setUseSurrogates:(BOOL)val NS_SWIFT_NAME(setUseSurrogates(val:));
+
+
+//
+//  bool cv::ml::DTrees::getUse1SERule()
+//
+/**
+ * @see `-setUse1SERule:`
+ */
+- (BOOL)getUse1SERule NS_SWIFT_NAME(getUse1SERule());
+
+
+//
+//  void cv::ml::DTrees::setUse1SERule(bool val)
+//
+/**
+ *  getUse1SERule @see `-getUse1SERule:`
+ */
+- (void)setUse1SERule:(BOOL)val NS_SWIFT_NAME(setUse1SERule(val:));
+
+
+//
+//  bool cv::ml::DTrees::getTruncatePrunedTree()
+//
+/**
+ * @see `-setTruncatePrunedTree:`
+ */
+- (BOOL)getTruncatePrunedTree NS_SWIFT_NAME(getTruncatePrunedTree());
+
+
+//
+//  void cv::ml::DTrees::setTruncatePrunedTree(bool val)
+//
+/**
+ *  getTruncatePrunedTree @see `-getTruncatePrunedTree:`
+ */
+- (void)setTruncatePrunedTree:(BOOL)val NS_SWIFT_NAME(setTruncatePrunedTree(val:));
+
+
+//
+//  float cv::ml::DTrees::getRegressionAccuracy()
+//
+/**
+ * @see `-setRegressionAccuracy:`
+ */
+- (float)getRegressionAccuracy NS_SWIFT_NAME(getRegressionAccuracy());
+
+
+//
+//  void cv::ml::DTrees::setRegressionAccuracy(float val)
+//
+/**
+ *  getRegressionAccuracy @see `-getRegressionAccuracy:`
+ */
+- (void)setRegressionAccuracy:(float)val NS_SWIFT_NAME(setRegressionAccuracy(val:));
+
+
+//
 //  Mat cv::ml::DTrees::getPriors()
 //
 /**
  * @see `-setPriors:`
  */
 - (Mat*)getPriors NS_SWIFT_NAME(getPriors());
+
+
+//
+//  void cv::ml::DTrees::setPriors(Mat val)
+//
+/**
+ *  getPriors @see `-getPriors:`
+ */
+- (void)setPriors:(Mat*)val NS_SWIFT_NAME(setPriors(val:));
 
 
 //
@@ -104,159 +257,6 @@ CV_EXPORTS @interface DTrees : StatModel
  * @param filepath path to serialized DTree
  */
 + (DTrees*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  bool cv::ml::DTrees::getTruncatePrunedTree()
-//
-/**
- * @see `-setTruncatePrunedTree:`
- */
-- (BOOL)getTruncatePrunedTree NS_SWIFT_NAME(getTruncatePrunedTree());
-
-
-//
-//  bool cv::ml::DTrees::getUse1SERule()
-//
-/**
- * @see `-setUse1SERule:`
- */
-- (BOOL)getUse1SERule NS_SWIFT_NAME(getUse1SERule());
-
-
-//
-//  bool cv::ml::DTrees::getUseSurrogates()
-//
-/**
- * @see `-setUseSurrogates:`
- */
-- (BOOL)getUseSurrogates NS_SWIFT_NAME(getUseSurrogates());
-
-
-//
-//  float cv::ml::DTrees::getRegressionAccuracy()
-//
-/**
- * @see `-setRegressionAccuracy:`
- */
-- (float)getRegressionAccuracy NS_SWIFT_NAME(getRegressionAccuracy());
-
-
-//
-//  int cv::ml::DTrees::getCVFolds()
-//
-/**
- * @see `-setCVFolds:`
- */
-- (int)getCVFolds NS_SWIFT_NAME(getCVFolds());
-
-
-//
-//  int cv::ml::DTrees::getMaxCategories()
-//
-/**
- * @see `-setMaxCategories:`
- */
-- (int)getMaxCategories NS_SWIFT_NAME(getMaxCategories());
-
-
-//
-//  int cv::ml::DTrees::getMaxDepth()
-//
-/**
- * @see `-setMaxDepth:`
- */
-- (int)getMaxDepth NS_SWIFT_NAME(getMaxDepth());
-
-
-//
-//  int cv::ml::DTrees::getMinSampleCount()
-//
-/**
- * @see `-setMinSampleCount:`
- */
-- (int)getMinSampleCount NS_SWIFT_NAME(getMinSampleCount());
-
-
-//
-//  void cv::ml::DTrees::setCVFolds(int val)
-//
-/**
- *  getCVFolds @see `-getCVFolds:`
- */
-- (void)setCVFolds:(int)val NS_SWIFT_NAME(setCVFolds(val:));
-
-
-//
-//  void cv::ml::DTrees::setMaxCategories(int val)
-//
-/**
- *  getMaxCategories @see `-getMaxCategories:`
- */
-- (void)setMaxCategories:(int)val NS_SWIFT_NAME(setMaxCategories(val:));
-
-
-//
-//  void cv::ml::DTrees::setMaxDepth(int val)
-//
-/**
- *  getMaxDepth @see `-getMaxDepth:`
- */
-- (void)setMaxDepth:(int)val NS_SWIFT_NAME(setMaxDepth(val:));
-
-
-//
-//  void cv::ml::DTrees::setMinSampleCount(int val)
-//
-/**
- *  getMinSampleCount @see `-getMinSampleCount:`
- */
-- (void)setMinSampleCount:(int)val NS_SWIFT_NAME(setMinSampleCount(val:));
-
-
-//
-//  void cv::ml::DTrees::setPriors(Mat val)
-//
-/**
- *  getPriors @see `-getPriors:`
- */
-- (void)setPriors:(Mat*)val NS_SWIFT_NAME(setPriors(val:));
-
-
-//
-//  void cv::ml::DTrees::setRegressionAccuracy(float val)
-//
-/**
- *  getRegressionAccuracy @see `-getRegressionAccuracy:`
- */
-- (void)setRegressionAccuracy:(float)val NS_SWIFT_NAME(setRegressionAccuracy(val:));
-
-
-//
-//  void cv::ml::DTrees::setTruncatePrunedTree(bool val)
-//
-/**
- *  getTruncatePrunedTree @see `-getTruncatePrunedTree:`
- */
-- (void)setTruncatePrunedTree:(BOOL)val NS_SWIFT_NAME(setTruncatePrunedTree(val:));
-
-
-//
-//  void cv::ml::DTrees::setUse1SERule(bool val)
-//
-/**
- *  getUse1SERule @see `-getUse1SERule:`
- */
-- (void)setUse1SERule:(BOOL)val NS_SWIFT_NAME(setUse1SERule(val:));
-
-
-//
-//  void cv::ml::DTrees::setUseSurrogates(bool val)
-//
-/**
- *  getUseSurrogates @see `-getUseSurrogates:`
- */
-- (void)setUseSurrogates:(BOOL)val NS_SWIFT_NAME(setUseSurrogates(val:));
 
 
 

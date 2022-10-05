@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -40,71 +40,6 @@ CV_EXPORTS @interface Feature2D : Algorithm
 
 
 #pragma mark - Methods
-
-
-//
-//  String cv::Feature2D::getDefaultName()
-//
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
-
-
-//
-//  bool cv::Feature2D::empty()
-//
-- (BOOL)empty NS_SWIFT_NAME(empty());
-
-
-//
-//  int cv::Feature2D::defaultNorm()
-//
-- (int)defaultNorm NS_SWIFT_NAME(defaultNorm());
-
-
-//
-//  int cv::Feature2D::descriptorSize()
-//
-- (int)descriptorSize NS_SWIFT_NAME(descriptorSize());
-
-
-//
-//  int cv::Feature2D::descriptorType()
-//
-- (int)descriptorType NS_SWIFT_NAME(descriptorType());
-
-
-//
-//  void cv::Feature2D::compute(Mat image, vector_KeyPoint& keypoints, Mat& descriptors)
-//
-/**
- * Computes the descriptors for a set of keypoints detected in an image (first variant) or image set
- *     (second variant).
- *
- * @param image Image.
- * @param keypoints Input collection of keypoints. Keypoints for which a descriptor cannot be
- *     computed are removed. Sometimes new keypoints can be added, for example: SIFT duplicates keypoint
- *     with several dominant orientations (for each orientation).
- * @param descriptors Computed descriptors. In the second variant of the method descriptors[i] are
- *     descriptors computed for a keypoints[i]. Row j is the keypoints (or keypoints[i]) is the
- *     descriptor for keypoint j-th keypoint.
- */
-- (void)compute:(Mat*)image keypoints:(NSMutableArray<KeyPoint*>*)keypoints descriptors:(Mat*)descriptors NS_SWIFT_NAME(compute(image:keypoints:descriptors:));
-
-
-//
-//  void cv::Feature2D::compute(vector_Mat images, vector_vector_KeyPoint& keypoints, vector_Mat& descriptors)
-//
-/**
- *
- *
- * @param images Image set.
- * @param keypoints Input collection of keypoints. Keypoints for which a descriptor cannot be
- *     computed are removed. Sometimes new keypoints can be added, for example: SIFT duplicates keypoint
- *     with several dominant orientations (for each orientation).
- * @param descriptors Computed descriptors. In the second variant of the method descriptors[i] are
- *     descriptors computed for a keypoints[i]. Row j is the keypoints (or keypoints[i]) is the
- *     descriptor for keypoint j-th keypoint.
- */
-- (void)compute2:(NSArray<Mat*>*)images keypoints:(NSMutableArray<NSMutableArray<KeyPoint*>*>*)keypoints descriptors:(NSMutableArray<Mat*>*)descriptors NS_SWIFT_NAME(compute(images:keypoints:descriptors:));
 
 
 //
@@ -156,6 +91,41 @@ CV_EXPORTS @interface Feature2D : Algorithm
 
 
 //
+//  void cv::Feature2D::compute(Mat image, vector_KeyPoint& keypoints, Mat& descriptors)
+//
+/**
+ * Computes the descriptors for a set of keypoints detected in an image (first variant) or image set
+ *     (second variant).
+ *
+ * @param image Image.
+ * @param keypoints Input collection of keypoints. Keypoints for which a descriptor cannot be
+ *     computed are removed. Sometimes new keypoints can be added, for example: SIFT duplicates keypoint
+ *     with several dominant orientations (for each orientation).
+ * @param descriptors Computed descriptors. In the second variant of the method descriptors[i] are
+ *     descriptors computed for a keypoints[i]. Row j is the keypoints (or keypoints[i]) is the
+ *     descriptor for keypoint j-th keypoint.
+ */
+- (void)compute:(Mat*)image keypoints:(NSMutableArray<KeyPoint*>*)keypoints descriptors:(Mat*)descriptors NS_SWIFT_NAME(compute(image:keypoints:descriptors:));
+
+
+//
+//  void cv::Feature2D::compute(vector_Mat images, vector_vector_KeyPoint& keypoints, vector_Mat& descriptors)
+//
+/**
+ *
+ *
+ * @param images Image set.
+ * @param keypoints Input collection of keypoints. Keypoints for which a descriptor cannot be
+ *     computed are removed. Sometimes new keypoints can be added, for example: SIFT duplicates keypoint
+ *     with several dominant orientations (for each orientation).
+ * @param descriptors Computed descriptors. In the second variant of the method descriptors[i] are
+ *     descriptors computed for a keypoints[i]. Row j is the keypoints (or keypoints[i]) is the
+ *     descriptor for keypoint j-th keypoint.
+ */
+- (void)compute2:(NSArray<Mat*>*)images keypoints:(NSMutableArray<NSMutableArray<KeyPoint*>*>*)keypoints descriptors:(NSMutableArray<Mat*>*)descriptors NS_SWIFT_NAME(compute(images:keypoints:descriptors:));
+
+
+//
 //  void cv::Feature2D::detectAndCompute(Mat image, Mat mask, vector_KeyPoint& keypoints, Mat& descriptors, bool useProvidedKeypoints = false)
 //
 /**
@@ -170,9 +140,27 @@ CV_EXPORTS @interface Feature2D : Algorithm
 
 
 //
-//  void cv::Feature2D::read(FileNode arg1)
+//  int cv::Feature2D::descriptorSize()
 //
-// Unknown type 'FileNode' (I), skipping the function
+- (int)descriptorSize NS_SWIFT_NAME(descriptorSize());
+
+
+//
+//  int cv::Feature2D::descriptorType()
+//
+- (int)descriptorType NS_SWIFT_NAME(descriptorType());
+
+
+//
+//  int cv::Feature2D::defaultNorm()
+//
+- (int)defaultNorm NS_SWIFT_NAME(defaultNorm());
+
+
+//
+//  void cv::Feature2D::write(String fileName)
+//
+- (void)write:(NSString*)fileName NS_SWIFT_NAME(write(fileName:));
 
 
 //
@@ -182,15 +170,27 @@ CV_EXPORTS @interface Feature2D : Algorithm
 
 
 //
+//  void cv::Feature2D::read(FileNode arg1)
+//
+// Unknown type 'FileNode' (I), skipping the function
+
+
+//
+//  bool cv::Feature2D::empty()
+//
+- (BOOL)empty NS_SWIFT_NAME(empty());
+
+
+//
+//  String cv::Feature2D::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
+
+
+//
 //  void cv::Feature2D::write(Ptr_FileStorage fs, String name = String())
 //
 // Unknown type 'Ptr_FileStorage' (I), skipping the function
-
-
-//
-//  void cv::Feature2D::write(String fileName)
-//
-- (void)write:(NSString*)fileName NS_SWIFT_NAME(write(fileName:));
 
 
 

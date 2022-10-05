@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -18,7 +18,7 @@
 @class TermCriteria;
 
 
-// C++: enum EMTypes
+// C++: enum EMTypes (cv.ml.EM.Types)
 typedef NS_ENUM(int, EMTypes) {
     COV_MAT_SPHERICAL = 0,
     COV_MAT_DIAGONAL = 1,
@@ -64,15 +64,57 @@ CV_EXPORTS @interface EM : StatModel
 
 
 //
-//  Mat cv::ml::EM::getMeans()
+//  int cv::ml::EM::getClustersNumber()
 //
 /**
- * Returns the cluster centers (means of the Gaussian mixture)
- *
- *     Returns matrix with the number of rows equal to the number of mixtures and number of columns
- *     equal to the space dimensionality.
+ * @see `-setClustersNumber:`
  */
-- (Mat*)getMeans NS_SWIFT_NAME(getMeans());
+- (int)getClustersNumber NS_SWIFT_NAME(getClustersNumber());
+
+
+//
+//  void cv::ml::EM::setClustersNumber(int val)
+//
+/**
+ *  getClustersNumber @see `-getClustersNumber:`
+ */
+- (void)setClustersNumber:(int)val NS_SWIFT_NAME(setClustersNumber(val:));
+
+
+//
+//  int cv::ml::EM::getCovarianceMatrixType()
+//
+/**
+ * @see `-setCovarianceMatrixType:`
+ */
+- (int)getCovarianceMatrixType NS_SWIFT_NAME(getCovarianceMatrixType());
+
+
+//
+//  void cv::ml::EM::setCovarianceMatrixType(int val)
+//
+/**
+ *  getCovarianceMatrixType @see `-getCovarianceMatrixType:`
+ */
+- (void)setCovarianceMatrixType:(int)val NS_SWIFT_NAME(setCovarianceMatrixType(val:));
+
+
+//
+//  TermCriteria cv::ml::EM::getTermCriteria()
+//
+/**
+ * @see `-setTermCriteria:`
+ */
+- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+
+
+//
+//  void cv::ml::EM::setTermCriteria(TermCriteria val)
+//
+/**
+ *  getTermCriteria @see `-getTermCriteria:`
+ */
+- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
 
 
 //
@@ -87,50 +129,58 @@ CV_EXPORTS @interface EM : StatModel
 
 
 //
-// static Ptr_EM cv::ml::EM::create()
+//  Mat cv::ml::EM::getMeans()
 //
 /**
- * Creates empty %EM model.
- *     The model should be trained then using StatModel::train(traindata, flags) method. Alternatively, you
- *     can use one of the EM::train\* methods or load it from file using Algorithm::load\<EM\>(filename).
+ * Returns the cluster centers (means of the Gaussian mixture)
+ *
+ *     Returns matrix with the number of rows equal to the number of mixtures and number of columns
+ *     equal to the space dimensionality.
  */
-+ (EM*)create NS_SWIFT_NAME(create());
+- (Mat*)getMeans NS_SWIFT_NAME(getMeans());
 
 
 //
-// static Ptr_EM cv::ml::EM::load(String filepath, String nodeName = String())
-//
-/**
- * Loads and creates a serialized EM from a file
- *
- * Use EM::save to serialize and store an EM to disk.
- * Load the EM from this file again, by calling this function with the path to the file.
- * Optionally specify the node for the file containing the classifier
- *
- * @param filepath path to serialized EM
- * @param nodeName name of node containing the classifier
- */
-+ (EM*)load:(NSString*)filepath nodeName:(NSString*)nodeName NS_SWIFT_NAME(load(filepath:nodeName:));
-
-/**
- * Loads and creates a serialized EM from a file
- *
- * Use EM::save to serialize and store an EM to disk.
- * Load the EM from this file again, by calling this function with the path to the file.
- * Optionally specify the node for the file containing the classifier
- *
- * @param filepath path to serialized EM
- */
-+ (EM*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  TermCriteria cv::ml::EM::getTermCriteria()
+//  void cv::ml::EM::getCovs(vector_Mat& covs)
 //
 /**
- * @see `-setTermCriteria:`
+ * Returns covariation matrices
+ *
+ *     Returns vector of covariation matrices. Number of matrices is the number of gaussian mixtures,
+ *     each matrix is a square floating-point matrix NxN, where N is the space dimensionality.
  */
-- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+- (void)getCovs:(NSMutableArray<Mat*>*)covs NS_SWIFT_NAME(getCovs(covs:));
+
+
+//
+//  float cv::ml::EM::predict(Mat samples, Mat& results = Mat(), int flags = 0)
+//
+/**
+ * Returns posterior probabilities for the provided samples
+ *
+ * @param samples The input samples, floating-point matrix
+ * @param results The optional output `$$ nSamples \times nClusters$$` matrix of results. It contains
+ *     posterior probabilities for each sample from the input
+ * @param flags This parameter will be ignored
+ */
+- (float)predict:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(predict(samples:results:flags:));
+
+/**
+ * Returns posterior probabilities for the provided samples
+ *
+ * @param samples The input samples, floating-point matrix
+ * @param results The optional output `$$ nSamples \times nClusters$$` matrix of results. It contains
+ *     posterior probabilities for each sample from the input
+ */
+- (float)predict:(Mat*)samples results:(Mat*)results NS_SWIFT_NAME(predict(samples:results:));
+
+/**
+ * Returns posterior probabilities for the provided samples
+ *
+ * @param samples The input samples, floating-point matrix
+ *     posterior probabilities for each sample from the input
+ */
+- (float)predict:(Mat*)samples NS_SWIFT_NAME(predict(samples:));
 
 
 //
@@ -150,6 +200,128 @@ CV_EXPORTS @interface EM : StatModel
  *     sample.
  */
 - (Double2*)predict2:(Mat*)sample probs:(Mat*)probs NS_SWIFT_NAME(predict2(sample:probs:));
+
+
+//
+//  bool cv::ml::EM::trainEM(Mat samples, Mat& logLikelihoods = Mat(), Mat& labels = Mat(), Mat& probs = Mat())
+//
+/**
+ * Estimate the Gaussian mixture parameters from a samples set.
+ *
+ *     This variation starts with Expectation step. Initial values of the model parameters will be
+ *     estimated by the k-means algorithm.
+ *
+ *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
+ *     responses (class labels or function values) as input. Instead, it computes the *Maximum
+ *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
+ *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
+ *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
+ *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
+ *     probable mixture component for each sample).
+ *
+ *     The trained model can be used further for prediction, just like any other classifier. The
+ *     trained model is similar to the NormalBayesClassifier.
+ *
+ * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
+ *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
+ *         it will be converted to the inner matrix of such type for the further computing.
+ * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
+ *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
+ * @param labels The optional output "class label" for each sample:
+ *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
+ *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
+ * @param probs The optional output matrix that contains posterior probabilities of each Gaussian
+ *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
+ *         CV_64FC1 type.
+ */
+- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods labels:(Mat*)labels probs:(Mat*)probs NS_SWIFT_NAME(trainEM(samples:logLikelihoods:labels:probs:));
+
+/**
+ * Estimate the Gaussian mixture parameters from a samples set.
+ *
+ *     This variation starts with Expectation step. Initial values of the model parameters will be
+ *     estimated by the k-means algorithm.
+ *
+ *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
+ *     responses (class labels or function values) as input. Instead, it computes the *Maximum
+ *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
+ *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
+ *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
+ *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
+ *     probable mixture component for each sample).
+ *
+ *     The trained model can be used further for prediction, just like any other classifier. The
+ *     trained model is similar to the NormalBayesClassifier.
+ *
+ * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
+ *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
+ *         it will be converted to the inner matrix of such type for the further computing.
+ * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
+ *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
+ * @param labels The optional output "class label" for each sample:
+ *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
+ *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
+ *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
+ *         CV_64FC1 type.
+ */
+- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods labels:(Mat*)labels NS_SWIFT_NAME(trainEM(samples:logLikelihoods:labels:));
+
+/**
+ * Estimate the Gaussian mixture parameters from a samples set.
+ *
+ *     This variation starts with Expectation step. Initial values of the model parameters will be
+ *     estimated by the k-means algorithm.
+ *
+ *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
+ *     responses (class labels or function values) as input. Instead, it computes the *Maximum
+ *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
+ *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
+ *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
+ *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
+ *     probable mixture component for each sample).
+ *
+ *     The trained model can be used further for prediction, just like any other classifier. The
+ *     trained model is similar to the NormalBayesClassifier.
+ *
+ * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
+ *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
+ *         it will be converted to the inner matrix of such type for the further computing.
+ * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
+ *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
+ *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
+ *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
+ *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
+ *         CV_64FC1 type.
+ */
+- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods NS_SWIFT_NAME(trainEM(samples:logLikelihoods:));
+
+/**
+ * Estimate the Gaussian mixture parameters from a samples set.
+ *
+ *     This variation starts with Expectation step. Initial values of the model parameters will be
+ *     estimated by the k-means algorithm.
+ *
+ *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
+ *     responses (class labels or function values) as input. Instead, it computes the *Maximum
+ *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
+ *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
+ *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
+ *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
+ *     probable mixture component for each sample).
+ *
+ *     The trained model can be used further for prediction, just like any other classifier. The
+ *     trained model is similar to the NormalBayesClassifier.
+ *
+ * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
+ *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
+ *         it will be converted to the inner matrix of such type for the further computing.
+ *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
+ *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
+ *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
+ *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
+ *         CV_64FC1 type.
+ */
+- (BOOL)trainEM:(Mat*)samples NS_SWIFT_NAME(trainEM(samples:));
 
 
 //
@@ -322,128 +494,6 @@ CV_EXPORTS @interface EM : StatModel
 
 
 //
-//  bool cv::ml::EM::trainEM(Mat samples, Mat& logLikelihoods = Mat(), Mat& labels = Mat(), Mat& probs = Mat())
-//
-/**
- * Estimate the Gaussian mixture parameters from a samples set.
- *
- *     This variation starts with Expectation step. Initial values of the model parameters will be
- *     estimated by the k-means algorithm.
- *
- *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
- *     responses (class labels or function values) as input. Instead, it computes the *Maximum
- *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
- *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
- *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
- *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
- *     probable mixture component for each sample).
- *
- *     The trained model can be used further for prediction, just like any other classifier. The
- *     trained model is similar to the NormalBayesClassifier.
- *
- * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
- *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
- *         it will be converted to the inner matrix of such type for the further computing.
- * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
- *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
- * @param labels The optional output "class label" for each sample:
- *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
- *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
- * @param probs The optional output matrix that contains posterior probabilities of each Gaussian
- *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
- *         CV_64FC1 type.
- */
-- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods labels:(Mat*)labels probs:(Mat*)probs NS_SWIFT_NAME(trainEM(samples:logLikelihoods:labels:probs:));
-
-/**
- * Estimate the Gaussian mixture parameters from a samples set.
- *
- *     This variation starts with Expectation step. Initial values of the model parameters will be
- *     estimated by the k-means algorithm.
- *
- *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
- *     responses (class labels or function values) as input. Instead, it computes the *Maximum
- *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
- *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
- *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
- *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
- *     probable mixture component for each sample).
- *
- *     The trained model can be used further for prediction, just like any other classifier. The
- *     trained model is similar to the NormalBayesClassifier.
- *
- * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
- *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
- *         it will be converted to the inner matrix of such type for the further computing.
- * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
- *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
- * @param labels The optional output "class label" for each sample:
- *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
- *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
- *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
- *         CV_64FC1 type.
- */
-- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods labels:(Mat*)labels NS_SWIFT_NAME(trainEM(samples:logLikelihoods:labels:));
-
-/**
- * Estimate the Gaussian mixture parameters from a samples set.
- *
- *     This variation starts with Expectation step. Initial values of the model parameters will be
- *     estimated by the k-means algorithm.
- *
- *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
- *     responses (class labels or function values) as input. Instead, it computes the *Maximum
- *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
- *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
- *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
- *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
- *     probable mixture component for each sample).
- *
- *     The trained model can be used further for prediction, just like any other classifier. The
- *     trained model is similar to the NormalBayesClassifier.
- *
- * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
- *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
- *         it will be converted to the inner matrix of such type for the further computing.
- * @param logLikelihoods The optional output matrix that contains a likelihood logarithm value for
- *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
- *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
- *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
- *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
- *         CV_64FC1 type.
- */
-- (BOOL)trainEM:(Mat*)samples logLikelihoods:(Mat*)logLikelihoods NS_SWIFT_NAME(trainEM(samples:logLikelihoods:));
-
-/**
- * Estimate the Gaussian mixture parameters from a samples set.
- *
- *     This variation starts with Expectation step. Initial values of the model parameters will be
- *     estimated by the k-means algorithm.
- *
- *     Unlike many of the ML models, %EM is an unsupervised learning algorithm and it does not take
- *     responses (class labels or function values) as input. Instead, it computes the *Maximum
- *     Likelihood Estimate* of the Gaussian mixture parameters from an input sample set, stores all the
- *     parameters inside the structure: `$$p_{i,k}$$` in probs, `$$a_k$$` in means , `$$S_k$$` in
- *     covs[k], `$$\pi_k$$` in weights , and optionally computes the output "class label" for each
- *     sample: `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most
- *     probable mixture component for each sample).
- *
- *     The trained model can be used further for prediction, just like any other classifier. The
- *     trained model is similar to the NormalBayesClassifier.
- *
- * @param samples Samples from which the Gaussian mixture model will be estimated. It should be a
- *         one-channel matrix, each row of which is a sample. If the matrix does not have CV_64F type
- *         it will be converted to the inner matrix of such type for the further computing.
- *         each sample. It has `$$nsamples \times 1$$` size and CV_64FC1 type.
- *         `$$\texttt{labels}_i=\texttt{arg max}_k(p_{i,k}), i=1..N$$` (indices of the most probable
- *         mixture component for each sample). It has `$$nsamples \times 1$$` size and CV_32SC1 type.
- *         mixture component given the each sample. It has `$$nsamples \times nclusters$$` size and
- *         CV_64FC1 type.
- */
-- (BOOL)trainEM:(Mat*)samples NS_SWIFT_NAME(trainEM(samples:));
-
-
-//
 //  bool cv::ml::EM::trainM(Mat samples, Mat probs0, Mat& logLikelihoods = Mat(), Mat& labels = Mat(), Mat& probs = Mat())
 //
 /**
@@ -526,91 +576,41 @@ CV_EXPORTS @interface EM : StatModel
 
 
 //
-//  float cv::ml::EM::predict(Mat samples, Mat& results = Mat(), int flags = 0)
+// static Ptr_EM cv::ml::EM::create()
 //
 /**
- * Returns posterior probabilities for the provided samples
+ * Creates empty %EM model.
+ *     The model should be trained then using StatModel::train(traindata, flags) method. Alternatively, you
+ *     can use one of the EM::train\* methods or load it from file using Algorithm::load\<EM\>(filename).
+ */
++ (EM*)create NS_SWIFT_NAME(create());
+
+
+//
+// static Ptr_EM cv::ml::EM::load(String filepath, String nodeName = String())
+//
+/**
+ * Loads and creates a serialized EM from a file
  *
- * @param samples The input samples, floating-point matrix
- * @param results The optional output `$$ nSamples \times nClusters$$` matrix of results. It contains
- *     posterior probabilities for each sample from the input
- * @param flags This parameter will be ignored
- */
-- (float)predict:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(predict(samples:results:flags:));
-
-/**
- * Returns posterior probabilities for the provided samples
+ * Use EM::save to serialize and store an EM to disk.
+ * Load the EM from this file again, by calling this function with the path to the file.
+ * Optionally specify the node for the file containing the classifier
  *
- * @param samples The input samples, floating-point matrix
- * @param results The optional output `$$ nSamples \times nClusters$$` matrix of results. It contains
- *     posterior probabilities for each sample from the input
+ * @param filepath path to serialized EM
+ * @param nodeName name of node containing the classifier
  */
-- (float)predict:(Mat*)samples results:(Mat*)results NS_SWIFT_NAME(predict(samples:results:));
++ (EM*)load:(NSString*)filepath nodeName:(NSString*)nodeName NS_SWIFT_NAME(load(filepath:nodeName:));
 
 /**
- * Returns posterior probabilities for the provided samples
+ * Loads and creates a serialized EM from a file
  *
- * @param samples The input samples, floating-point matrix
- *     posterior probabilities for each sample from the input
- */
-- (float)predict:(Mat*)samples NS_SWIFT_NAME(predict(samples:));
-
-
-//
-//  int cv::ml::EM::getClustersNumber()
-//
-/**
- * @see `-setClustersNumber:`
- */
-- (int)getClustersNumber NS_SWIFT_NAME(getClustersNumber());
-
-
-//
-//  int cv::ml::EM::getCovarianceMatrixType()
-//
-/**
- * @see `-setCovarianceMatrixType:`
- */
-- (int)getCovarianceMatrixType NS_SWIFT_NAME(getCovarianceMatrixType());
-
-
-//
-//  void cv::ml::EM::getCovs(vector_Mat& covs)
-//
-/**
- * Returns covariation matrices
+ * Use EM::save to serialize and store an EM to disk.
+ * Load the EM from this file again, by calling this function with the path to the file.
+ * Optionally specify the node for the file containing the classifier
  *
- *     Returns vector of covariation matrices. Number of matrices is the number of gaussian mixtures,
- *     each matrix is a square floating-point matrix NxN, where N is the space dimensionality.
+ * @param filepath path to serialized EM
  */
-- (void)getCovs:(NSMutableArray<Mat*>*)covs NS_SWIFT_NAME(getCovs(covs:));
-
-
-//
-//  void cv::ml::EM::setClustersNumber(int val)
-//
-/**
- *  getClustersNumber @see `-getClustersNumber:`
- */
-- (void)setClustersNumber:(int)val NS_SWIFT_NAME(setClustersNumber(val:));
-
-
-//
-//  void cv::ml::EM::setCovarianceMatrixType(int val)
-//
-/**
- *  getCovarianceMatrixType @see `-getCovarianceMatrixType:`
- */
-- (void)setCovarianceMatrixType:(int)val NS_SWIFT_NAME(setCovarianceMatrixType(val:));
-
-
-//
-//  void cv::ml::EM::setTermCriteria(TermCriteria val)
-//
-/**
- *  getTermCriteria @see `-getTermCriteria:`
- */
-- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
++ (EM*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
 
 
 

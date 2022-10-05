@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/objdetect.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -21,14 +21,14 @@
 @class Size2i;
 
 
-// C++: enum DescriptorStorageFormat
+// C++: enum DescriptorStorageFormat (cv.HOGDescriptor.DescriptorStorageFormat)
 typedef NS_ENUM(int, DescriptorStorageFormat) {
     DESCR_FORMAT_COL_BY_COL = 0,
     DESCR_FORMAT_ROW_BY_ROW = 1
 };
 
 
-// C++: enum HistogramNormType
+// C++: enum HistogramNormType (cv.HOGDescriptor.HistogramNormType)
 typedef NS_ENUM(int, HistogramNormType) {
     L2Hys = 0
 };
@@ -76,6 +76,17 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
 @property (class, readonly) int DEFAULT_NLEVELS NS_SWIFT_NAME(DEFAULT_NLEVELS);
 
 #pragma mark - Methods
+
+
+//
+//   cv::HOGDescriptor::HOGDescriptor()
+//
+/**
+ * Creates the HOG descriptor and detector with default parameters.
+ *
+ *     aqual to HOGDescriptor(Size(64,128), Size(16,16), Size(8,8), Size(8,8), 9 )
+ */
+- (instancetype)init;
 
 
 //
@@ -195,55 +206,11 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
 //
 /**
  *
+ *
+ *     Creates the HOG descriptor and detector and loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file.
  * @param filename The file name containing HOGDescriptor properties and coefficients for the linear SVM classifier.
  */
 - (instancetype)initWithFilename:(NSString*)filename;
-
-
-//
-//   cv::HOGDescriptor::HOGDescriptor()
-//
-/**
- * Creates the HOG descriptor and detector with default params.
- *
- *     aqual to HOGDescriptor(Size(64,128), Size(16,16), Size(8,8), Size(8,8), 9 )
- */
-- (instancetype)init;
-
-
-//
-//  bool cv::HOGDescriptor::checkDetectorSize()
-//
-/**
- * Checks if detector size equal to descriptor size.
- */
-- (BOOL)checkDetectorSize NS_SWIFT_NAME(checkDetectorSize());
-
-
-//
-//  bool cv::HOGDescriptor::load(String filename, String objname = String())
-//
-/**
- * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file.
- * @param filename Path of the file to read.
- * @param objname The optional name of the node to read (if empty, the first top-level node will be used).
- */
-- (BOOL)load:(NSString*)filename objname:(NSString*)objname NS_SWIFT_NAME(load(filename:objname:));
-
-/**
- * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file.
- * @param filename Path of the file to read.
- */
-- (BOOL)load:(NSString*)filename NS_SWIFT_NAME(load(filename:));
-
-
-//
-//  double cv::HOGDescriptor::getWinSigma()
-//
-/**
- * Returns winSigma value
- */
-- (double)getWinSigma NS_SWIFT_NAME(getWinSigma());
 
 
 //
@@ -256,21 +223,65 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
 
 
 //
-// static vector_float cv::HOGDescriptor::getDaimlerPeopleDetector()
+//  bool cv::HOGDescriptor::checkDetectorSize()
 //
 /**
- * Returns coefficients of the classifier trained for people detection (for 48x96 windows).
+ * Checks if detector size equal to descriptor size.
  */
-+ (FloatVector*)getDaimlerPeopleDetector NS_SWIFT_NAME(getDaimlerPeopleDetector());
+- (BOOL)checkDetectorSize NS_SWIFT_NAME(checkDetectorSize());
 
 
 //
-// static vector_float cv::HOGDescriptor::getDefaultPeopleDetector()
+//  double cv::HOGDescriptor::getWinSigma()
 //
 /**
- * Returns coefficients of the classifier trained for people detection (for 64x128 windows).
+ * Returns winSigma value
  */
-+ (FloatVector*)getDefaultPeopleDetector NS_SWIFT_NAME(getDefaultPeopleDetector());
+- (double)getWinSigma NS_SWIFT_NAME(getWinSigma());
+
+
+//
+//  void cv::HOGDescriptor::setSVMDetector(Mat svmdetector)
+//
+/**
+ * Sets coefficients for the linear SVM classifier.
+ * @param svmdetector coefficients for the linear SVM classifier.
+ */
+- (void)setSVMDetector:(Mat*)svmdetector NS_SWIFT_NAME(setSVMDetector(svmdetector:));
+
+
+//
+//  bool cv::HOGDescriptor::load(String filename, String objname = String())
+//
+/**
+ * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file
+ * @param filename Name of the file to read.
+ * @param objname The optional name of the node to read (if empty, the first top-level node will be used).
+ */
+- (BOOL)load:(NSString*)filename objname:(NSString*)objname NS_SWIFT_NAME(load(filename:objname:));
+
+/**
+ * loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file
+ * @param filename Name of the file to read.
+ */
+- (BOOL)load:(NSString*)filename NS_SWIFT_NAME(load(filename:));
+
+
+//
+//  void cv::HOGDescriptor::save(String filename, String objname = String())
+//
+/**
+ * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
+ * @param filename File name
+ * @param objname Object name
+ */
+- (void)save:(NSString*)filename objname:(NSString*)objname NS_SWIFT_NAME(save(filename:objname:));
+
+/**
+ * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
+ * @param filename File name
+ */
+- (void)save:(NSString*)filename NS_SWIFT_NAME(save(filename:));
 
 
 //
@@ -309,37 +320,6 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param descriptors Matrix of the type CV_32F
  */
 - (void)compute:(Mat*)img descriptors:(FloatVector*)descriptors NS_SWIFT_NAME(compute(img:descriptors:));
-
-
-//
-//  void cv::HOGDescriptor::computeGradient(Mat img, Mat& grad, Mat& angleOfs, Size paddingTL = Size(), Size paddingBR = Size())
-//
-/**
- *  Computes gradients and quantized gradient orientations.
- * @param img Matrix contains the image to be computed
- * @param grad Matrix of type CV_32FC2 contains computed gradients
- * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
- * @param paddingTL Padding from top-left
- * @param paddingBR Padding from bottom-right
- */
-- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs paddingTL:(Size2i*)paddingTL paddingBR:(Size2i*)paddingBR NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:paddingTL:paddingBR:));
-
-/**
- *  Computes gradients and quantized gradient orientations.
- * @param img Matrix contains the image to be computed
- * @param grad Matrix of type CV_32FC2 contains computed gradients
- * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
- * @param paddingTL Padding from top-left
- */
-- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs paddingTL:(Size2i*)paddingTL NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:paddingTL:));
-
-/**
- *  Computes gradients and quantized gradient orientations.
- * @param img Matrix contains the image to be computed
- * @param grad Matrix of type CV_32FC2 contains computed gradients
- * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
- */
-- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:));
 
 
 //
@@ -407,7 +387,7 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
 
 
 //
-//  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double finalThreshold = 2.0, bool useMeanshiftGrouping = false)
+//  void cv::HOGDescriptor::detectMultiScale(Mat img, vector_Rect& foundLocations, vector_double& foundWeights, double hitThreshold = 0, Size winStride = Size(), Size padding = Size(), double scale = 1.05, double groupThreshold = 2.0, bool useMeanshiftGrouping = false)
 //
 /**
  * Detects objects of different sizes in the input image. The detected objects are returned as a list
@@ -421,10 +401,11 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param winStride Window stride. It must be a multiple of block stride.
  * @param padding Padding
  * @param scale Coefficient of the detection window increase.
- * @param finalThreshold Final threshold
+ * @param groupThreshold Coefficient to regulate the similarity threshold. When detected, some objects can be covered
+ *     by many rectangles. 0 means not to perform grouping.
  * @param useMeanshiftGrouping indicates grouping algorithm
  */
-- (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding scale:(double)scale finalThreshold:(double)finalThreshold useMeanshiftGrouping:(BOOL)useMeanshiftGrouping NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:scale:finalThreshold:useMeanshiftGrouping:));
+- (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding scale:(double)scale groupThreshold:(double)groupThreshold useMeanshiftGrouping:(BOOL)useMeanshiftGrouping NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:scale:groupThreshold:useMeanshiftGrouping:));
 
 /**
  * Detects objects of different sizes in the input image. The detected objects are returned as a list
@@ -438,9 +419,10 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param winStride Window stride. It must be a multiple of block stride.
  * @param padding Padding
  * @param scale Coefficient of the detection window increase.
- * @param finalThreshold Final threshold
+ * @param groupThreshold Coefficient to regulate the similarity threshold. When detected, some objects can be covered
+ *     by many rectangles. 0 means not to perform grouping.
  */
-- (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding scale:(double)scale finalThreshold:(double)finalThreshold NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:scale:finalThreshold:));
+- (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding scale:(double)scale groupThreshold:(double)groupThreshold NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:scale:groupThreshold:));
 
 /**
  * Detects objects of different sizes in the input image. The detected objects are returned as a list
@@ -454,6 +436,7 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param winStride Window stride. It must be a multiple of block stride.
  * @param padding Padding
  * @param scale Coefficient of the detection window increase.
+ *     by many rectangles. 0 means not to perform grouping.
  */
 - (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding scale:(double)scale NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:scale:));
 
@@ -468,6 +451,7 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
  * @param winStride Window stride. It must be a multiple of block stride.
  * @param padding Padding
+ *     by many rectangles. 0 means not to perform grouping.
  */
 - (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride padding:(Size2i*)padding NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:padding:));
 
@@ -481,6 +465,7 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
  *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
  * @param winStride Window stride. It must be a multiple of block stride.
+ *     by many rectangles. 0 means not to perform grouping.
  */
 - (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold winStride:(Size2i*)winStride NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:winStride:));
 
@@ -493,6 +478,7 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param hitThreshold Threshold for the distance between features and SVM classifying plane.
  *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
  *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
+ *     by many rectangles. 0 means not to perform grouping.
  */
 - (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights hitThreshold:(double)hitThreshold NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:hitThreshold:));
 
@@ -504,35 +490,58 @@ CV_EXPORTS @interface HOGDescriptor : NSObject
  * @param foundWeights Vector that will contain confidence values for each detected object.
  *     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
  *     But if the free coefficient is omitted (which is allowed), you can specify it manually here.
+ *     by many rectangles. 0 means not to perform grouping.
  */
 - (void)detectMultiScale:(Mat*)img foundLocations:(NSMutableArray<Rect2i*>*)foundLocations foundWeights:(DoubleVector*)foundWeights NS_SWIFT_NAME(detectMultiScale(img:foundLocations:foundWeights:));
 
 
 //
-//  void cv::HOGDescriptor::save(String filename, String objname = String())
+//  void cv::HOGDescriptor::computeGradient(Mat img, Mat& grad, Mat& angleOfs, Size paddingTL = Size(), Size paddingBR = Size())
 //
 /**
- * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
- * @param filename File name
- * @param objname Object name
+ *  Computes gradients and quantized gradient orientations.
+ * @param img Matrix contains the image to be computed
+ * @param grad Matrix of type CV_32FC2 contains computed gradients
+ * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
+ * @param paddingTL Padding from top-left
+ * @param paddingBR Padding from bottom-right
  */
-- (void)save:(NSString*)filename objname:(NSString*)objname NS_SWIFT_NAME(save(filename:objname:));
+- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs paddingTL:(Size2i*)paddingTL paddingBR:(Size2i*)paddingBR NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:paddingTL:paddingBR:));
 
 /**
- * saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
- * @param filename File name
+ *  Computes gradients and quantized gradient orientations.
+ * @param img Matrix contains the image to be computed
+ * @param grad Matrix of type CV_32FC2 contains computed gradients
+ * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
+ * @param paddingTL Padding from top-left
  */
-- (void)save:(NSString*)filename NS_SWIFT_NAME(save(filename:));
+- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs paddingTL:(Size2i*)paddingTL NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:paddingTL:));
+
+/**
+ *  Computes gradients and quantized gradient orientations.
+ * @param img Matrix contains the image to be computed
+ * @param grad Matrix of type CV_32FC2 contains computed gradients
+ * @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
+ */
+- (void)computeGradient:(Mat*)img grad:(Mat*)grad angleOfs:(Mat*)angleOfs NS_SWIFT_NAME(computeGradient(img:grad:angleOfs:));
 
 
 //
-//  void cv::HOGDescriptor::setSVMDetector(Mat svmdetector)
+// static vector_float cv::HOGDescriptor::getDefaultPeopleDetector()
 //
 /**
- * Sets coefficients for the linear SVM classifier.
- * @param svmdetector coefficients for the linear SVM classifier.
+ * Returns coefficients of the classifier trained for people detection (for 64x128 windows).
  */
-- (void)setSVMDetector:(Mat*)svmdetector NS_SWIFT_NAME(setSVMDetector(svmdetector:));
++ (FloatVector*)getDefaultPeopleDetector NS_SWIFT_NAME(getDefaultPeopleDetector());
+
+
+//
+// static vector_float cv::HOGDescriptor::getDaimlerPeopleDetector()
+//
+/**
+ * Returns coefficients of the classifier trained for people detection (for 48x96 windows).
+ */
++ (FloatVector*)getDaimlerPeopleDetector NS_SWIFT_NAME(getDaimlerPeopleDetector());
 
 
     //

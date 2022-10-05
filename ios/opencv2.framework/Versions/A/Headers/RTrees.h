@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,6 +45,60 @@ CV_EXPORTS @interface RTrees : DTrees
 
 
 //
+//  bool cv::ml::RTrees::getCalculateVarImportance()
+//
+/**
+ * @see `-setCalculateVarImportance:`
+ */
+- (BOOL)getCalculateVarImportance NS_SWIFT_NAME(getCalculateVarImportance());
+
+
+//
+//  void cv::ml::RTrees::setCalculateVarImportance(bool val)
+//
+/**
+ *  getCalculateVarImportance @see `-getCalculateVarImportance:`
+ */
+- (void)setCalculateVarImportance:(BOOL)val NS_SWIFT_NAME(setCalculateVarImportance(val:));
+
+
+//
+//  int cv::ml::RTrees::getActiveVarCount()
+//
+/**
+ * @see `-setActiveVarCount:`
+ */
+- (int)getActiveVarCount NS_SWIFT_NAME(getActiveVarCount());
+
+
+//
+//  void cv::ml::RTrees::setActiveVarCount(int val)
+//
+/**
+ *  getActiveVarCount @see `-getActiveVarCount:`
+ */
+- (void)setActiveVarCount:(int)val NS_SWIFT_NAME(setActiveVarCount(val:));
+
+
+//
+//  TermCriteria cv::ml::RTrees::getTermCriteria()
+//
+/**
+ * @see `-setTermCriteria:`
+ */
+- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+
+
+//
+//  void cv::ml::RTrees::setTermCriteria(TermCriteria val)
+//
+/**
+ *  getTermCriteria @see `-getTermCriteria:`
+ */
+- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
+
+
+//
 //  Mat cv::ml::RTrees::getVarImportance()
 //
 /**
@@ -54,6 +108,32 @@ CV_EXPORTS @interface RTrees : DTrees
  *     returned.
  */
 - (Mat*)getVarImportance NS_SWIFT_NAME(getVarImportance());
+
+
+//
+//  void cv::ml::RTrees::getVotes(Mat samples, Mat& results, int flags)
+//
+/**
+ * Returns the result of each individual tree in the forest.
+ *     In case the model is a regression problem, the method will return each of the trees'
+ *     results for each of the sample cases. If the model is a classifier, it will return
+ *     a Mat with samples + 1 rows, where the first row gives the class number and the
+ *     following rows return the votes each class had for each sample.
+ * @param samples Array containing the samples for which votes will be calculated.
+ * @param results Array where the result of the calculation will be written.
+ * @param flags Flags for defining the type of RTrees.
+ */
+- (void)getVotes:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(getVotes(samples:results:flags:));
+
+
+//
+//  double cv::ml::RTrees::getOOBError()
+//
+/**
+ * Returns the OOB error value, computed at the training stage when calcOOBError is set to true.
+ * If this flag was set to false, 0 is returned. The OOB error is also scaled by sample weighting.
+ */
+- (double)getOOBError NS_SWIFT_NAME(getOOBError());
 
 
 //
@@ -92,76 +172,6 @@ CV_EXPORTS @interface RTrees : DTrees
  * @param filepath path to serialized RTree
  */
 + (RTrees*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  TermCriteria cv::ml::RTrees::getTermCriteria()
-//
-/**
- * @see `-setTermCriteria:`
- */
-- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
-
-
-//
-//  bool cv::ml::RTrees::getCalculateVarImportance()
-//
-/**
- * @see `-setCalculateVarImportance:`
- */
-- (BOOL)getCalculateVarImportance NS_SWIFT_NAME(getCalculateVarImportance());
-
-
-//
-//  int cv::ml::RTrees::getActiveVarCount()
-//
-/**
- * @see `-setActiveVarCount:`
- */
-- (int)getActiveVarCount NS_SWIFT_NAME(getActiveVarCount());
-
-
-//
-//  void cv::ml::RTrees::getVotes(Mat samples, Mat& results, int flags)
-//
-/**
- * Returns the result of each individual tree in the forest.
- *     In case the model is a regression problem, the method will return each of the trees'
- *     results for each of the sample cases. If the model is a classifier, it will return
- *     a Mat with samples + 1 rows, where the first row gives the class number and the
- *     following rows return the votes each class had for each sample.
- * @param samples Array containing the samples for which votes will be calculated.
- * @param results Array where the result of the calculation will be written.
- * @param flags Flags for defining the type of RTrees.
- */
-- (void)getVotes:(Mat*)samples results:(Mat*)results flags:(int)flags NS_SWIFT_NAME(getVotes(samples:results:flags:));
-
-
-//
-//  void cv::ml::RTrees::setActiveVarCount(int val)
-//
-/**
- *  getActiveVarCount @see `-getActiveVarCount:`
- */
-- (void)setActiveVarCount:(int)val NS_SWIFT_NAME(setActiveVarCount(val:));
-
-
-//
-//  void cv::ml::RTrees::setCalculateVarImportance(bool val)
-//
-/**
- *  getCalculateVarImportance @see `-getCalculateVarImportance:`
- */
-- (void)setCalculateVarImportance:(BOOL)val NS_SWIFT_NAME(setCalculateVarImportance(val:));
-
-
-//
-//  void cv::ml::RTrees::setTermCriteria(TermCriteria val)
-//
-/**
- *  getTermCriteria @see `-getTermCriteria:`
- */
-- (void)setTermCriteria:(TermCriteria*)val NS_SWIFT_NAME(setTermCriteria(val:));
 
 
 

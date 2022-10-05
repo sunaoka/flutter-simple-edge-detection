@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/objdetect.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -46,6 +46,12 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
 
 
 //
+//   cv::CascadeClassifier::CascadeClassifier()
+//
+- (instancetype)init;
+
+
+//
 //   cv::CascadeClassifier::CascadeClassifier(String filename)
 //
 /**
@@ -57,36 +63,12 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
 
 
 //
-//   cv::CascadeClassifier::CascadeClassifier()
-//
-- (instancetype)init;
-
-
-//
-//  Size cv::CascadeClassifier::getOriginalWindowSize()
-//
-- (Size2i*)getOriginalWindowSize NS_SWIFT_NAME(getOriginalWindowSize());
-
-
-//
-// static bool cv::CascadeClassifier::convert(String oldcascade, String newcascade)
-//
-+ (BOOL)convert:(NSString*)oldcascade newcascade:(NSString*)newcascade NS_SWIFT_NAME(convert(oldcascade:newcascade:));
-
-
-//
 //  bool cv::CascadeClassifier::empty()
 //
 /**
  * Checks whether the classifier has been loaded.
  */
 - (BOOL)empty NS_SWIFT_NAME(empty());
-
-
-//
-//  bool cv::CascadeClassifier::isOldFormatCascade()
-//
-- (BOOL)isOldFormatCascade NS_SWIFT_NAME(isOldFormatCascade());
 
 
 //
@@ -109,12 +91,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
 
 
 //
-//  int cv::CascadeClassifier::getFeatureType()
-//
-- (int)getFeatureType NS_SWIFT_NAME(getFeatureType());
-
-
-//
 //  void cv::CascadeClassifier::detectMultiScale(Mat image, vector_Rect& objects, double scaleFactor = 1.1, int minNeighbors = 3, int flags = 0, Size minSize = Size(), Size maxSize = Size())
 //
 /**
@@ -131,12 +107,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *     cvHaarDetectObjects. It is not used for a new cascade.
  * @param minSize Minimum possible object size. Objects smaller than that are ignored.
  * @param maxSize Maximum possible object size. Objects larger than that are ignored. If `maxSize == minSize` model is evaluated on single scale.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects scaleFactor:(double)scaleFactor minNeighbors:(int)minNeighbors flags:(int)flags minSize:(Size2i*)minSize maxSize:(Size2i*)maxSize NS_SWIFT_NAME(detectMultiScale(image:objects:scaleFactor:minNeighbors:flags:minSize:maxSize:));
 
@@ -153,12 +123,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  * @param flags Parameter with the same meaning for an old cascade as in the function
  *     cvHaarDetectObjects. It is not used for a new cascade.
  * @param minSize Minimum possible object size. Objects smaller than that are ignored.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects scaleFactor:(double)scaleFactor minNeighbors:(int)minNeighbors flags:(int)flags minSize:(Size2i*)minSize NS_SWIFT_NAME(detectMultiScale(image:objects:scaleFactor:minNeighbors:flags:minSize:));
 
@@ -174,12 +138,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *     to retain it.
  * @param flags Parameter with the same meaning for an old cascade as in the function
  *     cvHaarDetectObjects. It is not used for a new cascade.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects scaleFactor:(double)scaleFactor minNeighbors:(int)minNeighbors flags:(int)flags NS_SWIFT_NAME(detectMultiScale(image:objects:scaleFactor:minNeighbors:flags:));
 
@@ -194,12 +152,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  * @param minNeighbors Parameter specifying how many neighbors each candidate rectangle should have
  *     to retain it.
  *     cvHaarDetectObjects. It is not used for a new cascade.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects scaleFactor:(double)scaleFactor minNeighbors:(int)minNeighbors NS_SWIFT_NAME(detectMultiScale(image:objects:scaleFactor:minNeighbors:));
 
@@ -213,12 +165,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  * @param scaleFactor Parameter specifying how much the image size is reduced at each image scale.
  *     to retain it.
  *     cvHaarDetectObjects. It is not used for a new cascade.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects scaleFactor:(double)scaleFactor NS_SWIFT_NAME(detectMultiScale(image:objects:scaleFactor:));
 
@@ -231,12 +177,6 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *     rectangles may be partially outside the original image.
  *     to retain it.
  *     cvHaarDetectObjects. It is not used for a new cascade.
- *
- *     The function is parallelized with the TBB library.
- *
- *     @note
- *        -   (Python) A face detection example using cascade classifiers can be found at
- *             opencv_source_code/samples/python/facedetect.py
  */
 - (void)detectMultiScale:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects NS_SWIFT_NAME(detectMultiScale(image:objects:));
 
@@ -480,6 +420,30 @@ CV_EXPORTS @interface CascadeClassifier : NSObject
  *     
  */
 - (void)detectMultiScale3:(Mat*)image objects:(NSMutableArray<Rect2i*>*)objects rejectLevels:(IntVector*)rejectLevels levelWeights:(DoubleVector*)levelWeights NS_SWIFT_NAME(detectMultiScale(image:objects:rejectLevels:levelWeights:));
+
+
+//
+//  bool cv::CascadeClassifier::isOldFormatCascade()
+//
+- (BOOL)isOldFormatCascade NS_SWIFT_NAME(isOldFormatCascade());
+
+
+//
+//  Size cv::CascadeClassifier::getOriginalWindowSize()
+//
+- (Size2i*)getOriginalWindowSize NS_SWIFT_NAME(getOriginalWindowSize());
+
+
+//
+//  int cv::CascadeClassifier::getFeatureType()
+//
+- (int)getFeatureType NS_SWIFT_NAME(getFeatureType());
+
+
+//
+// static bool cv::CascadeClassifier::convert(String oldcascade, String newcascade)
+//
++ (BOOL)convert:(NSString*)oldcascade newcascade:(NSString*)newcascade NS_SWIFT_NAME(convert(oldcascade:newcascade:));
 
 
 

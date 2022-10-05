@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -16,7 +16,7 @@
 
 
 
-// C++: enum Types
+// C++: enum Types (cv.ml.Boost.Types)
 typedef NS_ENUM(int, Types) {
     DISCRETE = 0,
     REAL = 1,
@@ -50,6 +50,60 @@ CV_EXPORTS @interface Boost : DTrees
 
 
 #pragma mark - Methods
+
+
+//
+//  int cv::ml::Boost::getBoostType()
+//
+/**
+ * @see `-setBoostType:`
+ */
+- (int)getBoostType NS_SWIFT_NAME(getBoostType());
+
+
+//
+//  void cv::ml::Boost::setBoostType(int val)
+//
+/**
+ *  getBoostType @see `-getBoostType:`
+ */
+- (void)setBoostType:(int)val NS_SWIFT_NAME(setBoostType(val:));
+
+
+//
+//  int cv::ml::Boost::getWeakCount()
+//
+/**
+ * @see `-setWeakCount:`
+ */
+- (int)getWeakCount NS_SWIFT_NAME(getWeakCount());
+
+
+//
+//  void cv::ml::Boost::setWeakCount(int val)
+//
+/**
+ *  getWeakCount @see `-getWeakCount:`
+ */
+- (void)setWeakCount:(int)val NS_SWIFT_NAME(setWeakCount(val:));
+
+
+//
+//  double cv::ml::Boost::getWeightTrimRate()
+//
+/**
+ * @see `-setWeightTrimRate:`
+ */
+- (double)getWeightTrimRate NS_SWIFT_NAME(getWeightTrimRate());
+
+
+//
+//  void cv::ml::Boost::setWeightTrimRate(double val)
+//
+/**
+ *  getWeightTrimRate @see `-getWeightTrimRate:`
+ */
+- (void)setWeightTrimRate:(double)val NS_SWIFT_NAME(setWeightTrimRate(val:));
 
 
 //
@@ -87,60 +141,6 @@ CV_EXPORTS @interface Boost : DTrees
  * @param filepath path to serialized Boost
  */
 + (Boost*)load:(NSString*)filepath NS_SWIFT_NAME(load(filepath:));
-
-
-//
-//  double cv::ml::Boost::getWeightTrimRate()
-//
-/**
- * @see `-setWeightTrimRate:`
- */
-- (double)getWeightTrimRate NS_SWIFT_NAME(getWeightTrimRate());
-
-
-//
-//  int cv::ml::Boost::getBoostType()
-//
-/**
- * @see `-setBoostType:`
- */
-- (int)getBoostType NS_SWIFT_NAME(getBoostType());
-
-
-//
-//  int cv::ml::Boost::getWeakCount()
-//
-/**
- * @see `-setWeakCount:`
- */
-- (int)getWeakCount NS_SWIFT_NAME(getWeakCount());
-
-
-//
-//  void cv::ml::Boost::setBoostType(int val)
-//
-/**
- *  getBoostType @see `-getBoostType:`
- */
-- (void)setBoostType:(int)val NS_SWIFT_NAME(setBoostType(val:));
-
-
-//
-//  void cv::ml::Boost::setWeakCount(int val)
-//
-/**
- *  getWeakCount @see `-getWeakCount:`
- */
-- (void)setWeakCount:(int)val NS_SWIFT_NAME(setWeakCount(val:));
-
-
-//
-//  void cv::ml::Boost::setWeightTrimRate(double val)
-//
-/**
- *  getWeightTrimRate @see `-getWeightTrimRate:`
- */
-- (void)setWeightTrimRate:(double)val NS_SWIFT_NAME(setWeightTrimRate(val:));
 
 
 

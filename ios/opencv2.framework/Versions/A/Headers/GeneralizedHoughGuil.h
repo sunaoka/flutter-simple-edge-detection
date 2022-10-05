@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/imgproc.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -44,45 +44,9 @@ CV_EXPORTS @interface GeneralizedHoughGuil : GeneralizedHough
 
 
 //
-//  double cv::GeneralizedHoughGuil::getAngleEpsilon()
+//  void cv::GeneralizedHoughGuil::setXi(double xi)
 //
-- (double)getAngleEpsilon NS_SWIFT_NAME(getAngleEpsilon());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getAngleStep()
-//
-- (double)getAngleStep NS_SWIFT_NAME(getAngleStep());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getMaxAngle()
-//
-- (double)getMaxAngle NS_SWIFT_NAME(getMaxAngle());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getMaxScale()
-//
-- (double)getMaxScale NS_SWIFT_NAME(getMaxScale());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getMinAngle()
-//
-- (double)getMinAngle NS_SWIFT_NAME(getMinAngle());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getMinScale()
-//
-- (double)getMinScale NS_SWIFT_NAME(getMinScale());
-
-
-//
-//  double cv::GeneralizedHoughGuil::getScaleStep()
-//
-- (double)getScaleStep NS_SWIFT_NAME(getScaleStep());
+- (void)setXi:(double)xi NS_SWIFT_NAME(setXi(xi:));
 
 
 //
@@ -92,9 +56,9 @@ CV_EXPORTS @interface GeneralizedHoughGuil : GeneralizedHough
 
 
 //
-//  int cv::GeneralizedHoughGuil::getAngleThresh()
+//  void cv::GeneralizedHoughGuil::setLevels(int levels)
 //
-- (int)getAngleThresh NS_SWIFT_NAME(getAngleThresh());
+- (void)setLevels:(int)levels NS_SWIFT_NAME(setLevels(levels:));
 
 
 //
@@ -104,51 +68,15 @@ CV_EXPORTS @interface GeneralizedHoughGuil : GeneralizedHough
 
 
 //
-//  int cv::GeneralizedHoughGuil::getPosThresh()
-//
-- (int)getPosThresh NS_SWIFT_NAME(getPosThresh());
-
-
-//
-//  int cv::GeneralizedHoughGuil::getScaleThresh()
-//
-- (int)getScaleThresh NS_SWIFT_NAME(getScaleThresh());
-
-
-//
 //  void cv::GeneralizedHoughGuil::setAngleEpsilon(double angleEpsilon)
 //
 - (void)setAngleEpsilon:(double)angleEpsilon NS_SWIFT_NAME(setAngleEpsilon(angleEpsilon:));
 
 
 //
-//  void cv::GeneralizedHoughGuil::setAngleStep(double angleStep)
+//  double cv::GeneralizedHoughGuil::getAngleEpsilon()
 //
-- (void)setAngleStep:(double)angleStep NS_SWIFT_NAME(setAngleStep(angleStep:));
-
-
-//
-//  void cv::GeneralizedHoughGuil::setAngleThresh(int angleThresh)
-//
-- (void)setAngleThresh:(int)angleThresh NS_SWIFT_NAME(setAngleThresh(angleThresh:));
-
-
-//
-//  void cv::GeneralizedHoughGuil::setLevels(int levels)
-//
-- (void)setLevels:(int)levels NS_SWIFT_NAME(setLevels(levels:));
-
-
-//
-//  void cv::GeneralizedHoughGuil::setMaxAngle(double maxAngle)
-//
-- (void)setMaxAngle:(double)maxAngle NS_SWIFT_NAME(setMaxAngle(maxAngle:));
-
-
-//
-//  void cv::GeneralizedHoughGuil::setMaxScale(double maxScale)
-//
-- (void)setMaxScale:(double)maxScale NS_SWIFT_NAME(setMaxScale(maxScale:));
+- (double)getAngleEpsilon NS_SWIFT_NAME(getAngleEpsilon());
 
 
 //
@@ -158,15 +86,69 @@ CV_EXPORTS @interface GeneralizedHoughGuil : GeneralizedHough
 
 
 //
+//  double cv::GeneralizedHoughGuil::getMinAngle()
+//
+- (double)getMinAngle NS_SWIFT_NAME(getMinAngle());
+
+
+//
+//  void cv::GeneralizedHoughGuil::setMaxAngle(double maxAngle)
+//
+- (void)setMaxAngle:(double)maxAngle NS_SWIFT_NAME(setMaxAngle(maxAngle:));
+
+
+//
+//  double cv::GeneralizedHoughGuil::getMaxAngle()
+//
+- (double)getMaxAngle NS_SWIFT_NAME(getMaxAngle());
+
+
+//
+//  void cv::GeneralizedHoughGuil::setAngleStep(double angleStep)
+//
+- (void)setAngleStep:(double)angleStep NS_SWIFT_NAME(setAngleStep(angleStep:));
+
+
+//
+//  double cv::GeneralizedHoughGuil::getAngleStep()
+//
+- (double)getAngleStep NS_SWIFT_NAME(getAngleStep());
+
+
+//
+//  void cv::GeneralizedHoughGuil::setAngleThresh(int angleThresh)
+//
+- (void)setAngleThresh:(int)angleThresh NS_SWIFT_NAME(setAngleThresh(angleThresh:));
+
+
+//
+//  int cv::GeneralizedHoughGuil::getAngleThresh()
+//
+- (int)getAngleThresh NS_SWIFT_NAME(getAngleThresh());
+
+
+//
 //  void cv::GeneralizedHoughGuil::setMinScale(double minScale)
 //
 - (void)setMinScale:(double)minScale NS_SWIFT_NAME(setMinScale(minScale:));
 
 
 //
-//  void cv::GeneralizedHoughGuil::setPosThresh(int posThresh)
+//  double cv::GeneralizedHoughGuil::getMinScale()
 //
-- (void)setPosThresh:(int)posThresh NS_SWIFT_NAME(setPosThresh(posThresh:));
+- (double)getMinScale NS_SWIFT_NAME(getMinScale());
+
+
+//
+//  void cv::GeneralizedHoughGuil::setMaxScale(double maxScale)
+//
+- (void)setMaxScale:(double)maxScale NS_SWIFT_NAME(setMaxScale(maxScale:));
+
+
+//
+//  double cv::GeneralizedHoughGuil::getMaxScale()
+//
+- (double)getMaxScale NS_SWIFT_NAME(getMaxScale());
 
 
 //
@@ -176,15 +158,33 @@ CV_EXPORTS @interface GeneralizedHoughGuil : GeneralizedHough
 
 
 //
+//  double cv::GeneralizedHoughGuil::getScaleStep()
+//
+- (double)getScaleStep NS_SWIFT_NAME(getScaleStep());
+
+
+//
 //  void cv::GeneralizedHoughGuil::setScaleThresh(int scaleThresh)
 //
 - (void)setScaleThresh:(int)scaleThresh NS_SWIFT_NAME(setScaleThresh(scaleThresh:));
 
 
 //
-//  void cv::GeneralizedHoughGuil::setXi(double xi)
+//  int cv::GeneralizedHoughGuil::getScaleThresh()
 //
-- (void)setXi:(double)xi NS_SWIFT_NAME(setXi(xi:));
+- (int)getScaleThresh NS_SWIFT_NAME(getScaleThresh());
+
+
+//
+//  void cv::GeneralizedHoughGuil::setPosThresh(int posThresh)
+//
+- (void)setPosThresh:(int)posThresh NS_SWIFT_NAME(setPosThresh(posThresh:));
+
+
+//
+//  int cv::GeneralizedHoughGuil::getPosThresh()
+//
+- (int)getPosThresh NS_SWIFT_NAME(getPosThresh());
 
 
 

@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/background_segm.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,15 +46,41 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
 
 
 //
-//  bool cv::BackgroundSubtractorMOG2::getDetectShadows()
+//  int cv::BackgroundSubtractorMOG2::getHistory()
 //
 /**
- * Returns the shadow detection flag
- *
- *     If true, the algorithm detects shadows and marks them. See createBackgroundSubtractorMOG2 for
- *     details.
+ * Returns the number of last frames that affect the background model
  */
-- (BOOL)getDetectShadows NS_SWIFT_NAME(getDetectShadows());
+- (int)getHistory NS_SWIFT_NAME(getHistory());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setHistory(int history)
+//
+/**
+ * Sets the number of last frames that affect the background model
+ */
+- (void)setHistory:(int)history NS_SWIFT_NAME(setHistory(history:));
+
+
+//
+//  int cv::BackgroundSubtractorMOG2::getNMixtures()
+//
+/**
+ * Returns the number of gaussian components in the background model
+ */
+- (int)getNMixtures NS_SWIFT_NAME(getNMixtures());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setNMixtures(int nmixtures)
+//
+/**
+ * Sets the number of gaussian components in the background model.
+ *
+ *     The model needs to be reinitalized to reserve memory.
+ */
+- (void)setNMixtures:(int)nmixtures NS_SWIFT_NAME(setNMixtures(nmixtures:));
 
 
 //
@@ -70,51 +97,12 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
 
 
 //
-//  double cv::BackgroundSubtractorMOG2::getComplexityReductionThreshold()
+//  void cv::BackgroundSubtractorMOG2::setBackgroundRatio(double ratio)
 //
 /**
- * Returns the complexity reduction threshold
- *
- *     This parameter defines the number of samples needed to accept to prove the component exists. CT=0.05
- *     is a default value for all the samples. By setting CT=0 you get an algorithm very similar to the
- *     standard Stauffer&Grimson algorithm.
+ * Sets the "background ratio" parameter of the algorithm
  */
-- (double)getComplexityReductionThreshold NS_SWIFT_NAME(getComplexityReductionThreshold());
-
-
-//
-//  double cv::BackgroundSubtractorMOG2::getShadowThreshold()
-//
-/**
- * Returns the shadow threshold
- *
- *     A shadow is detected if pixel is a darker version of the background. The shadow threshold (Tau in
- *     the paper) is a threshold defining how much darker the shadow can be. Tau= 0.5 means that if a pixel
- *     is more than twice darker then it is not shadow. See Prati, Mikic, Trivedi and Cucchiara,
- * Detecting Moving Shadows...*, IEEE PAMI,2003.
- */
-- (double)getShadowThreshold NS_SWIFT_NAME(getShadowThreshold());
-
-
-//
-//  double cv::BackgroundSubtractorMOG2::getVarInit()
-//
-/**
- * Returns the initial variance of each gaussian component
- */
-- (double)getVarInit NS_SWIFT_NAME(getVarInit());
-
-
-//
-//  double cv::BackgroundSubtractorMOG2::getVarMax()
-//
-- (double)getVarMax NS_SWIFT_NAME(getVarMax());
-
-
-//
-//  double cv::BackgroundSubtractorMOG2::getVarMin()
-//
-- (double)getVarMin NS_SWIFT_NAME(getVarMin());
+- (void)setBackgroundRatio:(double)ratio NS_SWIFT_NAME(setBackgroundRatio(ratio:));
 
 
 //
@@ -127,6 +115,15 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
  *     the background model or not. Related to Cthr from the paper.
  */
 - (double)getVarThreshold NS_SWIFT_NAME(getVarThreshold());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setVarThreshold(double varThreshold)
+//
+/**
+ * Sets the variance threshold for the pixel-model match
+ */
+- (void)setVarThreshold:(double)varThreshold NS_SWIFT_NAME(setVarThreshold(varThreshold:));
 
 
 //
@@ -145,21 +142,97 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
 
 
 //
-//  int cv::BackgroundSubtractorMOG2::getHistory()
+//  void cv::BackgroundSubtractorMOG2::setVarThresholdGen(double varThresholdGen)
 //
 /**
- * Returns the number of last frames that affect the background model
+ * Sets the variance threshold for the pixel-model match used for new mixture component generation
  */
-- (int)getHistory NS_SWIFT_NAME(getHistory());
+- (void)setVarThresholdGen:(double)varThresholdGen NS_SWIFT_NAME(setVarThresholdGen(varThresholdGen:));
 
 
 //
-//  int cv::BackgroundSubtractorMOG2::getNMixtures()
+//  double cv::BackgroundSubtractorMOG2::getVarInit()
 //
 /**
- * Returns the number of gaussian components in the background model
+ * Returns the initial variance of each gaussian component
  */
-- (int)getNMixtures NS_SWIFT_NAME(getNMixtures());
+- (double)getVarInit NS_SWIFT_NAME(getVarInit());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setVarInit(double varInit)
+//
+/**
+ * Sets the initial variance of each gaussian component
+ */
+- (void)setVarInit:(double)varInit NS_SWIFT_NAME(setVarInit(varInit:));
+
+
+//
+//  double cv::BackgroundSubtractorMOG2::getVarMin()
+//
+- (double)getVarMin NS_SWIFT_NAME(getVarMin());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setVarMin(double varMin)
+//
+- (void)setVarMin:(double)varMin NS_SWIFT_NAME(setVarMin(varMin:));
+
+
+//
+//  double cv::BackgroundSubtractorMOG2::getVarMax()
+//
+- (double)getVarMax NS_SWIFT_NAME(getVarMax());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setVarMax(double varMax)
+//
+- (void)setVarMax:(double)varMax NS_SWIFT_NAME(setVarMax(varMax:));
+
+
+//
+//  double cv::BackgroundSubtractorMOG2::getComplexityReductionThreshold()
+//
+/**
+ * Returns the complexity reduction threshold
+ *
+ *     This parameter defines the number of samples needed to accept to prove the component exists. CT=0.05
+ *     is a default value for all the samples. By setting CT=0 you get an algorithm very similar to the
+ *     standard Stauffer&Grimson algorithm.
+ */
+- (double)getComplexityReductionThreshold NS_SWIFT_NAME(getComplexityReductionThreshold());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setComplexityReductionThreshold(double ct)
+//
+/**
+ * Sets the complexity reduction threshold
+ */
+- (void)setComplexityReductionThreshold:(double)ct NS_SWIFT_NAME(setComplexityReductionThreshold(ct:));
+
+
+//
+//  bool cv::BackgroundSubtractorMOG2::getDetectShadows()
+//
+/**
+ * Returns the shadow detection flag
+ *
+ *     If true, the algorithm detects shadows and marks them. See createBackgroundSubtractorMOG2 for
+ *     details.
+ */
+- (BOOL)getDetectShadows NS_SWIFT_NAME(getDetectShadows());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setDetectShadows(bool detectShadows)
+//
+/**
+ * Enables or disables shadow detection
+ */
+- (void)setDetectShadows:(BOOL)detectShadows NS_SWIFT_NAME(setDetectShadows(detectShadows:));
 
 
 //
@@ -172,6 +245,38 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
  *     in the mask always means background, 255 means foreground.
  */
 - (int)getShadowValue NS_SWIFT_NAME(getShadowValue());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setShadowValue(int value)
+//
+/**
+ * Sets the shadow value
+ */
+- (void)setShadowValue:(int)value NS_SWIFT_NAME(setShadowValue(value:));
+
+
+//
+//  double cv::BackgroundSubtractorMOG2::getShadowThreshold()
+//
+/**
+ * Returns the shadow threshold
+ *
+ *     A shadow is detected if pixel is a darker version of the background. The shadow threshold (Tau in
+ *     the paper) is a threshold defining how much darker the shadow can be. Tau= 0.5 means that if a pixel
+ *     is more than twice darker then it is not shadow. See Prati, Mikic, Trivedi and Cucchiara,
+ * Detecting Moving Shadows...*, IEEE PAMI,2003.
+ */
+- (double)getShadowThreshold NS_SWIFT_NAME(getShadowThreshold());
+
+
+//
+//  void cv::BackgroundSubtractorMOG2::setShadowThreshold(double threshold)
+//
+/**
+ * Sets the shadow threshold
+ */
+- (void)setShadowThreshold:(double)threshold NS_SWIFT_NAME(setShadowThreshold(threshold:));
 
 
 //
@@ -199,110 +304,6 @@ CV_EXPORTS @interface BackgroundSubtractorMOG2 : BackgroundSubtractor
  *     is completely reinitialized from the last frame.
  */
 - (void)apply:(Mat*)image fgmask:(Mat*)fgmask NS_SWIFT_NAME(apply(image:fgmask:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setBackgroundRatio(double ratio)
-//
-/**
- * Sets the "background ratio" parameter of the algorithm
- */
-- (void)setBackgroundRatio:(double)ratio NS_SWIFT_NAME(setBackgroundRatio(ratio:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setComplexityReductionThreshold(double ct)
-//
-/**
- * Sets the complexity reduction threshold
- */
-- (void)setComplexityReductionThreshold:(double)ct NS_SWIFT_NAME(setComplexityReductionThreshold(ct:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setDetectShadows(bool detectShadows)
-//
-/**
- * Enables or disables shadow detection
- */
-- (void)setDetectShadows:(BOOL)detectShadows NS_SWIFT_NAME(setDetectShadows(detectShadows:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setHistory(int history)
-//
-/**
- * Sets the number of last frames that affect the background model
- */
-- (void)setHistory:(int)history NS_SWIFT_NAME(setHistory(history:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setNMixtures(int nmixtures)
-//
-/**
- * Sets the number of gaussian components in the background model.
- *
- *     The model needs to be reinitalized to reserve memory.
- */
-- (void)setNMixtures:(int)nmixtures NS_SWIFT_NAME(setNMixtures(nmixtures:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setShadowThreshold(double threshold)
-//
-/**
- * Sets the shadow threshold
- */
-- (void)setShadowThreshold:(double)threshold NS_SWIFT_NAME(setShadowThreshold(threshold:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setShadowValue(int value)
-//
-/**
- * Sets the shadow value
- */
-- (void)setShadowValue:(int)value NS_SWIFT_NAME(setShadowValue(value:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setVarInit(double varInit)
-//
-/**
- * Sets the initial variance of each gaussian component
- */
-- (void)setVarInit:(double)varInit NS_SWIFT_NAME(setVarInit(varInit:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setVarMax(double varMax)
-//
-- (void)setVarMax:(double)varMax NS_SWIFT_NAME(setVarMax(varMax:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setVarMin(double varMin)
-//
-- (void)setVarMin:(double)varMin NS_SWIFT_NAME(setVarMin(varMin:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setVarThreshold(double varThreshold)
-//
-/**
- * Sets the variance threshold for the pixel-model match
- */
-- (void)setVarThreshold:(double)varThreshold NS_SWIFT_NAME(setVarThreshold(varThreshold:));
-
-
-//
-//  void cv::BackgroundSubtractorMOG2::setVarThresholdGen(double varThresholdGen)
-//
-/**
- * Sets the variance threshold for the pixel-model match used for new mixture component generation
- */
-- (void)setVarThresholdGen:(double)varThresholdGen NS_SWIFT_NAME(setVarThresholdGen(varThresholdGen:));
 
 
 

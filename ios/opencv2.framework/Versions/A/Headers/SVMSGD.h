@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -17,17 +17,17 @@
 @class TermCriteria;
 
 
-// C++: enum SvmsgdType
-typedef NS_ENUM(int, SvmsgdType) {
-    SGD = 0,
-    ASGD = 1
-};
-
-
-// C++: enum MarginType
+// C++: enum MarginType (cv.ml.SVMSGD.MarginType)
 typedef NS_ENUM(int, MarginType) {
     SOFT_MARGIN = 0,
     HARD_MARGIN = 1
+};
+
+
+// C++: enum SvmsgdType (cv.ml.SVMSGD.SvmsgdType)
+typedef NS_ENUM(int, SvmsgdType) {
+    SGD = 0,
+    ASGD = 1
 };
 
 
@@ -65,6 +65,15 @@ CV_EXPORTS @interface SVMSGD : StatModel
  * @return the weights of the trained model (decision function f(x) = weights * x + shift).
  */
 - (Mat*)getWeights NS_SWIFT_NAME(getWeights());
+
+
+//
+//  float cv::ml::SVMSGD::getShift()
+//
+/**
+ * @return the shift of the trained model (decision function f(x) = weights * x + shift).
+ */
+- (float)getShift NS_SWIFT_NAME(getShift());
 
 
 //
@@ -106,96 +115,6 @@ CV_EXPORTS @interface SVMSGD : StatModel
 
 
 //
-//  TermCriteria cv::ml::SVMSGD::getTermCriteria()
-//
-/**
- * @see `-setTermCriteria:`
- */
-- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
-
-
-//
-//  float cv::ml::SVMSGD::getInitialStepSize()
-//
-/**
- * @see `-setInitialStepSize:`
- */
-- (float)getInitialStepSize NS_SWIFT_NAME(getInitialStepSize());
-
-
-//
-//  float cv::ml::SVMSGD::getMarginRegularization()
-//
-/**
- * @see `-setMarginRegularization:`
- */
-- (float)getMarginRegularization NS_SWIFT_NAME(getMarginRegularization());
-
-
-//
-//  float cv::ml::SVMSGD::getShift()
-//
-/**
- * @return the shift of the trained model (decision function f(x) = weights * x + shift).
- */
-- (float)getShift NS_SWIFT_NAME(getShift());
-
-
-//
-//  float cv::ml::SVMSGD::getStepDecreasingPower()
-//
-/**
- * @see `-setStepDecreasingPower:`
- */
-- (float)getStepDecreasingPower NS_SWIFT_NAME(getStepDecreasingPower());
-
-
-//
-//  int cv::ml::SVMSGD::getMarginType()
-//
-/**
- * @see `-setMarginType:`
- */
-- (int)getMarginType NS_SWIFT_NAME(getMarginType());
-
-
-//
-//  int cv::ml::SVMSGD::getSvmsgdType()
-//
-/**
- * @see `-setSvmsgdType:`
- */
-- (int)getSvmsgdType NS_SWIFT_NAME(getSvmsgdType());
-
-
-//
-//  void cv::ml::SVMSGD::setInitialStepSize(float InitialStepSize)
-//
-/**
- *  getInitialStepSize @see `-getInitialStepSize:`
- */
-- (void)setInitialStepSize:(float)InitialStepSize NS_SWIFT_NAME(setInitialStepSize(InitialStepSize:));
-
-
-//
-//  void cv::ml::SVMSGD::setMarginRegularization(float marginRegularization)
-//
-/**
- *  getMarginRegularization @see `-getMarginRegularization:`
- */
-- (void)setMarginRegularization:(float)marginRegularization NS_SWIFT_NAME(setMarginRegularization(marginRegularization:));
-
-
-//
-//  void cv::ml::SVMSGD::setMarginType(int marginType)
-//
-/**
- *  getMarginType @see `-getMarginType:`
- */
-- (void)setMarginType:(int)marginType NS_SWIFT_NAME(setMarginType(marginType:));
-
-
-//
 //  void cv::ml::SVMSGD::setOptimalParameters(int svmsgdType = SVMSGD::ASGD, int marginType = SVMSGD::SOFT_MARGIN)
 //
 /**
@@ -218,12 +137,12 @@ CV_EXPORTS @interface SVMSGD : StatModel
 
 
 //
-//  void cv::ml::SVMSGD::setStepDecreasingPower(float stepDecreasingPower)
+//  int cv::ml::SVMSGD::getSvmsgdType()
 //
 /**
- *  getStepDecreasingPower @see `-getStepDecreasingPower:`
+ * @see `-setSvmsgdType:`
  */
-- (void)setStepDecreasingPower:(float)stepDecreasingPower NS_SWIFT_NAME(setStepDecreasingPower(stepDecreasingPower:));
+- (int)getSvmsgdType NS_SWIFT_NAME(getSvmsgdType());
 
 
 //
@@ -233,6 +152,87 @@ CV_EXPORTS @interface SVMSGD : StatModel
  *  getSvmsgdType @see `-getSvmsgdType:`
  */
 - (void)setSvmsgdType:(int)svmsgdType NS_SWIFT_NAME(setSvmsgdType(svmsgdType:));
+
+
+//
+//  int cv::ml::SVMSGD::getMarginType()
+//
+/**
+ * @see `-setMarginType:`
+ */
+- (int)getMarginType NS_SWIFT_NAME(getMarginType());
+
+
+//
+//  void cv::ml::SVMSGD::setMarginType(int marginType)
+//
+/**
+ *  getMarginType @see `-getMarginType:`
+ */
+- (void)setMarginType:(int)marginType NS_SWIFT_NAME(setMarginType(marginType:));
+
+
+//
+//  float cv::ml::SVMSGD::getMarginRegularization()
+//
+/**
+ * @see `-setMarginRegularization:`
+ */
+- (float)getMarginRegularization NS_SWIFT_NAME(getMarginRegularization());
+
+
+//
+//  void cv::ml::SVMSGD::setMarginRegularization(float marginRegularization)
+//
+/**
+ *  getMarginRegularization @see `-getMarginRegularization:`
+ */
+- (void)setMarginRegularization:(float)marginRegularization NS_SWIFT_NAME(setMarginRegularization(marginRegularization:));
+
+
+//
+//  float cv::ml::SVMSGD::getInitialStepSize()
+//
+/**
+ * @see `-setInitialStepSize:`
+ */
+- (float)getInitialStepSize NS_SWIFT_NAME(getInitialStepSize());
+
+
+//
+//  void cv::ml::SVMSGD::setInitialStepSize(float InitialStepSize)
+//
+/**
+ *  getInitialStepSize @see `-getInitialStepSize:`
+ */
+- (void)setInitialStepSize:(float)InitialStepSize NS_SWIFT_NAME(setInitialStepSize(InitialStepSize:));
+
+
+//
+//  float cv::ml::SVMSGD::getStepDecreasingPower()
+//
+/**
+ * @see `-setStepDecreasingPower:`
+ */
+- (float)getStepDecreasingPower NS_SWIFT_NAME(getStepDecreasingPower());
+
+
+//
+//  void cv::ml::SVMSGD::setStepDecreasingPower(float stepDecreasingPower)
+//
+/**
+ *  getStepDecreasingPower @see `-getStepDecreasingPower:`
+ */
+- (void)setStepDecreasingPower:(float)stepDecreasingPower NS_SWIFT_NAME(setStepDecreasingPower(stepDecreasingPower:));
+
+
+//
+//  TermCriteria cv::ml::SVMSGD::getTermCriteria()
+//
+/**
+ * @see `-setTermCriteria:`
+ */
+- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
 
 
 //

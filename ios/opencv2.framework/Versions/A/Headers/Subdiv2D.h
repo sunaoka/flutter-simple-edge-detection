@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/imgproc.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -63,6 +63,16 @@ CV_EXPORTS @interface Subdiv2D : NSObject
 
 
 //
+//   cv::Subdiv2D::Subdiv2D()
+//
+/**
+ * creates an empty Subdiv2D object.
+ *     To create a new empty Delaunay subdivision you need to use the #initDelaunay function.
+ */
+- (instancetype)init;
+
+
+//
 //   cv::Subdiv2D::Subdiv2D(Rect rect)
 //
 /**
@@ -78,80 +88,72 @@ CV_EXPORTS @interface Subdiv2D : NSObject
 
 
 //
-//   cv::Subdiv2D::Subdiv2D()
+//  void cv::Subdiv2D::initDelaunay(Rect rect)
 //
 /**
- * creates an empty Subdiv2D object.
- *     To create a new empty Delaunay subdivision you need to use the #initDelaunay function.
- */
-- (instancetype)init;
-
-
-//
-//  Point2f cv::Subdiv2D::getVertex(int vertex, int* firstEdge = 0)
-//
-/**
- * Returns vertex location from vertex ID.
+ * Creates a new empty Delaunay subdivision
  *
- * @param vertex vertex ID.
- * @param firstEdge Optional. The first edge ID which is connected to the vertex.
- *     @return vertex (x,y)
+ * @param rect Rectangle that includes all of the 2D points that are to be added to the subdivision.
  */
-- (Point2f*)getVertex:(int)vertex firstEdge:(int*)firstEdge NS_SWIFT_NAME(getVertex(vertex:firstEdge:));
-
-/**
- * Returns vertex location from vertex ID.
- *
- * @param vertex vertex ID.
- *     @return vertex (x,y)
- */
-- (Point2f*)getVertex:(int)vertex NS_SWIFT_NAME(getVertex(vertex:));
+- (void)initDelaunay:(Rect2i*)rect NS_SWIFT_NAME(initDelaunay(rect:));
 
 
 //
-//  int cv::Subdiv2D::edgeDst(int edge, Point2f* dstpt = 0)
+//  int cv::Subdiv2D::insert(Point2f pt)
 //
 /**
- * Returns the edge destination.
+ * Insert a single point into a Delaunay triangulation.
  *
- * @param edge Subdivision edge ID.
- * @param dstpt Output vertex location.
+ * @param pt Point to insert.
  *
- *     @return vertex ID.
+ *     The function inserts a single point into a subdivision and modifies the subdivision topology
+ *     appropriately. If a point with the same coordinates exists already, no new point is added.
+ *     @return the ID of the point.
+ *
+ *     NOTE: If the point is outside of the triangulation specified rect a runtime error is raised.
  */
-- (int)edgeDst:(int)edge dstpt:(Point2f*)dstpt NS_SWIFT_NAME(edgeDst(edge:dstpt:));
-
-/**
- * Returns the edge destination.
- *
- * @param edge Subdivision edge ID.
- *
- *     @return vertex ID.
- */
-- (int)edgeDst:(int)edge NS_SWIFT_NAME(edgeDst(edge:));
+- (int)insert:(Point2f*)pt NS_SWIFT_NAME(insert(pt:));
 
 
 //
-//  int cv::Subdiv2D::edgeOrg(int edge, Point2f* orgpt = 0)
+//  void cv::Subdiv2D::insert(vector_Point2f ptvec)
 //
 /**
- * Returns the edge origin.
+ * Insert multiple points into a Delaunay triangulation.
  *
- * @param edge Subdivision edge ID.
- * @param orgpt Output vertex location.
+ * @param ptvec Points to insert.
  *
- *     @return vertex ID.
+ *     The function inserts a vector of points into a subdivision and modifies the subdivision topology
+ *     appropriately.
  */
-- (int)edgeOrg:(int)edge orgpt:(Point2f*)orgpt NS_SWIFT_NAME(edgeOrg(edge:orgpt:));
+- (void)insertVector:(NSArray<Point2f*>*)ptvec NS_SWIFT_NAME(insert(ptvec:));
 
+
+//
+//  int cv::Subdiv2D::locate(Point2f pt, int& edge, int& vertex)
+//
 /**
- * Returns the edge origin.
+ * Returns the location of a point within a Delaunay triangulation.
  *
- * @param edge Subdivision edge ID.
+ * @param pt Point to locate.
+ * @param edge Output edge that the point belongs to or is located to the right of it.
+ * @param vertex Optional output vertex the input point coincides with.
  *
- *     @return vertex ID.
+ *     The function locates the input point within the subdivision and gives one of the triangle edges
+ *     or vertices.
+ *
+ *     @return an integer which specify one of the following five cases for point location:
+ *     -  The point falls into some facet. The function returns #PTLOC_INSIDE and edge will contain one of
+ *        edges of the facet.
+ *     -  The point falls onto the edge. The function returns #PTLOC_ON_EDGE and edge will contain this edge.
+ *     -  The point coincides with one of the subdivision vertices. The function returns #PTLOC_VERTEX and
+ *        vertex will contain a pointer to the vertex.
+ *     -  The point is outside the subdivision reference rectangle. The function returns #PTLOC_OUTSIDE_RECT
+ *        and no pointers are filled.
+ *     -  One of input arguments is invalid. A runtime error is raised or, if silent or "parent" error
+ *        processing mode is selected, #PTLOC_ERROR is returned.
  */
-- (int)edgeOrg:(int)edge NS_SWIFT_NAME(edgeOrg(edge:));
+- (int)locate:(Point2f*)pt edge:(int*)edge vertex:(int*)vertex NS_SWIFT_NAME(locate(pt:edge:vertex:));
 
 
 //
@@ -185,114 +187,6 @@ CV_EXPORTS @interface Subdiv2D : NSObject
  *     @return vertex ID.
  */
 - (int)findNearest:(Point2f*)pt NS_SWIFT_NAME(findNearest(pt:));
-
-
-//
-//  int cv::Subdiv2D::getEdge(int edge, int nextEdgeType)
-//
-/**
- * Returns one of the edges related to the given edge.
- *
- * @param edge Subdivision edge ID.
- * @param nextEdgeType Parameter specifying which of the related edges to return.
- *     The following values are possible:
- *     -   NEXT_AROUND_ORG next around the edge origin ( eOnext on the picture below if e is the input edge)
- *     -   NEXT_AROUND_DST next around the edge vertex ( eDnext )
- *     -   PREV_AROUND_ORG previous around the edge origin (reversed eRnext )
- *     -   PREV_AROUND_DST previous around the edge destination (reversed eLnext )
- *     -   NEXT_AROUND_LEFT next around the left facet ( eLnext )
- *     -   NEXT_AROUND_RIGHT next around the right facet ( eRnext )
- *     -   PREV_AROUND_LEFT previous around the left facet (reversed eOnext )
- *     -   PREV_AROUND_RIGHT previous around the right facet (reversed eDnext )
- *
- *     ![sample output](pics/quadedge.png)
- *
- *     @return edge ID related to the input edge.
- */
-- (int)getEdge:(int)edge nextEdgeType:(int)nextEdgeType NS_SWIFT_NAME(getEdge(edge:nextEdgeType:));
-
-
-//
-//  int cv::Subdiv2D::insert(Point2f pt)
-//
-/**
- * Insert a single point into a Delaunay triangulation.
- *
- * @param pt Point to insert.
- *
- *     The function inserts a single point into a subdivision and modifies the subdivision topology
- *     appropriately. If a point with the same coordinates exists already, no new point is added.
- *     @return the ID of the point.
- *
- *     @note If the point is outside of the triangulation specified rect a runtime error is raised.
- */
-- (int)insert:(Point2f*)pt NS_SWIFT_NAME(insert(pt:));
-
-
-//
-//  int cv::Subdiv2D::locate(Point2f pt, int& edge, int& vertex)
-//
-/**
- * Returns the location of a point within a Delaunay triangulation.
- *
- * @param pt Point to locate.
- * @param edge Output edge that the point belongs to or is located to the right of it.
- * @param vertex Optional output vertex the input point coincides with.
- *
- *     The function locates the input point within the subdivision and gives one of the triangle edges
- *     or vertices.
- *
- *     @return an integer which specify one of the following five cases for point location:
- *     -  The point falls into some facet. The function returns #PTLOC_INSIDE and edge will contain one of
- *        edges of the facet.
- *     -  The point falls onto the edge. The function returns #PTLOC_ON_EDGE and edge will contain this edge.
- *     -  The point coincides with one of the subdivision vertices. The function returns #PTLOC_VERTEX and
- *        vertex will contain a pointer to the vertex.
- *     -  The point is outside the subdivision reference rectangle. The function returns #PTLOC_OUTSIDE_RECT
- *        and no pointers are filled.
- *     -  One of input arguments is invalid. A runtime error is raised or, if silent or "parent" error
- *        processing mode is selected, #PTLOC_ERROR is returned.
- */
-- (int)locate:(Point2f*)pt edge:(int*)edge vertex:(int*)vertex NS_SWIFT_NAME(locate(pt:edge:vertex:));
-
-
-//
-//  int cv::Subdiv2D::nextEdge(int edge)
-//
-/**
- * Returns next edge around the edge origin.
- *
- * @param edge Subdivision edge ID.
- *
- *     @return an integer which is next edge ID around the edge origin: eOnext on the
- *     picture above if e is the input edge).
- */
-- (int)nextEdge:(int)edge NS_SWIFT_NAME(nextEdge(edge:));
-
-
-//
-//  int cv::Subdiv2D::rotateEdge(int edge, int rotate)
-//
-/**
- * Returns another edge of the same quad-edge.
- *
- * @param edge Subdivision edge ID.
- * @param rotate Parameter specifying which of the edges of the same quad-edge as the input
- *     one to return. The following values are possible:
- *     -   0 - the input edge ( e on the picture below if e is the input edge)
- *     -   1 - the rotated edge ( eRot )
- *     -   2 - the reversed edge (reversed e (in green))
- *     -   3 - the reversed rotated edge (reversed eRot (in green))
- *
- *     @return one of the edges ID of the same quad-edge as the input edge.
- */
-- (int)rotateEdge:(int)edge rotate:(int)rotate NS_SWIFT_NAME(rotateEdge(edge:rotate:));
-
-
-//
-//  int cv::Subdiv2D::symEdge(int edge)
-//
-- (int)symEdge:(int)edge NS_SWIFT_NAME(symEdge(edge:));
 
 
 //
@@ -350,28 +244,134 @@ CV_EXPORTS @interface Subdiv2D : NSObject
 
 
 //
-//  void cv::Subdiv2D::initDelaunay(Rect rect)
+//  Point2f cv::Subdiv2D::getVertex(int vertex, int* firstEdge = 0)
 //
 /**
- * Creates a new empty Delaunay subdivision
+ * Returns vertex location from vertex ID.
  *
- * @param rect Rectangle that includes all of the 2D points that are to be added to the subdivision.
+ * @param vertex vertex ID.
+ * @param firstEdge Optional. The first edge ID which is connected to the vertex.
+ *     @return vertex (x,y)
  */
-- (void)initDelaunay:(Rect2i*)rect NS_SWIFT_NAME(initDelaunay(rect:));
+- (Point2f*)getVertex:(int)vertex firstEdge:(int*)firstEdge NS_SWIFT_NAME(getVertex(vertex:firstEdge:));
+
+/**
+ * Returns vertex location from vertex ID.
+ *
+ * @param vertex vertex ID.
+ *     @return vertex (x,y)
+ */
+- (Point2f*)getVertex:(int)vertex NS_SWIFT_NAME(getVertex(vertex:));
 
 
 //
-//  void cv::Subdiv2D::insert(vector_Point2f ptvec)
+//  int cv::Subdiv2D::getEdge(int edge, int nextEdgeType)
 //
 /**
- * Insert multiple points into a Delaunay triangulation.
+ * Returns one of the edges related to the given edge.
  *
- * @param ptvec Points to insert.
+ * @param edge Subdivision edge ID.
+ * @param nextEdgeType Parameter specifying which of the related edges to return.
+ *     The following values are possible:
+ *     -   NEXT_AROUND_ORG next around the edge origin ( eOnext on the picture below if e is the input edge)
+ *     -   NEXT_AROUND_DST next around the edge vertex ( eDnext )
+ *     -   PREV_AROUND_ORG previous around the edge origin (reversed eRnext )
+ *     -   PREV_AROUND_DST previous around the edge destination (reversed eLnext )
+ *     -   NEXT_AROUND_LEFT next around the left facet ( eLnext )
+ *     -   NEXT_AROUND_RIGHT next around the right facet ( eRnext )
+ *     -   PREV_AROUND_LEFT previous around the left facet (reversed eOnext )
+ *     -   PREV_AROUND_RIGHT previous around the right facet (reversed eDnext )
  *
- *     The function inserts a vector of points into a subdivision and modifies the subdivision topology
- *     appropriately.
+ *     ![sample output](pics/quadedge.png)
+ *
+ *     @return edge ID related to the input edge.
  */
-- (void)insertVector:(NSArray<Point2f*>*)ptvec NS_SWIFT_NAME(insert(ptvec:));
+- (int)getEdge:(int)edge nextEdgeType:(int)nextEdgeType NS_SWIFT_NAME(getEdge(edge:nextEdgeType:));
+
+
+//
+//  int cv::Subdiv2D::nextEdge(int edge)
+//
+/**
+ * Returns next edge around the edge origin.
+ *
+ * @param edge Subdivision edge ID.
+ *
+ *     @return an integer which is next edge ID around the edge origin: eOnext on the
+ *     picture above if e is the input edge).
+ */
+- (int)nextEdge:(int)edge NS_SWIFT_NAME(nextEdge(edge:));
+
+
+//
+//  int cv::Subdiv2D::rotateEdge(int edge, int rotate)
+//
+/**
+ * Returns another edge of the same quad-edge.
+ *
+ * @param edge Subdivision edge ID.
+ * @param rotate Parameter specifying which of the edges of the same quad-edge as the input
+ *     one to return. The following values are possible:
+ *     -   0 - the input edge ( e on the picture below if e is the input edge)
+ *     -   1 - the rotated edge ( eRot )
+ *     -   2 - the reversed edge (reversed e (in green))
+ *     -   3 - the reversed rotated edge (reversed eRot (in green))
+ *
+ *     @return one of the edges ID of the same quad-edge as the input edge.
+ */
+- (int)rotateEdge:(int)edge rotate:(int)rotate NS_SWIFT_NAME(rotateEdge(edge:rotate:));
+
+
+//
+//  int cv::Subdiv2D::symEdge(int edge)
+//
+- (int)symEdge:(int)edge NS_SWIFT_NAME(symEdge(edge:));
+
+
+//
+//  int cv::Subdiv2D::edgeOrg(int edge, Point2f* orgpt = 0)
+//
+/**
+ * Returns the edge origin.
+ *
+ * @param edge Subdivision edge ID.
+ * @param orgpt Output vertex location.
+ *
+ *     @return vertex ID.
+ */
+- (int)edgeOrg:(int)edge orgpt:(Point2f*)orgpt NS_SWIFT_NAME(edgeOrg(edge:orgpt:));
+
+/**
+ * Returns the edge origin.
+ *
+ * @param edge Subdivision edge ID.
+ *
+ *     @return vertex ID.
+ */
+- (int)edgeOrg:(int)edge NS_SWIFT_NAME(edgeOrg(edge:));
+
+
+//
+//  int cv::Subdiv2D::edgeDst(int edge, Point2f* dstpt = 0)
+//
+/**
+ * Returns the edge destination.
+ *
+ * @param edge Subdivision edge ID.
+ * @param dstpt Output vertex location.
+ *
+ *     @return vertex ID.
+ */
+- (int)edgeDst:(int)edge dstpt:(Point2f*)dstpt NS_SWIFT_NAME(edgeDst(edge:dstpt:));
+
+/**
+ * Returns the edge destination.
+ *
+ * @param edge Subdivision edge ID.
+ *
+ *     @return vertex ID.
+ */
+- (int)edgeDst:(int)edge NS_SWIFT_NAME(edgeDst(edge:));
 
 
 

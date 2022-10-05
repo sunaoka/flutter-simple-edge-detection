@@ -7,7 +7,7 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
+#import "opencv2/core.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -38,6 +38,11 @@ CV_EXPORTS @interface Point3i : NSObject
 - (instancetype)initWithX:(int)x y:(int)y z:(int)z;
 - (instancetype)initWithPoint:(Point2i*)point;
 - (instancetype)initWithVals:(NSArray<NSNumber*>*)vals;
+
+#ifdef __cplusplus
++ (instancetype)fromNative:(cv::Point3i&)point;
+- (void)update:(cv::Point3i&)point;
+#endif
 
 # pragma mark - Methods
 

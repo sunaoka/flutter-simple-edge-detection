@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -47,16 +48,6 @@ CV_EXPORTS @interface SegmentationModel : Model
 
 
 //
-//   cv::dnn::SegmentationModel::SegmentationModel(Net network)
-//
-/**
- * Create model from deep learning network.
- * @param network Net object.
- */
-- (instancetype)initWithNetwork:(Net*)network;
-
-
-//
 //   cv::dnn::SegmentationModel::SegmentationModel(String model, String config = "")
 //
 /**
@@ -73,6 +64,16 @@ CV_EXPORTS @interface SegmentationModel : Model
  * @param model Binary file contains trained weights.
  */
 - (instancetype)initWithModel:(NSString*)model;
+
+
+//
+//   cv::dnn::SegmentationModel::SegmentationModel(Net network)
+//
+/**
+ * Create model from deep learning network.
+ * @param network Net object.
+ */
+- (instancetype)initWithNetwork:(Net*)network;
 
 
 //

@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/videoio.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -46,27 +46,17 @@ CV_EXPORTS @interface VideoWriter : NSObject
 
 
 //
-//   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
+//   cv::VideoWriter::VideoWriter()
 //
 /**
+ * Default constructors
  *
- *     The `apiPreference` parameter allows to specify API backends to use. Can be used to enforce a specific reader implementation
- *     if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.
+ *     The constructors/functions initialize video writers.
+ *     -   On Linux FFMPEG is used to write videos;
+ *     -   On Windows FFMPEG or MSWF or DSHOW is used;
+ *     -   On MacOSX AVFoundation is used.
  */
-- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize isColor:(BOOL)isColor;
-
-/**
- *
- *     The `apiPreference` parameter allows to specify API backends to use. Can be used to enforce a specific reader implementation
- *     if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.
- */
-- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize;
-
-
-//
-//   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, vector_int params)
-//
-- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize params:(IntVector*)params;
+- (instancetype)init;
 
 
 //
@@ -121,6 +111,24 @@ CV_EXPORTS @interface VideoWriter : NSObject
 
 
 //
+//   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
+//
+/**
+ *
+ *     The `apiPreference` parameter allows to specify API backends to use. Can be used to enforce a specific reader implementation
+ *     if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.
+ */
+- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize isColor:(BOOL)isColor;
+
+/**
+ *
+ *     The `apiPreference` parameter allows to specify API backends to use. Can be used to enforce a specific reader implementation
+ *     if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.
+ */
+- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize;
+
+
+//
 //   cv::VideoWriter::VideoWriter(String filename, int fourcc, double fps, Size frameSize, vector_int params)
 //
 /**
@@ -132,51 +140,9 @@ CV_EXPORTS @interface VideoWriter : NSObject
 
 
 //
-//   cv::VideoWriter::VideoWriter()
+//   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, vector_int params)
 //
-/**
- * Default constructors
- *
- *     The constructors/functions initialize video writers.
- *     -   On Linux FFMPEG is used to write videos;
- *     -   On Windows FFMPEG or MSWF or DSHOW is used;
- *     -   On MacOSX AVFoundation is used.
- */
-- (instancetype)init;
-
-
-//
-//  String cv::VideoWriter::getBackendName()
-//
-/**
- * Returns used backend API name
- *
- *      @note Stream should be opened.
- */
-- (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
-
-
-//
-//  bool cv::VideoWriter::isOpened()
-//
-/**
- * Returns true if video writer has been successfully initialized.
- */
-- (BOOL)isOpened NS_SWIFT_NAME(isOpened());
-
-
-//
-//  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
-//
-- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize isColor:(BOOL)isColor NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:isColor:));
-
-- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:));
-
-
-//
-//  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, vector_int params)
-//
-- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize params:(IntVector*)params NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:params:));
+- (instancetype)initWithFilename:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize params:(IntVector*)params;
 
 
 //
@@ -206,9 +172,46 @@ CV_EXPORTS @interface VideoWriter : NSObject
 
 
 //
+//  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
+//
+- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize isColor:(BOOL)isColor NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:isColor:));
+
+- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:));
+
+
+//
 //  bool cv::VideoWriter::open(String filename, int fourcc, double fps, Size frameSize, vector_int params)
 //
 - (BOOL)open:(NSString*)filename fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize params:(IntVector*)params NS_SWIFT_NAME(open(filename:fourcc:fps:frameSize:params:));
+
+
+//
+//  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, vector_int params)
+//
+- (BOOL)open:(NSString*)filename apiPreference:(int)apiPreference fourcc:(int)fourcc fps:(double)fps frameSize:(Size2i*)frameSize params:(IntVector*)params NS_SWIFT_NAME(open(filename:apiPreference:fourcc:fps:frameSize:params:));
+
+
+//
+//  bool cv::VideoWriter::isOpened()
+//
+/**
+ * Returns true if video writer has been successfully initialized.
+ */
+- (BOOL)isOpened NS_SWIFT_NAME(isOpened());
+
+
+//
+//  void cv::VideoWriter::write(Mat image)
+//
+/**
+ * Writes the next video frame
+ *
+ * @param image The written frame. In general, color images are expected in BGR format.
+ *
+ *     The function/method writes the specified image to video file. It must have the same size as has
+ *     been specified when opening the video writer.
+ */
+- (void)write:(Mat*)image NS_SWIFT_NAME(write(image:));
 
 
 //
@@ -256,17 +259,14 @@ CV_EXPORTS @interface VideoWriter : NSObject
 
 
 //
-//  void cv::VideoWriter::write(Mat image)
+//  String cv::VideoWriter::getBackendName()
 //
 /**
- * Writes the next video frame
+ * Returns used backend API name
  *
- * @param image The written frame. In general, color images are expected in BGR format.
- *
- *     The function/method writes the specified image to video file. It must have the same size as has
- *     been specified when opening the video writer.
+ *      NOTE: Stream should be opened.
  */
-- (void)write:(Mat*)image NS_SWIFT_NAME(write(image:));
+- (NSString*)getBackendName NS_SWIFT_NAME(getBackendName());
 
 
 

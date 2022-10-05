@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/photo.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -46,27 +46,27 @@ CV_EXPORTS @interface TonemapMantiuk : Tonemap
 
 
 //
-//  float cv::TonemapMantiuk::getSaturation()
-//
-- (float)getSaturation NS_SWIFT_NAME(getSaturation());
-
-
-//
 //  float cv::TonemapMantiuk::getScale()
 //
 - (float)getScale NS_SWIFT_NAME(getScale());
 
 
 //
-//  void cv::TonemapMantiuk::setSaturation(float saturation)
-//
-- (void)setSaturation:(float)saturation NS_SWIFT_NAME(setSaturation(saturation:));
-
-
-//
 //  void cv::TonemapMantiuk::setScale(float scale)
 //
 - (void)setScale:(float)scale NS_SWIFT_NAME(setScale(scale:));
+
+
+//
+//  float cv::TonemapMantiuk::getSaturation()
+//
+- (float)getSaturation NS_SWIFT_NAME(getSaturation());
+
+
+//
+//  void cv::TonemapMantiuk::setSaturation(float saturation)
+//
+- (void)setSaturation:(float)saturation NS_SWIFT_NAME(setSaturation(saturation:));
 
 
 

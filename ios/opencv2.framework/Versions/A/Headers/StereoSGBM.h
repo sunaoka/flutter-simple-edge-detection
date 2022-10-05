@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/calib3d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  * example: pre-filtering (StereoBM::PREFILTER_XSOBEL type) and post-filtering (uniqueness
  * check, quadratic interpolation and speckle filtering).
  *
- * @note
+ * NOTE:
  *    -   (Python) An example illustrating the use of the StereoSGBM matching algorithm can be found
  *         at opencv_source_code/samples/python/stereo_match.py
  *
@@ -63,6 +63,66 @@ CV_EXPORTS @interface StereoSGBM : StereoMatcher
 @property (class, readonly) int MODE_HH4 NS_SWIFT_NAME(MODE_HH4);
 
 #pragma mark - Methods
+
+
+//
+//  int cv::StereoSGBM::getPreFilterCap()
+//
+- (int)getPreFilterCap NS_SWIFT_NAME(getPreFilterCap());
+
+
+//
+//  void cv::StereoSGBM::setPreFilterCap(int preFilterCap)
+//
+- (void)setPreFilterCap:(int)preFilterCap NS_SWIFT_NAME(setPreFilterCap(preFilterCap:));
+
+
+//
+//  int cv::StereoSGBM::getUniquenessRatio()
+//
+- (int)getUniquenessRatio NS_SWIFT_NAME(getUniquenessRatio());
+
+
+//
+//  void cv::StereoSGBM::setUniquenessRatio(int uniquenessRatio)
+//
+- (void)setUniquenessRatio:(int)uniquenessRatio NS_SWIFT_NAME(setUniquenessRatio(uniquenessRatio:));
+
+
+//
+//  int cv::StereoSGBM::getP1()
+//
+- (int)getP1 NS_SWIFT_NAME(getP1());
+
+
+//
+//  void cv::StereoSGBM::setP1(int P1)
+//
+- (void)setP1:(int)P1 NS_SWIFT_NAME(setP1(P1:));
+
+
+//
+//  int cv::StereoSGBM::getP2()
+//
+- (int)getP2 NS_SWIFT_NAME(getP2());
+
+
+//
+//  void cv::StereoSGBM::setP2(int P2)
+//
+- (void)setP2:(int)P2 NS_SWIFT_NAME(setP2(P2:));
+
+
+//
+//  int cv::StereoSGBM::getMode()
+//
+- (int)getMode NS_SWIFT_NAME(getMode());
+
+
+//
+//  void cv::StereoSGBM::setMode(int mode)
+//
+- (void)setMode:(int)mode NS_SWIFT_NAME(setMode(mode:));
 
 
 //
@@ -481,66 +541,6 @@ CV_EXPORTS @interface StereoSGBM : StereoMatcher
  *     to a custom value.
  */
 + (StereoSGBM*)create NS_SWIFT_NAME(create());
-
-
-//
-//  int cv::StereoSGBM::getMode()
-//
-- (int)getMode NS_SWIFT_NAME(getMode());
-
-
-//
-//  int cv::StereoSGBM::getP1()
-//
-- (int)getP1 NS_SWIFT_NAME(getP1());
-
-
-//
-//  int cv::StereoSGBM::getP2()
-//
-- (int)getP2 NS_SWIFT_NAME(getP2());
-
-
-//
-//  int cv::StereoSGBM::getPreFilterCap()
-//
-- (int)getPreFilterCap NS_SWIFT_NAME(getPreFilterCap());
-
-
-//
-//  int cv::StereoSGBM::getUniquenessRatio()
-//
-- (int)getUniquenessRatio NS_SWIFT_NAME(getUniquenessRatio());
-
-
-//
-//  void cv::StereoSGBM::setMode(int mode)
-//
-- (void)setMode:(int)mode NS_SWIFT_NAME(setMode(mode:));
-
-
-//
-//  void cv::StereoSGBM::setP1(int P1)
-//
-- (void)setP1:(int)P1 NS_SWIFT_NAME(setP1(P1:));
-
-
-//
-//  void cv::StereoSGBM::setP2(int P2)
-//
-- (void)setP2:(int)P2 NS_SWIFT_NAME(setP2(P2:));
-
-
-//
-//  void cv::StereoSGBM::setPreFilterCap(int preFilterCap)
-//
-- (void)setPreFilterCap:(int)preFilterCap NS_SWIFT_NAME(setPreFilterCap(preFilterCap:));
-
-
-//
-//  void cv::StereoSGBM::setUniquenessRatio(int uniquenessRatio)
-//
-- (void)setUniquenessRatio:(int)uniquenessRatio NS_SWIFT_NAME(setUniquenessRatio(uniquenessRatio:));
 
 
 

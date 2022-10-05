@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/dnn.hpp"
+#import "opencv2/dnn/dnn.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -45,16 +46,6 @@ CV_EXPORTS @interface Layer : Algorithm
 
 
 //
-//  int cv::dnn::Layer::outputNameToIndex(String outputName)
-//
-/**
- * Returns index of output blob in output array.
- * @see `inputNameToIndex()`
- */
-- (int)outputNameToIndex:(NSString*)outputName NS_SWIFT_NAME(outputNameToIndex(outputName:));
-
-
-//
 //  void cv::dnn::Layer::finalize(vector_Mat inputs, vector_Mat& outputs)
 //
 /**
@@ -75,6 +66,16 @@ CV_EXPORTS @interface Layer : Algorithm
  * @deprecated This method will be removed in the future release.
  */
 - (void)run:(NSArray<Mat*>*)inputs outputs:(NSMutableArray<Mat*>*)outputs internals:(NSMutableArray<Mat*>*)internals NS_SWIFT_NAME(run(inputs:outputs:internals:)) DEPRECATED_ATTRIBUTE;
+
+
+//
+//  int cv::dnn::Layer::outputNameToIndex(String outputName)
+//
+/**
+ * Returns index of output blob in output array.
+ * @see `inputNameToIndex()`
+ */
+- (int)outputNameToIndex:(NSString*)outputName NS_SWIFT_NAME(outputNameToIndex(outputName:));
 
 
     //

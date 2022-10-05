@@ -7,7 +7,7 @@
 #pragma once
 
 #ifdef __cplusplus
-#import <opencv2/opencv.hpp>
+#import <opencv2/core.hpp>
 #else
 #define CV_EXPORTS
 #endif
@@ -41,7 +41,7 @@ CV_EXPORTS @interface Converters : NSObject
 
 + (Mat*)vector_Point2d_to_Mat:(NSArray<Point2d*>*)pts NS_SWIFT_NAME(vector_Point2d_to_Mat(_:));
 
-+ (NSArray<Point2f*>*)Mat_to_vector_Point2d:(Mat*)mat NS_SWIFT_NAME(Mat_to_vector_Point2d(_:));
++ (NSArray<Point2d*>*)Mat_to_vector_Point2d:(Mat*)mat NS_SWIFT_NAME(Mat_to_vector_Point2d(_:));
 
 + (Mat*)vector_Point3i_to_Mat:(NSArray<Point3i*>*)pts NS_SWIFT_NAME(vector_Point3i_to_Mat(_:));
 

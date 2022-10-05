@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/ml.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -15,25 +15,25 @@
 
 
 
-// C++: enum SampleTypes
+// C++: enum ErrorTypes (cv.ml.ErrorTypes)
+typedef NS_ENUM(int, ErrorTypes) {
+    TEST_ERROR = 0,
+    TRAIN_ERROR = 1
+};
+
+
+// C++: enum SampleTypes (cv.ml.SampleTypes)
 typedef NS_ENUM(int, SampleTypes) {
     ROW_SAMPLE = 0,
     COL_SAMPLE = 1
 };
 
 
-// C++: enum VariableTypes
+// C++: enum VariableTypes (cv.ml.VariableTypes)
 typedef NS_ENUM(int, VariableTypes) {
     VAR_NUMERICAL = 0,
     VAR_ORDERED = 0,
     VAR_CATEGORICAL = 1
-};
-
-
-// C++: enum ErrorTypes
-typedef NS_ENUM(int, ErrorTypes) {
-    TEST_ERROR = 0,
-    TRAIN_ERROR = 1
 };
 
 

@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/tracking.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -59,20 +60,161 @@ CV_EXPORTS @interface DISOpticalFlow : DenseOpticalFlow
 
 
 //
-// static Ptr_DISOpticalFlow cv::DISOpticalFlow::create(int preset = DISOpticalFlow::PRESET_FAST)
+//  int cv::DISOpticalFlow::getFinestScale()
 //
 /**
- * Creates an instance of DISOpticalFlow
- *
- * @param preset one of PRESET_ULTRAFAST, PRESET_FAST and PRESET_MEDIUM
+ * Finest level of the Gaussian pyramid on which the flow is computed (zero level
+ *         corresponds to the original image resolution). The final flow is obtained by bilinear upscaling.
+ * @see `-setFinestScale:`
  */
-+ (DISOpticalFlow*)create:(int)preset NS_SWIFT_NAME(create(preset:));
+- (int)getFinestScale NS_SWIFT_NAME(getFinestScale());
 
+
+//
+//  void cv::DISOpticalFlow::setFinestScale(int val)
+//
 /**
- * Creates an instance of DISOpticalFlow
- *
+ *  getFinestScale @see `-getFinestScale:`
  */
-+ (DISOpticalFlow*)create NS_SWIFT_NAME(create());
+- (void)setFinestScale:(int)val NS_SWIFT_NAME(setFinestScale(val:));
+
+
+//
+//  int cv::DISOpticalFlow::getPatchSize()
+//
+/**
+ * Size of an image patch for matching (in pixels). Normally, default 8x8 patches work well
+ *         enough in most cases.
+ * @see `-setPatchSize:`
+ */
+- (int)getPatchSize NS_SWIFT_NAME(getPatchSize());
+
+
+//
+//  void cv::DISOpticalFlow::setPatchSize(int val)
+//
+/**
+ *  getPatchSize @see `-getPatchSize:`
+ */
+- (void)setPatchSize:(int)val NS_SWIFT_NAME(setPatchSize(val:));
+
+
+//
+//  int cv::DISOpticalFlow::getPatchStride()
+//
+/**
+ * Stride between neighbor patches. Must be less than patch size. Lower values correspond
+ *         to higher flow quality.
+ * @see `-setPatchStride:`
+ */
+- (int)getPatchStride NS_SWIFT_NAME(getPatchStride());
+
+
+//
+//  void cv::DISOpticalFlow::setPatchStride(int val)
+//
+/**
+ *  getPatchStride @see `-getPatchStride:`
+ */
+- (void)setPatchStride:(int)val NS_SWIFT_NAME(setPatchStride(val:));
+
+
+//
+//  int cv::DISOpticalFlow::getGradientDescentIterations()
+//
+/**
+ * Maximum number of gradient descent iterations in the patch inverse search stage. Higher values
+ *         may improve quality in some cases.
+ * @see `-setGradientDescentIterations:`
+ */
+- (int)getGradientDescentIterations NS_SWIFT_NAME(getGradientDescentIterations());
+
+
+//
+//  void cv::DISOpticalFlow::setGradientDescentIterations(int val)
+//
+/**
+ *  getGradientDescentIterations @see `-getGradientDescentIterations:`
+ */
+- (void)setGradientDescentIterations:(int)val NS_SWIFT_NAME(setGradientDescentIterations(val:));
+
+
+//
+//  int cv::DISOpticalFlow::getVariationalRefinementIterations()
+//
+/**
+ * Number of fixed point iterations of variational refinement per scale. Set to zero to
+ *         disable variational refinement completely. Higher values will typically result in more smooth and
+ *         high-quality flow.
+ * @see `-setGradientDescentIterations:`
+ */
+- (int)getVariationalRefinementIterations NS_SWIFT_NAME(getVariationalRefinementIterations());
+
+
+//
+//  void cv::DISOpticalFlow::setVariationalRefinementIterations(int val)
+//
+/**
+ *  getGradientDescentIterations @see `-getGradientDescentIterations:`
+ */
+- (void)setVariationalRefinementIterations:(int)val NS_SWIFT_NAME(setVariationalRefinementIterations(val:));
+
+
+//
+//  float cv::DISOpticalFlow::getVariationalRefinementAlpha()
+//
+/**
+ * Weight of the smoothness term
+ * @see `-setVariationalRefinementAlpha:`
+ */
+- (float)getVariationalRefinementAlpha NS_SWIFT_NAME(getVariationalRefinementAlpha());
+
+
+//
+//  void cv::DISOpticalFlow::setVariationalRefinementAlpha(float val)
+//
+/**
+ *  getVariationalRefinementAlpha @see `-getVariationalRefinementAlpha:`
+ */
+- (void)setVariationalRefinementAlpha:(float)val NS_SWIFT_NAME(setVariationalRefinementAlpha(val:));
+
+
+//
+//  float cv::DISOpticalFlow::getVariationalRefinementDelta()
+//
+/**
+ * Weight of the color constancy term
+ * @see `-setVariationalRefinementDelta:`
+ */
+- (float)getVariationalRefinementDelta NS_SWIFT_NAME(getVariationalRefinementDelta());
+
+
+//
+//  void cv::DISOpticalFlow::setVariationalRefinementDelta(float val)
+//
+/**
+ *  getVariationalRefinementDelta @see `-getVariationalRefinementDelta:`
+ */
+- (void)setVariationalRefinementDelta:(float)val NS_SWIFT_NAME(setVariationalRefinementDelta(val:));
+
+
+//
+//  float cv::DISOpticalFlow::getVariationalRefinementGamma()
+//
+/**
+ * Weight of the gradient constancy term
+ * @see `-setVariationalRefinementGamma:`
+ */
+- (float)getVariationalRefinementGamma NS_SWIFT_NAME(getVariationalRefinementGamma());
+
+
+//
+//  void cv::DISOpticalFlow::setVariationalRefinementGamma(float val)
+//
+/**
+ *  getVariationalRefinementGamma @see `-getVariationalRefinementGamma:`
+ */
+- (void)setVariationalRefinementGamma:(float)val NS_SWIFT_NAME(setVariationalRefinementGamma(val:));
 
 
 //
@@ -89,6 +231,15 @@ CV_EXPORTS @interface DISOpticalFlow : DenseOpticalFlow
 
 
 //
+//  void cv::DISOpticalFlow::setUseMeanNormalization(bool val)
+//
+/**
+ *  getUseMeanNormalization @see `-getUseMeanNormalization:`
+ */
+- (void)setUseMeanNormalization:(BOOL)val NS_SWIFT_NAME(setUseMeanNormalization(val:));
+
+
+//
 //  bool cv::DISOpticalFlow::getUseSpatialPropagation()
 //
 /**
@@ -102,137 +253,6 @@ CV_EXPORTS @interface DISOpticalFlow : DenseOpticalFlow
 
 
 //
-//  float cv::DISOpticalFlow::getVariationalRefinementAlpha()
-//
-/**
- * Weight of the smoothness term
- * @see `-setVariationalRefinementAlpha:`
- */
-- (float)getVariationalRefinementAlpha NS_SWIFT_NAME(getVariationalRefinementAlpha());
-
-
-//
-//  float cv::DISOpticalFlow::getVariationalRefinementDelta()
-//
-/**
- * Weight of the color constancy term
- * @see `-setVariationalRefinementDelta:`
- */
-- (float)getVariationalRefinementDelta NS_SWIFT_NAME(getVariationalRefinementDelta());
-
-
-//
-//  float cv::DISOpticalFlow::getVariationalRefinementGamma()
-//
-/**
- * Weight of the gradient constancy term
- * @see `-setVariationalRefinementGamma:`
- */
-- (float)getVariationalRefinementGamma NS_SWIFT_NAME(getVariationalRefinementGamma());
-
-
-//
-//  int cv::DISOpticalFlow::getFinestScale()
-//
-/**
- * Finest level of the Gaussian pyramid on which the flow is computed (zero level
- *         corresponds to the original image resolution). The final flow is obtained by bilinear upscaling.
- * @see `-setFinestScale:`
- */
-- (int)getFinestScale NS_SWIFT_NAME(getFinestScale());
-
-
-//
-//  int cv::DISOpticalFlow::getGradientDescentIterations()
-//
-/**
- * Maximum number of gradient descent iterations in the patch inverse search stage. Higher values
- *         may improve quality in some cases.
- * @see `-setGradientDescentIterations:`
- */
-- (int)getGradientDescentIterations NS_SWIFT_NAME(getGradientDescentIterations());
-
-
-//
-//  int cv::DISOpticalFlow::getPatchSize()
-//
-/**
- * Size of an image patch for matching (in pixels). Normally, default 8x8 patches work well
- *         enough in most cases.
- * @see `-setPatchSize:`
- */
-- (int)getPatchSize NS_SWIFT_NAME(getPatchSize());
-
-
-//
-//  int cv::DISOpticalFlow::getPatchStride()
-//
-/**
- * Stride between neighbor patches. Must be less than patch size. Lower values correspond
- *         to higher flow quality.
- * @see `-setPatchStride:`
- */
-- (int)getPatchStride NS_SWIFT_NAME(getPatchStride());
-
-
-//
-//  int cv::DISOpticalFlow::getVariationalRefinementIterations()
-//
-/**
- * Number of fixed point iterations of variational refinement per scale. Set to zero to
- *         disable variational refinement completely. Higher values will typically result in more smooth and
- *         high-quality flow.
- * @see `-setGradientDescentIterations:`
- */
-- (int)getVariationalRefinementIterations NS_SWIFT_NAME(getVariationalRefinementIterations());
-
-
-//
-//  void cv::DISOpticalFlow::setFinestScale(int val)
-//
-/**
- *  getFinestScale @see `-getFinestScale:`
- */
-- (void)setFinestScale:(int)val NS_SWIFT_NAME(setFinestScale(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setGradientDescentIterations(int val)
-//
-/**
- *  getGradientDescentIterations @see `-getGradientDescentIterations:`
- */
-- (void)setGradientDescentIterations:(int)val NS_SWIFT_NAME(setGradientDescentIterations(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setPatchSize(int val)
-//
-/**
- *  getPatchSize @see `-getPatchSize:`
- */
-- (void)setPatchSize:(int)val NS_SWIFT_NAME(setPatchSize(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setPatchStride(int val)
-//
-/**
- *  getPatchStride @see `-getPatchStride:`
- */
-- (void)setPatchStride:(int)val NS_SWIFT_NAME(setPatchStride(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setUseMeanNormalization(bool val)
-//
-/**
- *  getUseMeanNormalization @see `-getUseMeanNormalization:`
- */
-- (void)setUseMeanNormalization:(BOOL)val NS_SWIFT_NAME(setUseMeanNormalization(val:));
-
-
-//
 //  void cv::DISOpticalFlow::setUseSpatialPropagation(bool val)
 //
 /**
@@ -242,39 +262,20 @@ CV_EXPORTS @interface DISOpticalFlow : DenseOpticalFlow
 
 
 //
-//  void cv::DISOpticalFlow::setVariationalRefinementAlpha(float val)
+// static Ptr_DISOpticalFlow cv::DISOpticalFlow::create(int preset = DISOpticalFlow::PRESET_FAST)
 //
 /**
- *  getVariationalRefinementAlpha @see `-getVariationalRefinementAlpha:`
+ * Creates an instance of DISOpticalFlow
+ *
+ * @param preset one of PRESET_ULTRAFAST, PRESET_FAST and PRESET_MEDIUM
  */
-- (void)setVariationalRefinementAlpha:(float)val NS_SWIFT_NAME(setVariationalRefinementAlpha(val:));
++ (DISOpticalFlow*)create:(int)preset NS_SWIFT_NAME(create(preset:));
 
-
-//
-//  void cv::DISOpticalFlow::setVariationalRefinementDelta(float val)
-//
 /**
- *  getVariationalRefinementDelta @see `-getVariationalRefinementDelta:`
+ * Creates an instance of DISOpticalFlow
+ *
  */
-- (void)setVariationalRefinementDelta:(float)val NS_SWIFT_NAME(setVariationalRefinementDelta(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setVariationalRefinementGamma(float val)
-//
-/**
- *  getVariationalRefinementGamma @see `-getVariationalRefinementGamma:`
- */
-- (void)setVariationalRefinementGamma:(float)val NS_SWIFT_NAME(setVariationalRefinementGamma(val:));
-
-
-//
-//  void cv::DISOpticalFlow::setVariationalRefinementIterations(int val)
-//
-/**
- *  getGradientDescentIterations @see `-getGradientDescentIterations:`
- */
-- (void)setVariationalRefinementIterations:(int)val NS_SWIFT_NAME(setVariationalRefinementIterations(val:));
++ (DISOpticalFlow*)create NS_SWIFT_NAME(create());
 
 
 

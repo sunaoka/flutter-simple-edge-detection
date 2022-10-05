@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -42,16 +42,6 @@ CV_EXPORTS @interface GFTTDetector : Feature2D
 
 
 //
-// static Ptr_GFTTDetector cv::GFTTDetector::create(int maxCorners, double qualityLevel, double minDistance, int blockSize, int gradiantSize, bool useHarrisDetector = false, double k = 0.04)
-//
-+ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize useHarrisDetector:(BOOL)useHarrisDetector k:(double)k NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:useHarrisDetector:k:));
-
-+ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize useHarrisDetector:(BOOL)useHarrisDetector NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:useHarrisDetector:));
-
-+ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:));
-
-
-//
 // static Ptr_GFTTDetector cv::GFTTDetector::create(int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1, int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
 //
 + (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize useHarrisDetector:(BOOL)useHarrisDetector k:(double)k NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:useHarrisDetector:k:));
@@ -70,63 +60,13 @@ CV_EXPORTS @interface GFTTDetector : Feature2D
 
 
 //
-//  String cv::GFTTDetector::getDefaultName()
+// static Ptr_GFTTDetector cv::GFTTDetector::create(int maxCorners, double qualityLevel, double minDistance, int blockSize, int gradiantSize, bool useHarrisDetector = false, double k = 0.04)
 //
-- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
++ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize useHarrisDetector:(BOOL)useHarrisDetector k:(double)k NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:useHarrisDetector:k:));
 
++ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize useHarrisDetector:(BOOL)useHarrisDetector NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:useHarrisDetector:));
 
-//
-//  bool cv::GFTTDetector::getHarrisDetector()
-//
-- (BOOL)getHarrisDetector NS_SWIFT_NAME(getHarrisDetector());
-
-
-//
-//  double cv::GFTTDetector::getK()
-//
-- (double)getK NS_SWIFT_NAME(getK());
-
-
-//
-//  double cv::GFTTDetector::getMinDistance()
-//
-- (double)getMinDistance NS_SWIFT_NAME(getMinDistance());
-
-
-//
-//  double cv::GFTTDetector::getQualityLevel()
-//
-- (double)getQualityLevel NS_SWIFT_NAME(getQualityLevel());
-
-
-//
-//  int cv::GFTTDetector::getBlockSize()
-//
-- (int)getBlockSize NS_SWIFT_NAME(getBlockSize());
-
-
-//
-//  int cv::GFTTDetector::getMaxFeatures()
-//
-- (int)getMaxFeatures NS_SWIFT_NAME(getMaxFeatures());
-
-
-//
-//  void cv::GFTTDetector::setBlockSize(int blockSize)
-//
-- (void)setBlockSize:(int)blockSize NS_SWIFT_NAME(setBlockSize(blockSize:));
-
-
-//
-//  void cv::GFTTDetector::setHarrisDetector(bool val)
-//
-- (void)setHarrisDetector:(BOOL)val NS_SWIFT_NAME(setHarrisDetector(val:));
-
-
-//
-//  void cv::GFTTDetector::setK(double k)
-//
-- (void)setK:(double)k NS_SWIFT_NAME(setK(k:));
++ (GFTTDetector*)create:(int)maxCorners qualityLevel:(double)qualityLevel minDistance:(double)minDistance blockSize:(int)blockSize gradiantSize:(int)gradiantSize NS_SWIFT_NAME(create(maxCorners:qualityLevel:minDistance:blockSize:gradiantSize:));
 
 
 //
@@ -136,15 +76,75 @@ CV_EXPORTS @interface GFTTDetector : Feature2D
 
 
 //
-//  void cv::GFTTDetector::setMinDistance(double minDistance)
+//  int cv::GFTTDetector::getMaxFeatures()
 //
-- (void)setMinDistance:(double)minDistance NS_SWIFT_NAME(setMinDistance(minDistance:));
+- (int)getMaxFeatures NS_SWIFT_NAME(getMaxFeatures());
 
 
 //
 //  void cv::GFTTDetector::setQualityLevel(double qlevel)
 //
 - (void)setQualityLevel:(double)qlevel NS_SWIFT_NAME(setQualityLevel(qlevel:));
+
+
+//
+//  double cv::GFTTDetector::getQualityLevel()
+//
+- (double)getQualityLevel NS_SWIFT_NAME(getQualityLevel());
+
+
+//
+//  void cv::GFTTDetector::setMinDistance(double minDistance)
+//
+- (void)setMinDistance:(double)minDistance NS_SWIFT_NAME(setMinDistance(minDistance:));
+
+
+//
+//  double cv::GFTTDetector::getMinDistance()
+//
+- (double)getMinDistance NS_SWIFT_NAME(getMinDistance());
+
+
+//
+//  void cv::GFTTDetector::setBlockSize(int blockSize)
+//
+- (void)setBlockSize:(int)blockSize NS_SWIFT_NAME(setBlockSize(blockSize:));
+
+
+//
+//  int cv::GFTTDetector::getBlockSize()
+//
+- (int)getBlockSize NS_SWIFT_NAME(getBlockSize());
+
+
+//
+//  void cv::GFTTDetector::setHarrisDetector(bool val)
+//
+- (void)setHarrisDetector:(BOOL)val NS_SWIFT_NAME(setHarrisDetector(val:));
+
+
+//
+//  bool cv::GFTTDetector::getHarrisDetector()
+//
+- (BOOL)getHarrisDetector NS_SWIFT_NAME(getHarrisDetector());
+
+
+//
+//  void cv::GFTTDetector::setK(double k)
+//
+- (void)setK:(double)k NS_SWIFT_NAME(setK(k:));
+
+
+//
+//  double cv::GFTTDetector::getK()
+//
+- (double)getK NS_SWIFT_NAME(getK());
+
+
+//
+//  String cv::GFTTDetector::getDefaultName()
+//
+- (NSString*)getDefaultName NS_SWIFT_NAME(getDefaultName());
 
 
 

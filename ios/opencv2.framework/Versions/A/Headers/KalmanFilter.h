@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/tracking.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  * The class implements a standard Kalman filter <http://en.wikipedia.org/wiki/Kalman_filter>,
  * CITE: Welch95 . However, you can modify transitionMatrix, controlMatrix, and measurementMatrix to get
  * an extended Kalman filter functionality.
- * @note In C API when CvKalman\* kalmanFilter structure is not needed anymore, it should be released
+ * NOTE: In C API when CvKalman\* kalmanFilter structure is not needed anymore, it should be released
  * with cvReleaseKalman(&kalmanFilter)
  *
  * Member of `Video`
@@ -45,6 +46,12 @@ CV_EXPORTS @interface KalmanFilter : NSObject
 
 
 #pragma mark - Methods
+
+
+//
+//   cv::KalmanFilter::KalmanFilter()
+//
+- (instancetype)init;
 
 
 //
@@ -76,23 +83,6 @@ CV_EXPORTS @interface KalmanFilter : NSObject
 
 
 //
-//   cv::KalmanFilter::KalmanFilter()
-//
-- (instancetype)init;
-
-
-//
-//  Mat cv::KalmanFilter::correct(Mat measurement)
-//
-/**
- * Updates the predicted state from the measurement.
- *
- * @param measurement The measured system parameters
- */
-- (Mat*)correct:(Mat*)measurement NS_SWIFT_NAME(correct(measurement:));
-
-
-//
 //  Mat cv::KalmanFilter::predict(Mat control = Mat())
 //
 /**
@@ -107,6 +97,17 @@ CV_EXPORTS @interface KalmanFilter : NSObject
  *
  */
 - (Mat*)predict NS_SWIFT_NAME(predict());
+
+
+//
+//  Mat cv::KalmanFilter::correct(Mat measurement)
+//
+/**
+ * Updates the predicted state from the measurement.
+ *
+ * @param measurement The measured system parameters
+ */
+- (Mat*)correct:(Mat*)measurement NS_SWIFT_NAME(correct(measurement:));
 
 
     //

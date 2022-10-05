@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/tracking.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -50,52 +51,13 @@ CV_EXPORTS @interface VariationalRefinement : DenseOpticalFlow
 
 
 //
-// static Ptr_VariationalRefinement cv::VariationalRefinement::create()
+//  void cv::VariationalRefinement::calcUV(Mat I0, Mat I1, Mat& flow_u, Mat& flow_v)
 //
 /**
- * Creates an instance of VariationalRefinement
+ * REF: calc function overload to handle separate horizontal (u) and vertical (v) flow components
+ * (to avoid extra splits/merges)
  */
-+ (VariationalRefinement*)create NS_SWIFT_NAME(create());
-
-
-//
-//  float cv::VariationalRefinement::getAlpha()
-//
-/**
- * Weight of the smoothness term
- * @see `-setAlpha:`
- */
-- (float)getAlpha NS_SWIFT_NAME(getAlpha());
-
-
-//
-//  float cv::VariationalRefinement::getDelta()
-//
-/**
- * Weight of the color constancy term
- * @see `-setDelta:`
- */
-- (float)getDelta NS_SWIFT_NAME(getDelta());
-
-
-//
-//  float cv::VariationalRefinement::getGamma()
-//
-/**
- * Weight of the gradient constancy term
- * @see `-setGamma:`
- */
-- (float)getGamma NS_SWIFT_NAME(getGamma());
-
-
-//
-//  float cv::VariationalRefinement::getOmega()
-//
-/**
- * Relaxation factor in SOR
- * @see `-setOmega:`
- */
-- (float)getOmega NS_SWIFT_NAME(getOmega());
+- (void)calcUV:(Mat*)I0 I1:(Mat*)I1 flow_u:(Mat*)flow_u flow_v:(Mat*)flow_v NS_SWIFT_NAME(calcUV(I0:I1:flow_u:flow_v:));
 
 
 //
@@ -106,6 +68,15 @@ CV_EXPORTS @interface VariationalRefinement : DenseOpticalFlow
  * @see `-setFixedPointIterations:`
  */
 - (int)getFixedPointIterations NS_SWIFT_NAME(getFixedPointIterations());
+
+
+//
+//  void cv::VariationalRefinement::setFixedPointIterations(int val)
+//
+/**
+ *  getFixedPointIterations @see `-getFixedPointIterations:`
+ */
+- (void)setFixedPointIterations:(int)val NS_SWIFT_NAME(setFixedPointIterations(val:));
 
 
 //
@@ -120,49 +91,22 @@ CV_EXPORTS @interface VariationalRefinement : DenseOpticalFlow
 
 
 //
-//  void cv::VariationalRefinement::calcUV(Mat I0, Mat I1, Mat& flow_u, Mat& flow_v)
+//  void cv::VariationalRefinement::setSorIterations(int val)
 //
 /**
- * REF: calc function overload to handle separate horizontal (u) and vertical (v) flow components
- * (to avoid extra splits/merges)
+ *  getSorIterations @see `-getSorIterations:`
  */
-- (void)calcUV:(Mat*)I0 I1:(Mat*)I1 flow_u:(Mat*)flow_u flow_v:(Mat*)flow_v NS_SWIFT_NAME(calcUV(I0:I1:flow_u:flow_v:));
+- (void)setSorIterations:(int)val NS_SWIFT_NAME(setSorIterations(val:));
 
 
 //
-//  void cv::VariationalRefinement::setAlpha(float val)
+//  float cv::VariationalRefinement::getOmega()
 //
 /**
- *  getAlpha @see `-getAlpha:`
+ * Relaxation factor in SOR
+ * @see `-setOmega:`
  */
-- (void)setAlpha:(float)val NS_SWIFT_NAME(setAlpha(val:));
-
-
-//
-//  void cv::VariationalRefinement::setDelta(float val)
-//
-/**
- *  getDelta @see `-getDelta:`
- */
-- (void)setDelta:(float)val NS_SWIFT_NAME(setDelta(val:));
-
-
-//
-//  void cv::VariationalRefinement::setFixedPointIterations(int val)
-//
-/**
- *  getFixedPointIterations @see `-getFixedPointIterations:`
- */
-- (void)setFixedPointIterations:(int)val NS_SWIFT_NAME(setFixedPointIterations(val:));
-
-
-//
-//  void cv::VariationalRefinement::setGamma(float val)
-//
-/**
- *  getGamma @see `-getGamma:`
- */
-- (void)setGamma:(float)val NS_SWIFT_NAME(setGamma(val:));
+- (float)getOmega NS_SWIFT_NAME(getOmega());
 
 
 //
@@ -175,12 +119,69 @@ CV_EXPORTS @interface VariationalRefinement : DenseOpticalFlow
 
 
 //
-//  void cv::VariationalRefinement::setSorIterations(int val)
+//  float cv::VariationalRefinement::getAlpha()
 //
 /**
- *  getSorIterations @see `-getSorIterations:`
+ * Weight of the smoothness term
+ * @see `-setAlpha:`
  */
-- (void)setSorIterations:(int)val NS_SWIFT_NAME(setSorIterations(val:));
+- (float)getAlpha NS_SWIFT_NAME(getAlpha());
+
+
+//
+//  void cv::VariationalRefinement::setAlpha(float val)
+//
+/**
+ *  getAlpha @see `-getAlpha:`
+ */
+- (void)setAlpha:(float)val NS_SWIFT_NAME(setAlpha(val:));
+
+
+//
+//  float cv::VariationalRefinement::getDelta()
+//
+/**
+ * Weight of the color constancy term
+ * @see `-setDelta:`
+ */
+- (float)getDelta NS_SWIFT_NAME(getDelta());
+
+
+//
+//  void cv::VariationalRefinement::setDelta(float val)
+//
+/**
+ *  getDelta @see `-getDelta:`
+ */
+- (void)setDelta:(float)val NS_SWIFT_NAME(setDelta(val:));
+
+
+//
+//  float cv::VariationalRefinement::getGamma()
+//
+/**
+ * Weight of the gradient constancy term
+ * @see `-setGamma:`
+ */
+- (float)getGamma NS_SWIFT_NAME(getGamma());
+
+
+//
+//  void cv::VariationalRefinement::setGamma(float val)
+//
+/**
+ *  getGamma @see `-getGamma:`
+ */
+- (void)setGamma:(float)val NS_SWIFT_NAME(setGamma(val:));
+
+
+//
+// static Ptr_VariationalRefinement cv::VariationalRefinement::create()
+//
+/**
+ * Creates an instance of VariationalRefinement
+ */
++ (VariationalRefinement*)create NS_SWIFT_NAME(create());
 
 
 

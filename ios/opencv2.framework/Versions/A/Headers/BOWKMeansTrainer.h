@@ -4,8 +4,8 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/features2d.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -75,15 +75,15 @@ CV_EXPORTS @interface BOWKMeansTrainer : BOWTrainer
 
 
 //
-//  Mat cv::BOWKMeansTrainer::cluster(Mat descriptors)
-//
-- (Mat*)cluster:(Mat*)descriptors NS_SWIFT_NAME(cluster(descriptors:));
-
-
-//
 //  Mat cv::BOWKMeansTrainer::cluster()
 //
 - (Mat*)cluster NS_SWIFT_NAME(cluster());
+
+
+//
+//  Mat cv::BOWKMeansTrainer::cluster(Mat descriptors)
+//
+- (Mat*)cluster:(Mat*)descriptors NS_SWIFT_NAME(cluster(descriptors:));
 
 
 

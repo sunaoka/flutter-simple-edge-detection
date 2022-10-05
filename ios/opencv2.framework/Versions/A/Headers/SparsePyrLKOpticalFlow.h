@@ -4,8 +4,9 @@
 #pragma once
 
 #ifdef __cplusplus
-#import "opencv.hpp"
-
+//#import "opencv.hpp"
+#import "opencv2/video.hpp"
+#import "opencv2/video/tracking.hpp"
 #else
 #define CV_EXPORTS
 #endif
@@ -48,6 +49,66 @@ CV_EXPORTS @interface SparsePyrLKOpticalFlow : SparseOpticalFlow
 
 
 //
+//  Size cv::SparsePyrLKOpticalFlow::getWinSize()
+//
+- (Size2i*)getWinSize NS_SWIFT_NAME(getWinSize());
+
+
+//
+//  void cv::SparsePyrLKOpticalFlow::setWinSize(Size winSize)
+//
+- (void)setWinSize:(Size2i*)winSize NS_SWIFT_NAME(setWinSize(winSize:));
+
+
+//
+//  int cv::SparsePyrLKOpticalFlow::getMaxLevel()
+//
+- (int)getMaxLevel NS_SWIFT_NAME(getMaxLevel());
+
+
+//
+//  void cv::SparsePyrLKOpticalFlow::setMaxLevel(int maxLevel)
+//
+- (void)setMaxLevel:(int)maxLevel NS_SWIFT_NAME(setMaxLevel(maxLevel:));
+
+
+//
+//  TermCriteria cv::SparsePyrLKOpticalFlow::getTermCriteria()
+//
+- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
+
+
+//
+//  void cv::SparsePyrLKOpticalFlow::setTermCriteria(TermCriteria crit)
+//
+- (void)setTermCriteria:(TermCriteria*)crit NS_SWIFT_NAME(setTermCriteria(crit:));
+
+
+//
+//  int cv::SparsePyrLKOpticalFlow::getFlags()
+//
+- (int)getFlags NS_SWIFT_NAME(getFlags());
+
+
+//
+//  void cv::SparsePyrLKOpticalFlow::setFlags(int flags)
+//
+- (void)setFlags:(int)flags NS_SWIFT_NAME(setFlags(flags:));
+
+
+//
+//  double cv::SparsePyrLKOpticalFlow::getMinEigThreshold()
+//
+- (double)getMinEigThreshold NS_SWIFT_NAME(getMinEigThreshold());
+
+
+//
+//  void cv::SparsePyrLKOpticalFlow::setMinEigThreshold(double minEigThreshold)
+//
+- (void)setMinEigThreshold:(double)minEigThreshold NS_SWIFT_NAME(setMinEigThreshold(minEigThreshold:));
+
+
+//
 // static Ptr_SparsePyrLKOpticalFlow cv::SparsePyrLKOpticalFlow::create(Size winSize = Size(21, 21), int maxLevel = 3, TermCriteria crit = TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01), int flags = 0, double minEigThreshold = 1e-4)
 //
 + (SparsePyrLKOpticalFlow*)create:(Size2i*)winSize maxLevel:(int)maxLevel crit:(TermCriteria*)crit flags:(int)flags minEigThreshold:(double)minEigThreshold NS_SWIFT_NAME(create(winSize:maxLevel:crit:flags:minEigThreshold:));
@@ -61,66 +122,6 @@ CV_EXPORTS @interface SparsePyrLKOpticalFlow : SparseOpticalFlow
 + (SparsePyrLKOpticalFlow*)create:(Size2i*)winSize NS_SWIFT_NAME(create(winSize:));
 
 + (SparsePyrLKOpticalFlow*)create NS_SWIFT_NAME(create());
-
-
-//
-//  Size cv::SparsePyrLKOpticalFlow::getWinSize()
-//
-- (Size2i*)getWinSize NS_SWIFT_NAME(getWinSize());
-
-
-//
-//  TermCriteria cv::SparsePyrLKOpticalFlow::getTermCriteria()
-//
-- (TermCriteria*)getTermCriteria NS_SWIFT_NAME(getTermCriteria());
-
-
-//
-//  double cv::SparsePyrLKOpticalFlow::getMinEigThreshold()
-//
-- (double)getMinEigThreshold NS_SWIFT_NAME(getMinEigThreshold());
-
-
-//
-//  int cv::SparsePyrLKOpticalFlow::getFlags()
-//
-- (int)getFlags NS_SWIFT_NAME(getFlags());
-
-
-//
-//  int cv::SparsePyrLKOpticalFlow::getMaxLevel()
-//
-- (int)getMaxLevel NS_SWIFT_NAME(getMaxLevel());
-
-
-//
-//  void cv::SparsePyrLKOpticalFlow::setFlags(int flags)
-//
-- (void)setFlags:(int)flags NS_SWIFT_NAME(setFlags(flags:));
-
-
-//
-//  void cv::SparsePyrLKOpticalFlow::setMaxLevel(int maxLevel)
-//
-- (void)setMaxLevel:(int)maxLevel NS_SWIFT_NAME(setMaxLevel(maxLevel:));
-
-
-//
-//  void cv::SparsePyrLKOpticalFlow::setMinEigThreshold(double minEigThreshold)
-//
-- (void)setMinEigThreshold:(double)minEigThreshold NS_SWIFT_NAME(setMinEigThreshold(minEigThreshold:));
-
-
-//
-//  void cv::SparsePyrLKOpticalFlow::setTermCriteria(TermCriteria crit)
-//
-- (void)setTermCriteria:(TermCriteria*)crit NS_SWIFT_NAME(setTermCriteria(crit:));
-
-
-//
-//  void cv::SparsePyrLKOpticalFlow::setWinSize(Size winSize)
-//
-- (void)setWinSize:(Size2i*)winSize NS_SWIFT_NAME(setWinSize(winSize:));
 
 
 
