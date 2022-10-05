@@ -16,3 +16,8 @@ example/.idea
 android/.cxx/*
 
 .fvm/flutter_sdk
+
+include/opencv2
+android/src/main/jniLibs
+ios/opencv2.framework
+tmp
